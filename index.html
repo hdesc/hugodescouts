@@ -12,82 +12,93 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
   :root {
-    --bg: #030303;
+    --bg: #000000;
     --fg: #ffffff;
-    --muted: rgba(255,255,255,0.55);
-    --border: rgba(255,255,255,0.08);
+    --electric: #0055ff;
+    --electric-glow: rgba(0, 85, 255, 0.4);
+    --muted: rgba(255,255,255,0.6);
+    --border: rgba(255,255,255,0.15);
   }
+  
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; background: var(--bg); }
   body { background: var(--bg); color: var(--fg); font-family: 'Cabinet Grotesk', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb { background: var(--electric); border-radius: 6px; }
   img { display: block; max-width: 100%; }
   button { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; }
   a { color: inherit; text-decoration: none; }
 
-  /* Bruit de fond discret */
   body::before {
     content: ''; position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
     pointer-events: none; z-index: 999;
   }
 
-  /* Navigation */
-  #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; transition: all 0.4s; }
-  #nav.scrolled { background: rgba(3,3,3,0.9); backdrop-filter: blur(15px); padding: 1rem 2.5rem; border-bottom: 1px solid var(--border); }
-  .nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; font-weight: 900; }
-  .nav-links { display: flex; gap: 2rem; }
-  .nav-links a { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
-  .nav-links a:hover { color: var(--fg); }
+  .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.3; }
+  .o1 { width: 50vw; height: 50vw; top: -10%; right: -10%; background: radial-gradient(circle, var(--electric) 0%, transparent 70%); animation: float 18s ease-in-out infinite; }
+  
+  @keyframes float { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-3%,4%)} }
+  @keyframes scrollTicker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes scrollTickerReverse { from{transform:translateX(-50%)} to{transform:translateX(0)} }
 
-  /* Layout */
+  #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; transition: all 0.4s; }
+  #nav.scrolled { background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); padding: 1rem 2.5rem; border-bottom: 1px solid var(--electric); }
+  .nav-logo { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.5rem; font-weight: 900; color: var(--electric); }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a { font-size: 0.85rem; font-weight: 700; color: var(--fg); text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--electric); }
+
   .page { position: relative; z-index: 1; }
   section { padding: 8vw 4vw; }
   .inner { max-width: 1200px; margin: 0 auto; }
   
-  /* Typographie massive agence */
-  .huge-text { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(3.5rem, 11vw, 12rem); line-height: 0.85; text-transform: uppercase; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
-  .huge-text-stroke { -webkit-text-stroke: 2px rgba(255,255,255,0.3); color: transparent; }
-  .section-title { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 4rem; }
-  .label-mono { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
-  .label-mono::before { content: ''; width: 2rem; height: 1px; background: rgba(255,255,255,0.3); }
-
-  /* Éléments interactifs */
-  .agency-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 24px; transition: all 0.5s cubic-bezier(0.19,1,0.22,1); position: relative; overflow: hidden; }
+  .huge-text { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(4rem, 12vw, 13rem); line-height: 1.1; text-transform: uppercase; letter-spacing: -0.04em; margin-bottom: 0.5rem; }
+  .huge-text-stroke { -webkit-text-stroke: 2px var(--electric); color: transparent; }
+  .section-title { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 4rem; text-transform: uppercase; }
   
-  /* Ticker défilant infini */
-  .ticker { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.2rem 0; background: rgba(255,255,255,0.02); }
-  .ticker-track { display: flex; gap: 3rem; width: max-content; animation: scrollTicker 25s linear infinite; }
-  .ticker-item { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 1.2rem; text-transform: uppercase; color: var(--muted); }
+  .label-mono { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--electric); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; font-weight: bold; }
+  .label-mono::before { content: ''; width: 2rem; height: 2px; background: var(--electric); }
 
-  /* Modale */
+  .dv { height: 1px; border: none; background: linear-gradient(to right, transparent, var(--electric), transparent); margin-bottom: 4rem; opacity: 0.5; }
+
+  .ticker { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.5rem 0; background: #000; position: relative; z-index: 2; }
+  .ticker-track { display: flex; gap: 4rem; width: max-content; animation: scrollTicker 30s linear infinite; }
+  .ticker.reverse .ticker-track { animation: scrollTickerReverse 35s linear infinite; }
+  .ticker-item { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; color: var(--fg); white-space: nowrap; }
+  .ticker-item span { color: var(--electric); }
+
+  .zoom-container { overflow: hidden; border-radius: 12px; position: relative; }
+  .zoom-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); filter: grayscale(100%); }
+  .zoom-container:hover .zoom-img { transform: scale(1.1); filter: grayscale(0%); }
+
   .modal-ov { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,.95); backdrop-filter: blur(20px); align-items: center; justify-content: center; padding: 1rem; }
   .modal-ov.open { display: flex; }
-  .modal-box { background: #080808; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; width: 100%; max-width: 1000px; height: 85vh; display: flex; flex-direction: column; overflow: hidden; }
+  .modal-box { background: #000; border: 1px solid var(--electric); box-shadow: 0 0 30px var(--electric-glow); border-radius: 20px; width: 100%; max-width: 1000px; height: 85vh; display: flex; flex-direction: column; overflow: hidden; }
   .m-head { padding: 1.2rem 2rem; border-bottom: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; }
-  .m-ttl { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--fg); }
-  .m-close { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15); border-radius: 999px; padding: .4rem 1rem; color: var(--fg); font-family: 'DM Mono', monospace; font-size: .65rem; transition: all .3s; }
-  .m-close:hover { background: rgba(255,255,255,.15); }
+  .m-ttl { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--fg); text-transform: uppercase; }
+  .m-close { background: var(--electric); border: none; border-radius: 999px; padding: .6rem 1.2rem; color: #fff; font-family: 'DM Mono', monospace; font-size: .7rem; font-weight: bold; transition: all .3s; }
+  .m-close:hover { transform: scale(1.05); }
   .m-body { flex: 1; overflow: hidden; position: relative; }
   .pdf-frame { width: 100%; height: 100%; border: none; display: none; }
   .pdf-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; }
-  .pdf-lbl { font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; padding: .8rem 1.8rem; border-radius: 999px; background: var(--fg); color: #000; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+  .pdf-lbl { font-family: 'DM Mono', monospace; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; padding: 1rem 2rem; border-radius: 999px; background: var(--electric); color: #fff; font-weight: bold; cursor: pointer; transition: transform 0.2s; box-shadow: 0 0 20px var(--electric-glow); }
   .pdf-lbl:hover { transform: scale(1.05); }
 
   @media(max-width: 768px) { .nav-links { display: none; } }
 </style>
 </head>
 <body>
+<div class="orbs"><div class="orb o1"></div></div>
 
 <nav id="nav">
-  <div class="nav-logo">HD</div>
+  <div class="nav-logo">HD.</div>
   <div class="nav-links">
     <a href="#about">Profil</a>
     <a href="#experience">Expériences</a>
     <a href="#projects">Projets</a>
-    <a href="#skills">Compétences</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
@@ -115,7 +126,6 @@
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
-// Composant d'apparition théâtrale (texte masqué qui monte)
 function RevealText({ children, delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -126,11 +136,10 @@ function RevealText({ children, delay = 0 }) {
   }, []);
   
   return (
-    <div ref={ref} style={{ overflow: 'hidden', display: 'inline-block', width: '100%' }}>
+    <div ref={ref} style={{ overflow: 'hidden', width: '100%' }}>
       <div style={{
-        transform: visible ? 'translateY(0)' : 'translateY(110%)',
+        transform: visible ? 'translateY(0)' : 'translateY(100%)',
         transition: `transform 1.2s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
-        willChange: 'transform'
       }}>
         {children}
       </div>
@@ -138,7 +147,6 @@ function RevealText({ children, delay = 0 }) {
   );
 }
 
-// Composant d'apparition globale (fondu vers le haut)
 function FadeUp({ children, delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -152,7 +160,7 @@ function FadeUp({ children, delay = 0 }) {
     <div ref={ref} style={{
       opacity: visible ? 1 : 0,
       transform: visible ? 'translateY(0)' : 'translateY(3rem)',
-      transition: `all 1.2s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
+      transition: `all 1s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
     }}>
       {children}
     </div>
@@ -164,8 +172,8 @@ function Hero() {
     <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '10vh' }}>
       <div className="inner">
         <FadeUp delay={0.1}>
-          <div className="label-mono" style={{ color: '#34d399', marginBottom: '2rem' }}>
-            <span style={{ width: 8, height: 8, background: '#34d399', borderRadius: '50%', boxShadow: '0 0 12px #34d399' }}></span>
+          <div className="label-mono">
+            <span style={{ width: 8, height: 8, background: 'var(--electric)', borderRadius: '50%', boxShadow: '0 0 12px var(--electric)' }}></span>
             Disponible Septembre 2026
           </div>
         </FadeUp>
@@ -179,19 +187,19 @@ function Hero() {
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', marginTop: '4rem' }}>
           <FadeUp delay={0.4}>
-            <p style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', lineHeight: 1.8, color: 'var(--muted)', maxWidth: '550px' }}>
-              Stratège et créatif. Futur étudiant en MBA ISCOM. J'apporte une vision audacieuse, 3 expériences solides et une exécution millimétrée pour des contenus qui performent.
+            <p style={{ fontSize: 'clamp(1.1rem, 1.5vw, 1.3rem)', lineHeight: 1.8, color: 'var(--muted)', maxWidth: '550px' }}>
+              Stratège et créatif. Futur étudiant en MBA ISCOM. J'apporte une vision audacieuse, des expériences solides et une exécution millimétrée pour des contenus qui performent.
             </p>
           </FadeUp>
           <FadeUp delay={0.5}>
             <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
               <div>
-                <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>3</div>
-                <div className="label-mono" style={{ marginTop: '0.5rem' }}>Expériences pro</div>
+                <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'var(--electric)' }}>3</div>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '0.5rem' }}>Expériences pro</div>
               </div>
               <div>
-                <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>4</div>
-                <div className="label-mono" style={{ marginTop: '0.5rem' }}>Projets publiés</div>
+                <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'var(--electric)' }}>4</div>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '0.5rem' }}>Projets publiés</div>
               </div>
             </div>
           </FadeUp>
@@ -202,46 +210,27 @@ function Hero() {
 }
 
 function Ticker() {
-  const items = ['Communication', 'Création de contenu', 'Hermès', 'MBA ISCOM', 'Design Graphique', 'Stratégie de marque', 'Social Media'];
+  const items = ['Stratégie de marque', 'Création de contenu', 'Hermès', 'MBA ISCOM', 'Design Graphique', 'Social Media', 'Direction Artistique'];
   return (
-    <div className="ticker">
-      <div className="ticker-track">
-        {[...items, ...items].map((item, i) => (
-          <span key={i} className="ticker-item">{item} <span style={{ color: 'rgba(255,255,255,0.2)', margin: '0 1.5rem' }}>◆</span></span>
-        ))}
+    <>
+      <div className="ticker">
+        <div className="ticker-track">
+          {[...items, ...items].map((item, i) => (
+            <span key={i} className="ticker-item">{item} <span>◆</span> </span>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
-function AgencyCarousel() {
+function About() {
   const slides = [
     { img: 'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg', title: 'BALLET' },
     { img: 'https://cinedweller.com/wp-content/uploads/2025/03/queer-affiche.jpg.webp', title: 'CINÉMA' },
     { img: 'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false', title: 'MODE' }
   ];
-  
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '4rem' }}>
-      {slides.map((s, i) => (
-        <FadeUp key={i} delay={0.2 * i}>
-          <div className="agency-card" style={{ height: '500px', cursor: 'pointer' }}>
-            <img src={s.img} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(50%) brightness(0.6)', transition: 'all 0.8s' }} 
-                 onMouseOver={e => { e.currentTarget.style.filter = 'grayscale(0%) brightness(1)'; e.currentTarget.style.transform = 'scale(1.05)'; }}
-                 onMouseOut={e => { e.currentTarget.style.filter = 'grayscale(50%) brightness(0.6)'; e.currentTarget.style.transform = 'scale(1)'; }}
-            />
-            <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', pointerEvents: 'none' }}>
-              <div className="label-mono">Sensibilité</div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 900 }}>{s.title}</div>
-            </div>
-          </div>
-        </FadeUp>
-      ))}
-    </div>
-  );
-}
 
-function About() {
   return (
     <section id="about">
       <div className="inner">
@@ -251,41 +240,16 @@ function About() {
             PROFIL <span className="huge-text-stroke">STRATÉGIQUE</span>
           </h2>
         </RevealText>
-        <AgencyCarousel />
-      </div>
-    </section>
-  );
-}
-
-function Experience() {
-  const exps = [
-    { id:'hermes', type: 'Alternance', date: 'Sept. 2025 - Présent', company: 'Hermès', role: 'Assistant Adoption IT', color: '#f59e0b', logo: 'orange_dot' },
-    { id:'unppd', type: 'Alternance', date: 'Sept. 2024 - Août 2025', company: 'UNPPD', role: 'Chargé de Communication', color: '#3b82f6', logo: 'blue_dot' },
-    { id:'cf', type: 'Stage', date: 'Mai 2024 - Juin 2024', company: 'Corporate Fiction', role: 'Com Commerciale', color: '#10b981', logo: 'green_dot' }
-  ];
-
-  return (
-    <section id="experience">
-      <div className="inner">
-        <div className="label-mono">Parcours Professionnel</div>
-        <RevealText>
-          <h2 className="section-title">EXPÉRIENCES <span className="huge-text-stroke">CLÉS</span></h2>
-        </RevealText>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {exps.map((exp, i) => (
-            <FadeUp key={exp.id} delay={i * 0.1}>
-              <div className="agency-card" style={{ padding: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                  <div style={{ width: 12, height: 12, background: exp.color, borderRadius: '50%', boxShadow: `0 0 10px ${exp.color}` }}></div>
-                  <div>
-                    <div className="label-mono" style={{ color: exp.color, marginBottom: '0.5rem' }}>{exp.date}</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.3rem' }}>{exp.company}</div>
-                    <div style={{ color: 'var(--muted)', fontSize: '1rem' }}>{exp.role}</div>
-                  </div>
-                </div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.5rem 1rem', borderRadius: '4px', border: `1px solid ${exp.color}`, color: exp.color }}>
-                  {exp.type}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '4rem' }}>
+          {slides.map((s, i) => (
+            <FadeUp key={i} delay={0.2 * i}>
+              <div className="zoom-container" style={{ height: '450px', border: '1px solid var(--border)' }}>
+                <img src={s.img} className="zoom-img" alt={s.title} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }}></div>
+                <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', pointerEvents: 'none' }}>
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.7rem', color: 'var(--electric)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '0.5rem' }}>Sensibilité</div>
+                  <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#fff' }}>{s.title}</div>
                 </div>
               </div>
             </FadeUp>
@@ -296,37 +260,190 @@ function Experience() {
   );
 }
 
+function Experience() {
+  const [openId, setOpenId] = useState(null);
+  
+  const exps = [
+    {
+      id: 'hermes', date: 'Sept. 2025 - Présent', company: 'HERMÈS', role: 'Assistant Adoption et Communication Processus IT',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Herm%C3%A8s_Logo.svg/512px-Herm%C3%A8s_Logo.svg.png',
+      bullets: [
+        "Pilotage de la refonte intégrale du SharePoint intranet et optimisation UX.",
+        "Conception et déploiement de newsletters dédiées à l'adoption IT.",
+        "Audit des processus existants et création de nouveaux workflows."
+      ],
+      chips: ['SharePoint', 'Newsletter', 'Luxe']
+    },
+    {
+      id: 'unppd', date: 'Sept. 2024 - Août 2025', company: 'UNPPD', role: 'Chargé de Communication',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Blue_square_with_white_H.svg/120px-Blue_square_with_white_H.svg.png', 
+      bullets: [
+        "Création d'une ligne éditoriale social media et croissance sur LinkedIn.",
+        "Gestion d'un journal mensuel pour 3 500 laboratoires.",
+        "Animation du site WordPress et optimisation de l'expérience de lecture."
+      ],
+      chips: ['InDesign', 'WordPress', 'BtoB']
+    },
+    {
+      id: 'cf', date: 'Mai 2024 - Juin 2024', company: 'CORPORATE FICTION', role: 'Communication Commerciale',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Blue_circle_logo.svg/120px-Blue_circle_logo.svg.png', 
+      bullets: [
+        "Immersion complète dans le fonctionnement d'une agence.",
+        "Création de campagnes de prospection commerciale ciblées.",
+        "Analyse des besoins partenaires et recommandations stratégiques."
+      ],
+      chips: ['Prospection', 'Stratégie', 'Relation client']
+    }
+  ];
+
+  return (
+    <section id="experience">
+      <div className="inner">
+        <hr className="dv" />
+        <div className="label-mono">Parcours Professionnel</div>
+        <RevealText>
+          <h2 className="section-title">EXPÉRIENCES <span className="huge-text-stroke">CLÉS</span></h2>
+        </RevealText>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {exps.map((exp, i) => {
+            const isOpen = openId === exp.id;
+            return (
+              <FadeUp key={exp.id} delay={i * 0.1}>
+                <div 
+                  onClick={() => setOpenId(isOpen ? null : exp.id)}
+                  style={{
+                    background: isOpen ? '#050505' : 'transparent',
+                    border: `1px solid ${isOpen ? 'var(--electric)' : 'var(--border)'}`,
+                    borderRadius: '16px', padding: '2.5rem', cursor: 'pointer', transition: 'all 0.4s',
+                    position: 'relative', overflow: 'hidden'
+                  }}
+                  onMouseEnter={e => { if(!isOpen) { e.currentTarget.style.borderColor = 'var(--electric)'; e.currentTarget.style.boxShadow = '0 0 20px var(--electric-glow)'; } }}
+                  onMouseLeave={e => { if(!isOpen) { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; } }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                      <div style={{ width: '80px', height: '80px', background: '#fff', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px' }}>
+                         <img src={exp.logoUrl} alt={`Logo ${exp.company}`} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                      </div>
+                      
+                      <div>
+                        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.7rem', color: 'var(--electric)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>{exp.date}</div>
+                        <div style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.3rem', textTransform: 'uppercase' }}>{exp.company}</div>
+                        <div style={{ color: 'var(--muted)', fontSize: '1.1rem' }}>{exp.role}</div>
+                      </div>
+                    </div>
+                    
+                    <div style={{ fontSize: '2rem', transition: 'transform 0.4s', transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)', color: 'var(--electric)' }}>
+                      +
+                    </div>
+                  </div>
+                  
+                  <div style={{ maxHeight: isOpen ? '500px' : '0', overflow: 'hidden', transition: 'max-height 0.5s cubic-bezier(0.19,1,0.22,1)' }}>
+                    <div style={{ paddingTop: '2rem', marginTop: '2rem', borderTop: '1px solid var(--border)' }}>
+                      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {exp.bullets.map((b, idx) => (
+                          <li key={idx} style={{ color: 'var(--fg)', fontSize: '1.05rem', lineHeight: 1.6, display: 'flex', gap: '1rem' }}>
+                            <span style={{ color: 'var(--electric)' }}>→</span> {b}
+                          </li>
+                        ))}
+                      </ul>
+                      <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', marginTop: '2rem' }}>
+                        {exp.chips.map(c => (
+                          <span key={c} style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.5rem 1.2rem', borderRadius: '999px', border: '1px solid var(--electric)', color: 'var(--fg)' }}>
+                            {c}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </FadeUp>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Projects() {
   const projs = [
-    { id:'trempez', title:'TREMPEZ', desc:'Concept fort, storytelling soigné et stratégie de bout en bout.', color:'#e8c97a' },
-    { id:'tui', title:"Déconnec'TUI", desc:'Digital detox développé pour TUI.', color:'#6ea8fe' },
-    { id:'rose', title:'Rose Festival', desc:'Stratégie de communication événementielle.', color:'#f87171' },
-    { id:'edu', title:'Éducation Nationale', desc:'Stratégie multicanal institutionnelle.', color:'#c4b5fd' }
+    { id:'trempez', title:'TREMPEZ', desc:'Concept fort, storytelling soigné et stratégie de bout en bout.' },
+    { id:'tui', title:"Déconnec'TUI", desc:'Concept digital detox ciblant les jeunes en quête de sens.' },
+    { id:'rose', title:'Rose Festival', desc:'Stratégie de communication événementielle pour un festival.' },
+    { id:'edu', title:'Éducation Nationale', desc:'Stratégie de communication institutionnelle et analyse des publics.' }
   ];
 
   return (
     <section id="projects">
       <div className="inner">
+        <hr className="dv" />
         <div className="label-mono">Réalisations</div>
         <RevealText>
           <h2 className="section-title">MES <span className="huge-text-stroke">PROJETS</span></h2>
         </RevealText>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
           {projs.map((p, i) => (
             <FadeUp key={p.id} delay={i * 0.1}>
               <div 
                 onClick={() => window.oModal(p.title)}
                 style={{
-                  background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.06)',
-                  borderRadius: '20px', padding: '2rem', cursor: 'pointer', transition: 'all 0.4s'
+                  background: 'transparent', border: '1px solid var(--border)',
+                  borderRadius: '16px', padding: '2.5rem', cursor: 'pointer', transition: 'all 0.4s',
+                  position: 'relative', overflow: 'hidden'
                 }}
-                onMouseOver={e => { e.currentTarget.style.borderColor = p.color; e.currentTarget.style.background = `${p.color}05`; }}
-                onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.background = 'rgba(255,255,255,0.01)'; }}
+                onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--electric)'; e.currentTarget.style.background = 'rgba(0, 85, 255, 0.05)'; e.currentTarget.style.boxShadow = '0 10px 30px var(--electric-glow)'; e.currentTarget.style.transform = 'translateY(-10px)'; }}
+                onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'transparent'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}
               >
-                <div className="label-mono" style={{ color: p.color, marginBottom: '1rem' }}>Projet</div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>{p.title}</h3>
-                <p style={{ color: 'var(--muted)', lineHeight: 1.5, fontSize: '0.9rem' }}>{p.desc}</p>
+                <div style={{ position: 'absolute', top: '-20%', right: '-20%', width: '150px', height: '150px', background: 'var(--electric)', filter: 'blur(90px)', opacity: 0.3 }}></div>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.7rem', color: 'var(--electric)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Projet PDF</div>
+                <h3 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '1rem', textTransform: 'uppercase' }}>{p.title}</h3>
+                <p style={{ color: 'var(--muted)', lineHeight: 1.6, fontSize: '1rem', marginBottom: '2rem' }}>{p.desc}</p>
+                
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--electric)', fontWeight: 'bold' }}>
+                  <span>Découvrir</span> <span>→</span>
+                </div>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Skills() {
+  const skills = [
+    { title: 'Stratégie de marque', desc: 'Positionnement et analyse des publics.' },
+    { title: 'Création de contenu', desc: 'Direction artistique, posts et newsletters.' },
+    { title: 'Social Media', desc: 'Croissance organique et ligne éditoriale.' },
+    { title: 'Gestion de projet', desc: 'Coordination, JIRA, SharePoint.' }
+  ];
+
+  return (
+    <section id="skills">
+      <div className="inner">
+        <hr className="dv" />
+        <div className="label-mono">Expertises</div>
+        <RevealText>
+          <h2 className="section-title">COMPÉTENCES <span className="huge-text-stroke">PRO</span></h2>
+        </RevealText>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+          {skills.map((s, i) => (
+            <FadeUp key={i} delay={i * 0.1}>
+              <div style={{
+                background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
+                borderRadius: '16px', padding: '2rem', transition: 'all 0.3s'
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--electric)'; e.currentTarget.style.borderColor = 'var(--electric)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+              >
+                <div style={{ fontSize: '1.3rem', fontWeight: 900, marginBottom: '0.8rem', textTransform: 'uppercase' }}>{s.title}</div>
+                <div style={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, fontSize: '0.95rem' }}>{s.desc}</div>
               </div>
             </FadeUp>
           ))}
@@ -338,16 +455,18 @@ function Projects() {
 
 function Contact() {
   return (
-    <section id="contact" style={{ textAlign: 'center', paddingBottom: '10vh' }}>
+    <section id="contact" style={{ textAlign: 'center', paddingBottom: '15vh' }}>
       <div className="inner">
+        <hr className="dv" />
         <FadeUp>
-          <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 900, fontSize: 'clamp(4rem, 12vw, 10rem)', lineHeight: 0.9, marginBottom: '2rem', background: 'linear-gradient(135deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Disons<br/>Bonjour.
+          <div style={{ fontFamily: "'Cabinet Grotesk', sans-serif", fontWeight: 900, fontSize: 'clamp(3.5rem, 10vw, 9rem)', lineHeight: 0.9, marginBottom: '3rem', textTransform: 'uppercase' }}>
+            TRAVAILLONS<br/>
+            <span className="huge-text-stroke">ENSEMBLE</span>
           </div>
         </FadeUp>
         <FadeUp delay={0.2}>
           <p style={{ color: 'var(--muted)', fontSize: '1.2rem', marginBottom: '3rem' }}>Alternance 2 ans à partir de Septembre 2026</p>
-          <a href="mailto:hugo.descouts@outlook.fr" style={{ display: 'inline-block', background: '#ffffff', color: '#000000', padding: '1.2rem 3rem', borderRadius: '999px', fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', textDecoration: 'none' }}>
+          <a href="mailto:hugo.descouts@outlook.fr" style={{ display: 'inline-block', background: 'var(--electric)', color: '#ffffff', padding: '1.5rem 4rem', borderRadius: '999px', fontSize: '1.2rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', transition: 'all 0.3s', boxShadow: '0 10px 30px var(--electric-glow)' }} onMouseEnter={e => { e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.background='#ffffff'; e.currentTarget.style.color='var(--electric)'; }} onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.background='var(--electric)'; e.currentTarget.style.color='#ffffff'; }}>
             hugo.descouts@outlook.fr
           </a>
         </FadeUp>
@@ -370,6 +489,7 @@ function App() {
       <About />
       <Experience />
       <Projects />
+      <Skills />
       <Contact />
     </div>
   );
@@ -379,9 +499,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 
 <script>
-function oMenu(){document.getElementById('mMenu').classList.add('open');document.body.style.overflow='hidden'}
-function cMenu(){document.getElementById('mMenu').classList.remove('open');document.body.style.overflow=''}
-
 let curId = '';
 function oModal(title) {
   document.getElementById('mTtl').textContent = title;
