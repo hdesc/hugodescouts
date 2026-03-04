@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hugo Descouts — Portfolio 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Satoshi:wght@300;400;500;700&family=DM+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#07070f;color:#fff;font-family:'Satoshi',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:#07070f}
+::-webkit-scrollbar-thumb{background:rgba(129,140,248,.45);border-radius:2px}
+
+/* ── ORBS ── */
+.orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(75px)}
+.orb-1{width:min(750px,85vw);height:min(750px,85vw);top:-15%;right:-8%;
+  background:radial-gradient(circle,rgba(99,102,241,.22) 0%,rgba(139,92,246,.1) 45%,transparent 70%);
+  animation:oa 15s ease-in-out infinite}
+.orb-2{width:min(620px,72vw);height:min(620px,72vw);bottom:0;left:-12%;
+  background:radial-gradient(circle,rgba(236,72,153,.17) 0%,rgba(239,68,68,.07) 45%,transparent 70%);
+  animation:ob 20s ease-in-out infinite}
+.orb-3{width:min(500px,60vw);height:min(500px,60vw);top:40%;left:30%;
+  background:radial-gradient(circle,rgba(16,185,129,.13) 0%,rgba(6,182,212,.06) 45%,transparent 70%);
+  animation:oc 25s ease-in-out infinite}
+.orb-4{width:min(400px,50vw);height:min(400px,50vw);top:65%;right:10%;
+  background:radial-gradient(circle,rgba(245,158,11,.1) 0%,rgba(234,179,8,.05) 45%,transparent 70%);
+  animation:od 18s ease-in-out infinite}
+@keyframes oa{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-3%,5%) scale(1.06)}66%{transform:translate(3%,-3%) scale(.95)}}
+@keyframes ob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5%,-6%) scale(1.1)}}
+@keyframes oc{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(-4%,4%) scale(.92)}80%{transform:translate(4%,-3%) scale(1.07)}}
+@keyframes od{0%,100%{transform:translate(0,0) scale(1)}60%{transform:translate(-3%,-4%) scale(1.08)}}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem clamp(1.2rem,4vw,2.5rem);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  transition:background .4s,border-color .4s}
+nav.scrolled{background:rgba(7,7,15,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-logo{font-family:'Unbounded',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;text-decoration:none;letter-spacing:-.02em;flex-shrink:0}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-family:'Satoshi',sans-serif;font-size:.85rem;font-weight:500;color:rgba(255,255,255,.45);text-decoration:none;transition:color .25s;white-space:nowrap}
+.nav-links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:.7rem;flex-shrink:0}
+.lang-pill{display:flex;background:rgba(255,255,255,.07);border-radius:999px;padding:.14rem;gap:.08rem}
+.lb{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.26rem .62rem;border-radius:999px;border:none;background:transparent;color:rgba(255,255,255,.36);cursor:pointer;transition:all .2s}
+.lb.on{background:rgba(255,255,255,.13);color:#fff}
+.hbg{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:.25rem;line-height:1}
+
+/* ── MOBILE MENU ── */
+.mob-menu{display:none;position:fixed;inset:0;background:rgba(7,7,15,.97);backdrop-filter:blur(24px);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(1.8rem,6vw,2.6rem);color:#fff;text-decoration:none}
+.mob-close{position:absolute;top:1.4rem;right:1.6rem;background:none;border:none;color:rgba(255,255,255,.4);font-size:1.9rem;cursor:pointer;line-height:1}
+.mob-lang{display:flex;gap:.8rem;margin-top:.5rem}
+.mob-lang button{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;padding:.38rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:transparent;color:rgba(255,255,255,.42);cursor:pointer;transition:all .2s}
+.mob-lang button.on{background:rgba(255,255,255,.12);color:#fff}
+
+/* ── PAGE / SECTIONS ── */
+.page{position:relative;z-index:1}
+section{padding:clamp(4rem,8vw,7rem) clamp(1.2rem,4vw,2.8rem)}
+.inner{max-width:1080px;margin:0 auto}
+
+/* ── SCROLL REVEAL ── */
+.fade{opacity:0;transform:translateY(2.5rem);transition:opacity .9s ease,transform .9s cubic-bezier(.19,1,.22,1)}
+.fade.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ── DIVIDERS ── */
+.dv{height:1px;border:none;margin-bottom:clamp(2.5rem,5vw,4.5rem)}
+.dv-violet{background:linear-gradient(to right,transparent,rgba(99,102,241,.5),rgba(167,139,250,.3),transparent)}
+.dv-emerald{background:linear-gradient(to right,transparent,rgba(16,185,129,.5),rgba(6,182,212,.3),transparent)}
+.dv-rose{background:linear-gradient(to right,transparent,rgba(244,63,94,.45),rgba(236,72,153,.25),transparent)}
+.dv-gold{background:linear-gradient(to right,transparent,rgba(232,201,122,.45),rgba(245,158,11,.25),transparent)}
+.dv-blue{background:linear-gradient(to right,transparent,rgba(59,130,246,.45),rgba(99,102,241,.25),transparent)}
+
+/* ── TYPOGRAPHY HELPERS ── */
+.lbl{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.85rem;display:flex;align-items:center;gap:.6rem}
+.lbl::before{content:'';width:1.4rem;height:1px;background:rgba(255,255,255,.18)}
+.h2{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(2.2rem,5vw,5rem);line-height:.9;letter-spacing:-.04em;color:#fff;margin-bottom:clamp(2rem,4vw,3.5rem)}
+.h2 .g{-webkit-text-stroke:1px rgba(255,255,255,.2);color:transparent;display:block}
+
+/* ── GLASS CARD ── */
+.glass{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;backdrop-filter:blur(12px);transition:background .3s,border-color .3s}
+.glass:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14)}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:7rem}
+.hero-status{display:inline-flex;align-items:center;gap:.55rem;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:1.8rem;flex-wrap:wrap}
+.pulse{width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981;flex-shrink:0;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sep{color:rgba(255,255,255,.15);margin:0 .1rem}
+.hero-name{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(3rem,11.5vw,12rem);line-height:.87;letter-spacing:-.04em;margin-bottom:2rem}
+.hero-name .g{display:block;-webkit-text-stroke:1px rgba(255,255,255,.2);color:transparent}
+.hero-desc{font-size:clamp(.88rem,1.4vw,1.05rem);color:rgba(255,255,255,.44);font-weight:300;max-width:520px;line-height:1.78;margin-bottom:3rem}
+.hero-stats{display:flex;gap:clamp(2rem,5vw,5rem);flex-wrap:wrap}
+.sn{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(2rem,4.5vw,3.5rem);color:#fff;line-height:1}
+.sl{font-family:'DM Mono',monospace;font-size:.57rem;letter-spacing:.14em;color:rgba(255,255,255,.28);text-transform:uppercase;margin-top:.35rem}
+
+/* ═══════════════════════════════
+   ABOUT
+═══════════════════════════════ */
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(2.5rem,5vw,5rem);align-items:start}
+.about-body p{font-size:clamp(.88rem,1.3vw,1rem);color:rgba(255,255,255,.47);line-height:1.82;font-weight:300;margin-bottom:1.1rem}
+.pass-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.pc{padding:1.35rem;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transition:background .3s,transform .3s,border-color .3s}
+.pc:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);transform:translateY(-3px)}
+.pc-icon{font-size:1.45rem;margin-bottom:.55rem}
+.pc-name{font-family:'Unbounded',sans-serif;font-weight:600;font-size:.88rem;color:#fff;margin-bottom:.25rem}
+.pc-desc{font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.33);line-height:1.5}
+
+/* ═══════════════════════════════
+   EXPERIENCE
+═══════════════════════════════ */
+.exp-list{display:flex;flex-direction:column;gap:.9rem}
+.exp-card{border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);overflow:hidden;cursor:pointer;transition:border-color .3s,background .3s}
+.exp-card:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+/* Gold shimmer for Hermès */
+.exp-card.hermes{border-color:rgba(232,201,122,.18)}
+.exp-card.hermes:hover{border-color:rgba(232,201,122,.38);background:rgba(232,201,122,.04)}
+.exp-head{padding:clamp(1.3rem,3vw,1.9rem) clamp(1.3rem,3vw,2rem);display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.exp-meta{flex:1;min-width:0}
+.exp-badges{display:flex;align-items:center;gap:.6rem;margin-bottom:.55rem;flex-wrap:wrap}
+.badge-type{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;padding:.18rem .5rem;border-radius:4px;border:1px solid}
+.badge-type.alt{color:#10b981;border-color:rgba(16,185,129,.32)}
+.badge-type.stage{color:#f59e0b;border-color:rgba(245,158,11,.32)}
+.badge-date{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.27)}
+.exp-company{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(1.3rem,2.8vw,2.1rem);line-height:1.05;margin-bottom:.28rem}
+.exp-card.hermes .exp-company{background:linear-gradient(135deg,#f0d98a,#c9a84c,#f0d98a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+.exp-role{font-family:'Satoshi',sans-serif;font-size:.8rem;color:rgba(255,255,255,.35)}
+.exp-chev{color:rgba(255,255,255,.25);font-size:1.05rem;transition:transform .35s cubic-bezier(.19,1,.22,1);flex-shrink:0;margin-top:.4rem;user-select:none}
+.exp-chev.open{transform:rotate(180deg)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.19,1,.22,1)}
+.exp-body.open{max-height:700px}
+.exp-inner{padding:0 clamp(1.3rem,3vw,2rem) clamp(1.2rem,2vw,1.8rem);border-top:1px solid rgba(255,255,255,.06)}
+.exp-ul{list-style:none;margin-top:1.1rem;display:flex;flex-direction:column;gap:.6rem}
+.exp-ul li{font-size:.87rem;color:rgba(255,255,255,.45);line-height:1.75;font-weight:300;padding-left:1.1rem;position:relative}
+.exp-ul li::before{content:'→';position:absolute;left:0;color:rgba(255,255,255,.18);font-size:.72rem;top:.06rem}
+.chips{display:flex;flex-wrap:wrap;gap:.42rem;margin-top:1rem}
+.chip{font-family:'DM Mono',monospace;font-size:.57rem;letter-spacing:.07em;padding:.22rem .6rem;border-radius:999px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.08)}
+
+/* ═══════════════════════════════
+   PROJECTS
+═══════════════════════════════ */
+.proj-top-banner{display:flex;align-items:center;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap}
+.award-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:.28rem .8rem;backdrop-filter:blur(8px)}
+.trophy{display:inline-block;animation:wobble 3.5s ease-in-out infinite}
+@keyframes wobble{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+
+/* Featured 2-col */
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:1.1rem;margin-bottom:1.1rem}
+/* Others 2-col then 4 */
+.po-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:.9rem}
+
+.proj{border-radius:18px;padding:clamp(1.5rem,3vw,2.2rem);display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:transform .35s cubic-bezier(.19,1,.22,1),box-shadow .35s,border-color .35s;border:1px solid transparent;position:relative;overflow:hidden;min-height:220px}
+.proj.big{min-height:300px}
+.proj:hover{transform:translateY(-6px)}
+.proj-glow{position:absolute;width:220px;height:220px;border-radius:50%;top:-30%;right:-10%;filter:blur(65px);opacity:.15;pointer-events:none;transition:opacity .3s}
+.proj:hover .proj-glow{opacity:.3}
+
+/* Color themes */
+.c-gold{background:linear-gradient(135deg,rgba(232,201,122,.16) 0%,rgba(201,168,76,.07) 100%);border-color:rgba(232,201,122,.14)}
+.c-gold:hover{box-shadow:0 24px 60px -15px rgba(232,201,122,.22);border-color:rgba(232,201,122,.35)}
+.c-blue{background:linear-gradient(135deg,rgba(59,130,246,.16) 0%,rgba(99,102,241,.08) 100%);border-color:rgba(59,130,246,.13)}
+.c-blue:hover{box-shadow:0 24px 60px -15px rgba(59,130,246,.22);border-color:rgba(59,130,246,.35)}
+.c-rose{background:linear-gradient(135deg,rgba(244,63,94,.16) 0%,rgba(239,68,68,.07) 100%);border-color:rgba(244,63,94,.13)}
+.c-rose:hover{box-shadow:0 24px 60px -15px rgba(244,63,94,.22);border-color:rgba(244,63,94,.35)}
+.c-violet{background:linear-gradient(135deg,rgba(99,102,241,.16) 0%,rgba(139,92,246,.07) 100%);border-color:rgba(99,102,241,.13)}
+.c-violet:hover{box-shadow:0 24px 60px -15px rgba(99,102,241,.22);border-color:rgba(99,102,241,.35)}
+
+.c-gold .acc{color:#e8c97a}.c-blue .acc{color:#60a5fa}.c-rose .acc{color:#f43f5e}.c-violet .acc{color:#a78bfa}
+
+.proj-award{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:.24rem .7rem;font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.11em;text-transform:uppercase;color:#fff;margin-bottom:.85rem;width:fit-content;backdrop-filter:blur(8px)}
+.proj-tag{font-family:'DM Mono',monospace;font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;display:block}
+.proj-title{font-family:'Unbounded',sans-serif;font-weight:700;line-height:1.05;letter-spacing:-.02em;color:#fff;margin-bottom:.65rem}
+.proj.big .proj-title{font-size:clamp(1.5rem,2.8vw,2.5rem)}
+.proj:not(.big) .proj-title{font-size:clamp(1.1rem,1.8vw,1.6rem)}
+.proj-desc{font-size:.8rem;color:rgba(255,255,255,.47);line-height:1.65;font-weight:300;flex:1;margin-bottom:1.2rem}
+.proj-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.proj-btn{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .75rem;border-radius:4px;border-width:1px;border-style:solid;background:transparent;cursor:pointer;transition:background .25s,color .25s}
+.proj-arrow{color:rgba(255,255,255,.25);transition:transform .3s,color .3s;font-size:.95rem}
+.proj:hover .proj-arrow{transform:translate(4px,-4px);color:rgba(255,255,255,.7)}
+
+/* ═══════════════════════════════
+   PDF MODAL
+═══════════════════════════════ */
+.modal-ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(20px);align-items:center;justify-content:center;padding:1rem}
+.modal-ov.open{display:flex}
+.modal-box{background:rgba(10,10,22,.97);border:1px solid rgba(255,255,255,.1);border-radius:20px;width:100%;max-width:920px;height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-hd{padding:1.1rem 1.6rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-shrink:0}
+.modal-stag{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.2rem}
+.modal-ttl{font-family:'Unbounded',sans-serif;font-weight:700;font-size:1.1rem;color:#fff}
+.modal-close{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:.3rem .85rem;color:rgba(255,255,255,.5);font-family:'DM Mono',monospace;font-size:.58rem;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.modal-close:hover{background:rgba(255,255,255,.13);color:#fff}
+.modal-bd{flex:1;overflow:hidden}
+.pdf-ph{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem}
+.pdf-ph p{font-size:.88rem;color:rgba(255,255,255,.28);text-align:center;line-height:1.85}
+.pdf-lbl{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.55rem 1.4rem;border-radius:999px;border:none;cursor:pointer;color:#fff;transition:opacity .25s}
+.pdf-lbl:hover{opacity:.82}
+.pdf-frame{width:100%;height:100%;border:none;display:none}
+
+/* ═══════════════════════════════
+   SKILLS
+═══════════════════════════════ */
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(2.5rem,5vw,5rem)}
+.sk-row{margin-bottom:1.5rem}
+.sk-row:last-child{margin-bottom:0}
+.sk-top{display:flex;justify-content:space-between;margin-bottom:.48rem}
+.sk-name{font-family:'Satoshi',sans-serif;font-size:.9rem;font-weight:500;color:#fff}
+.sk-pct{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.28)}
+.sk-track{height:2px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
+.sk-fill{height:100%;border-radius:999px;background:linear-gradient(to right,#818cf8,#a78bfa);width:0;transition:width 1.5s cubic-bezier(.19,1,.22,1)}
+.tools-wrap{display:flex;flex-wrap:wrap;gap:.5rem}
+.tool{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.07em;padding:.3rem .8rem;border-radius:999px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.08);transition:all .25s;cursor:default}
+.tool:hover{background:rgba(129,140,248,.14);color:#a78bfa;border-color:rgba(167,139,250,.28)}
+.lang-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.lang-row:last-child{border-bottom:none}
+.lang-name{font-family:'Satoshi',sans-serif;font-size:.9rem;font-weight:500;color:#fff}
+.lang-tag{font-family:'DM Mono',monospace;font-size:.58rem;padding:.14rem .5rem;border-radius:4px;border:1px solid}
+
+/* ═══════════════════════════════
+   FORMATION
+═══════════════════════════════ */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1rem}
+.edu-card{padding:1.9rem 2rem;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transition:background .3s,border-color .3s}
+.edu-card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14)}
+.edu-school{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.45rem}
+.edu-degree{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(.95rem,1.8vw,1.3rem);color:#fff;line-height:1.18;margin-bottom:.5rem;letter-spacing:-.01em}
+.edu-dates{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.26);margin-bottom:.75rem}
+.edu-detail{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.65;font-weight:300}
+
+/* ═══════════════════════════════
+   CONTACT
+═══════════════════════════════ */
+#contact{text-align:center}
+.ct-title{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(3rem,11vw,11rem);line-height:.87;letter-spacing:-.04em;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,.2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1.4rem}
+.ct-sub{font-size:clamp(.88rem,1.4vw,1rem);color:rgba(255,255,255,.36);max-width:500px;margin:0 auto 3rem;line-height:1.75}
+.ct-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:.9rem;max-width:840px;margin:0 auto 4rem;text-align:left}
+.ct-card{padding:1.7rem;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transition:background .3s,border-color .3s}
+.ct-card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.13)}
+.ct-card a{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(.82rem,1.3vw,1rem);background:linear-gradient(135deg,#818cf8,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;word-break:break-all;line-height:1.45;display:block}
+.ct-val{font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.65}
+.ct-big{font-family:'Unbounded',sans-serif;font-weight:700;font-size:1.55rem;color:#fff;letter-spacing:-.02em}
+footer{border-top:1px solid rgba(255,255,255,.06);padding:1.4rem 2rem;text-align:center}
+footer p{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.13em;color:rgba(255,255,255,.16);text-transform:uppercase}
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hbg{display:block}
+}
+@media(max-width:480px){
+  .pass-grid{grid-template-columns:1fr}
+  .hero-stats{gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND ORBS -->
+<div class="orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mMenu">
+  <button class="mob-close" onclick="cMenu()">✕</button>
+  <a href="#about" onclick="cMenu()" data-fr="À propos" data-en="About">À propos</a>
+  <a href="#experience" onclick="cMenu()" data-fr="Expériences" data-en="Experience">Expériences</a>
+  <a href="#projects" onclick="cMenu()" data-fr="Projets" data-en="Projects">Projets</a>
+  <a href="#skills" onclick="cMenu()" data-fr="Compétences" data-en="Skills">Compétences</a>
+  <a href="#contact" onclick="cMenu()">Contact</a>
+  <div class="mob-lang">
+    <button onclick="setLang('fr')" id="mlFr" class="on">FR</button>
+    <button onclick="setLang('en')" id="mlEn">EN</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">HD</a>
+  <div class="nav-links">
+    <a href="#about" data-fr="À propos" data-en="About">À propos</a>
+    <a href="#experience" data-fr="Expériences" data-en="Experience">Expériences</a>
+    <a href="#projects" data-fr="Projets" data-en="Projects">Projets</a>
+    <a href="#skills" data-fr="Compétences" data-en="Skills">Compétences</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-pill">
+      <button class="lb on" onclick="setLang('fr')" id="lFr">FR</button>
+      <button class="lb" onclick="setLang('en')" id="lEn">EN</button>
+    </div>
+    <button class="hbg" onclick="oMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- PDF MODAL -->
+<div class="modal-ov" id="modal">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-stag" id="mTag"></div>
+        <div class="modal-ttl" id="mTtl"></div>
+      </div>
+      <button class="modal-close" onclick="cModal()">
+        <span data-fr="Fermer" data-en="Close">Fermer</span> ✕
+      </button>
+    </div>
+    <div class="modal-bd">
+      <div class="pdf-ph" id="pdfPh">
+        <div style="font-size:2.8rem">📎</div>
+        <p data-fr="PDF non encore chargé.<br>Sélectionne ton fichier depuis ton ordinateur." data-en="PDF not yet loaded.<br>Select your file from your computer.">PDF non encore chargé.<br>Sélectionne ton fichier depuis ton ordinateur.</p>
+        <label class="pdf-lbl" id="pdfLbl" for="pdfInp">
+          <span data-fr="+ Charger un PDF" data-en="+ Load a PDF">+ Charger un PDF</span>
+        </label>
+        <input type="file" id="pdfInp" accept="application/pdf" style="display:none" onchange="loadPdf(this)"/>
+      </div>
+      <iframe class="pdf-frame" id="pdfFrame"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══════ HERO ═══════ -->
+<section id="hero">
+  <div class="inner">
+    <div class="fade">
+      <div class="hero-status">
+        <span class="pulse"></span>
+        <span data-fr="Recherche alternance · sept. 2026" data-en="Looking for work-study · Sept. 2026">Recherche alternance · sept. 2026</span>
+        <span class="sep">·</span>
+        <span data-fr="MBA ISCOM Paris" data-en="MBA ISCOM Paris">MBA ISCOM Paris</span>
+      </div>
+      <h1 class="hero-name">HUGO<span class="g">DESCOUTS</span></h1>
+      <p class="hero-desc"
+        data-fr="Étudiant en Master Marketing, Stratégies de Marque &amp; Publicité à l'ISCOM Paris. Expériences chez Hermès, l'UNPPD et Corporate Fiction — je cherche une alternance pour mettre mes compétences au service de projets ambitieux."
+        data-en="Master's student in Marketing, Brand Strategy &amp; Advertising at ISCOM Paris. Experience at Hermès, UNPPD and Corporate Fiction — looking for a work-study to put my skills to work on ambitious projects.">
+        Étudiant en Master Marketing, Stratégies de Marque &amp; Publicité à l'ISCOM Paris. Expériences chez Hermès, l'UNPPD et Corporate Fiction — je cherche une alternance pour mettre mes compétences au service de projets ambitieux.
+      </p>
+      <div class="hero-stats">
+        <div><div class="sn">3</div><div class="sl" data-fr="Expériences pro" data-en="Pro Experiences">Expériences pro</div></div>
+        <div><div class="sn">4</div><div class="sl" data-fr="Projets publiés" data-en="Published Projects">Projets publiés</div></div>
+        <div><div class="sn">2</div><div class="sl" data-fr="Alternances" data-en="Work-Studies">Alternances</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ABOUT ═══════ -->
+<section id="about">
+  <div class="inner">
+    <hr class="dv dv-violet fade"/>
+    <div class="about-grid">
+      <div class="fade">
+        <div class="lbl" data-fr="À propos" data-en="About">À propos</div>
+        <h2 class="h2" data-fr="Qui<br>suis-je ?" data-en="Who<br>am I?">Qui<br>suis-je ?</h2>
+        <div class="about-body">
+          <p data-fr="Futur étudiant en MBA «&nbsp;Marketing, Stratégies de Marque et Publicité&nbsp;» à l'ISCOM Paris, je recherche une alternance de deux ans à partir de septembre 2026. J'ai eu l'occasion d'évoluer dans des univers variés&nbsp;: le secteur du luxe chez Hermès, la communication institutionnelle à l'UNPPD, et l'environnement d'agence chez Corporate Fiction."
+             data-en="Future MBA student in Marketing, Brand Strategies &amp; Advertising at ISCOM Paris, looking for a 2-year work-study from September 2026. I've worked across varied sectors: luxury at Hermès, institutional communication at UNPPD, and agency life at Corporate Fiction.">
+            Futur étudiant en MBA «&nbsp;Marketing, Stratégies de Marque et Publicité&nbsp;» à l'ISCOM Paris, je recherche une alternance de deux ans à partir de septembre 2026. J'ai eu l'occasion d'évoluer dans des univers variés&nbsp;: le secteur du luxe chez Hermès, la communication institutionnelle à l'UNPPD, et l'environnement d'agence chez Corporate Fiction.
+          </p>
+          <p data-fr="Curieux et créatif, je souhaite mettre ces compétences au service de projets ambitieux. Anglais C1 — Espagnol B1."
+             data-en="Curious and creative, I want to put these skills to work on ambitious projects. English C1 — Spanish B1.">
+            Curieux et créatif, je souhaite mettre ces compétences au service de projets ambitieux. Anglais C1 — Espagnol B1.
+          </p>
+        </div>
+      </div>
+      <div class="fade d2">
+        <div class="lbl" data-fr="Passions & intérêts" data-en="Passions & interests">Passions &amp; intérêts</div>
+        <div class="pass-grid">
+          <div class="pc"><div class="pc-icon">🎭</div><div class="pc-name" data-fr="Opéra & Ballet" data-en="Opera & Ballet">Opéra &amp; Ballet</div><div class="pc-desc" data-fr="Onéguine, Lac des Cygnes" data-en="Onegin, Swan Lake">Onéguine, Lac des Cygnes</div></div>
+          <div class="pc"><div class="pc-icon">👔</div><div class="pc-name" data-fr="Mode" data-en="Fashion">Mode</div><div class="pc-desc">Gucci, Balenciaga, Hermès</div></div>
+          <div class="pc"><div class="pc-icon">🎬</div><div class="pc-name" data-fr="Cinéma" data-en="Cinema">Cinéma</div><div class="pc-desc" data-fr="Queer, The Substance" data-en="Queer, The Substance">Queer, The Substance</div></div>
+          <div class="pc"><div class="pc-icon">💻</div><div class="pc-name" data-fr="Tech & IA" data-en="Tech & AI">Tech &amp; IA</div><div class="pc-desc" data-fr="Veille, IA générative" data-en="Tech watch, generative AI">Veille, IA générative</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ EXPERIENCE ═══════ -->
+<section id="experience">
+  <div class="inner">
+    <hr class="dv dv-emerald fade"/>
+    <div class="lbl fade" data-fr="Parcours professionnel" data-en="Professional path">Parcours professionnel</div>
+    <h2 class="h2 fade d1">Expé-<span class="g">riences</span></h2>
+    <div class="exp-list">
+
+      <!-- Hermès -->
+      <div class="exp-card hermes fade d1" onclick="tExp(this)">
+        <div class="exp-head">
+          <div class="exp-meta">
+            <div class="exp-badges">
+              <span class="badge-type alt" data-fr="Alternance" data-en="Work-Study">Alternance</span>
+              <span class="badge-date">Sept. 2025 — Aujourd'hui</span>
+            </div>
+            <div class="exp-company">Hermès</div>
+            <div class="exp-role" data-fr="Assistant Adoption &amp; Communication Processus IT" data-en="IT Process Adoption &amp; Communication Assistant">Assistant Adoption &amp; Communication Processus IT</div>
+          </div>
+          <div class="exp-chev">↓</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-inner">
+            <ul class="exp-ul">
+              <li data-fr="Pilotage de la refonte intégrale du SharePoint : optimisation UX et accès à l'information — plus de 2 000 visites hebdomadaires." data-en="Led the full SharePoint redesign: UX optimisation and improved information access, generating 2,000+ weekly visits.">Pilotage de la refonte intégrale du SharePoint : optimisation UX et accès à l'information — plus de 2 000 visites hebdomadaires.</li>
+              <li data-fr="Conception de newsletters dédiées à l'adoption des procédures et à l'identification des interlocuteurs clés." data-en="Designed newsletters dedicated to procedure adoption and key stakeholder identification.">Conception de newsletters dédiées à l'adoption des procédures et à l'identification des interlocuteurs clés.</li>
+              <li data-fr="Audit, création et déploiement de nouveaux process pour structurer et fluidifier les méthodes de travail." data-en="Audit, creation and deployment of new processes to structure and streamline working methods.">Audit, création et déploiement de nouveaux process pour structurer et fluidifier les méthodes de travail.</li>
+              <li data-fr="Organisation d'événements : préparation du séminaire de la direction (recherches, négociations, devis)." data-en="Event organisation: preparation of the management seminar (research, negotiations, quotes).">Organisation d'événements : préparation du séminaire de la direction (recherches, négociations, devis).</li>
+            </ul>
+            <div class="chips"><span class="chip">SharePoint</span><span class="chip">Newsletter</span><span class="chip">JIRA</span><span class="chip">Comm. interne</span><span class="chip">Gestion de projet</span><span class="chip">Événementiel</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNPPD -->
+      <div class="exp-card fade d2" onclick="tExp(this)">
+        <div class="exp-head">
+          <div class="exp-meta">
+            <div class="exp-badges">
+              <span class="badge-type alt" data-fr="Alternance" data-en="Work-Study">Alternance</span>
+              <span class="badge-date">Sept. 2024 — Août 2025</span>
+            </div>
+            <div class="exp-company">UNPPD</div>
+            <div class="exp-role" data-fr="Chargé·e de Communication" data-en="Communication Officer">Chargé·e de Communication</div>
+          </div>
+          <div class="exp-chev">↓</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-inner">
+            <ul class="exp-ul">
+              <li data-fr="Production de contenus créatifs pour les réseaux sociaux : création d'une dizaine de carousels partenaires, ×5 d'abonnés sur LinkedIn." data-en="Creative social media content: 10+ partner carousels, LinkedIn followers multiplied by 5.">Production de contenus créatifs pour les réseaux sociaux : création d'une dizaine de carousels partenaires, ×5 d'abonnés sur LinkedIn.</li>
+              <li data-fr="Gestion complète d'un journal mensuel (mise en page, rédaction, annonceurs) édité et distribué à plus de 3 500 laboratoires." data-en="Full management of a monthly journal (layout, writing, advertisers) distributed to 3,500+ laboratories.">Gestion complète d'un journal mensuel (mise en page, rédaction, annonceurs) édité et distribué à plus de 3 500 laboratoires.</li>
+              <li data-fr="Rédaction d'articles et gestion du site web (WordPress)." data-en="Article writing and website management (WordPress).">Rédaction d'articles et gestion du site web (WordPress).</li>
+            </ul>
+            <div class="chips"><span class="chip">InDesign</span><span class="chip">Photoshop</span><span class="chip">WordPress</span><span class="chip">LinkedIn</span><span class="chip">Rédaction</span><span class="chip">BtoB</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corporate Fiction -->
+      <div class="exp-card fade d3" onclick="tExp(this)">
+        <div class="exp-head">
+          <div class="exp-meta">
+            <div class="exp-badges">
+              <span class="badge-type stage" data-fr="Stage" data-en="Internship">Stage</span>
+              <span class="badge-date">Mai 2024 — Juin 2024</span>
+            </div>
+            <div class="exp-company">Corporate Fiction</div>
+            <div class="exp-role" data-fr="Communication Commerciale · Agence" data-en="Commercial Communication · Agency">Communication Commerciale · Agence</div>
+          </div>
+          <div class="exp-chev">↓</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-inner">
+            <ul class="exp-ul">
+              <li data-fr="Immersion complète dans le fonctionnement d'une agence de communication." data-en="Full immersion in the day-to-day of a communication agency.">Immersion complète dans le fonctionnement d'une agence de communication.</li>
+              <li data-fr="Développement d'une base de données pour des campagnes de prospection ciblées." data-en="Developed a database for targeted prospecting campaigns.">Développement d'une base de données pour des campagnes de prospection ciblées.</li>
+              <li data-fr="Analyse des besoins en communication avec recommandations stratégiques adaptées." data-en="Analysis of communication needs with tailored strategic recommendations.">Analyse des besoins en communication avec recommandations stratégiques adaptées.</li>
+            </ul>
+            <div class="chips"><span class="chip">Prospection</span><span class="chip">Stratégie</span><span class="chip">Excel</span><span class="chip">Relation client</span><span class="chip">BDD</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PROJECTS ═══════ -->
+<section id="projects">
+  <div class="inner">
+    <hr class="dv dv-rose fade"/>
+    <div class="lbl fade" data-fr="Projets publiés" data-en="Published projects">Projets publiés</div>
+    <h2 class="h2 fade d1">Projets</h2>
+
+    <div class="proj-top-banner fade d2">
+      <div class="award-badge"><span class="trophy">🏆</span> <span data-fr="Meilleur projet de promo" data-en="Best class project">Meilleur projet de promo</span></div>
+      <span style="font-family:'DM Mono',monospace;font-size:.57rem;color:rgba(255,255,255,.25)" data-fr="2 projets récompensés" data-en="2 awarded projects">2 projets récompensés</span>
+    </div>
+
+    <!-- FEATURED : TREMPEZ + TUI -->
+    <div class="pf-grid fade d3">
+
+      <div class="proj big c-gold" onclick="oModal('trempez')">
+        <div class="proj-glow" style="background:#e8c97a"></div>
+        <div>
+          <div class="proj-award">🏆 <span data-fr="Meilleur projet de promo" data-en="Best class project">Meilleur projet de promo</span></div>
+          <span class="proj-tag acc" data-fr="3ème année · BUT" data-en="3rd year · BUT">3ème année · BUT</span>
+          <h3 class="proj-title">TREMPEZ</h3>
+          <p class="proj-desc" data-fr="Projet distingué comme meilleur de la promotion. Décris-moi le concept et je mets à jour cette présentation en détail." data-en="Project distinguished as best of the cohort. Tell me the concept and I'll update this description.">Projet distingué comme meilleur de la promotion. Décris-moi le concept et je mets à jour cette présentation en détail.</p>
+        </div>
+        <div class="proj-bottom">
+          <button class="proj-btn acc" style="border-color:rgba(232,201,122,.4);color:#e8c97a" onclick="event.stopPropagation();oModal('trempez')"><span data-fr="Voir la présentation" data-en="View presentation">Voir la présentation</span></button>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </div>
+
+      <div class="proj big c-blue" onclick="oModal('tui')">
+        <div class="proj-glow" style="background:#60a5fa"></div>
+        <div>
+          <div class="proj-award">🏆 <span data-fr="Meilleur projet de promo" data-en="Best class project">Meilleur projet de promo</span></div>
+          <span class="proj-tag acc" data-fr="SAÉ 3.04 · TUI" data-en="SAÉ 3.04 · TUI">SAÉ 3.04 · TUI</span>
+          <h3 class="proj-title">Déconnec'TUI</h3>
+          <p class="proj-desc" data-fr="Option « digital detox » pour TUI ciblant les 25-30 ans. Yoga, ateliers cuisine, randonnées — se déconnecter pour mieux se retrouver. Concept primé pour sa cohérence stratégique et son exécution créative." data-en="'Digital detox' travel option for TUI targeting 25–30 year-olds. Yoga, cooking workshops, hikes — disconnect to reconnect. Awarded for its strategic coherence and creative execution.">Option « digital detox » pour TUI ciblant les 25-30 ans. Yoga, ateliers cuisine, randonnées — se déconnecter pour mieux se retrouver. Concept primé pour sa cohérence stratégique et son exécution créative.</p>
+        </div>
+        <div class="proj-bottom">
+          <button class="proj-btn acc" style="border-color:rgba(96,165,250,.4);color:#60a5fa" onclick="event.stopPropagation();oModal('tui')"><span data-fr="Voir la présentation" data-en="View presentation">Voir la présentation</span></button>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- OTHERS : ROSE FESTIVAL + MINISTÈRE -->
+    <div class="po-grid fade d4">
+
+      <div class="proj c-rose" onclick="oModal('rose')">
+        <div class="proj-glow" style="background:#f43f5e"></div>
+        <div>
+          <span class="proj-tag acc" data-fr="À compléter" data-en="To be updated">À compléter</span>
+          <h3 class="proj-title">Rose Festival</h3>
+          <p class="proj-desc" data-fr="Dis-moi le contexte de ce projet (SAÉ, année, brief client…) et je mets à jour la description." data-en="Tell me the context of this project (SAÉ, year, client brief…) and I'll update the description.">Dis-moi le contexte de ce projet (SAÉ, année, brief client…) et je mets à jour la description.</p>
+        </div>
+        <div class="proj-bottom">
+          <button class="proj-btn" style="border-color:rgba(244,63,94,.4);color:#f43f5e" onclick="event.stopPropagation();oModal('rose')"><span data-fr="Voir le PDF" data-en="View PDF">Voir le PDF</span></button>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </div>
+
+      <div class="proj c-violet" onclick="oModal('edu')">
+        <div class="proj-glow" style="background:#a78bfa"></div>
+        <div>
+          <span class="proj-tag acc" data-fr="À compléter" data-en="To be updated">À compléter</span>
+          <h3 class="proj-title" data-fr="Ministère de<br>l'Éducation Nationale" data-en="Ministry of<br>National Education">Ministère de<br>l'Éducation Nationale</h3>
+          <p class="proj-desc" data-fr="Dis-moi le contexte de ce projet (SAÉ, année, brief client…) et je mets à jour la description." data-en="Tell me the context of this project (SAÉ, year, client brief…) and I'll update the description.">Dis-moi le contexte de ce projet (SAÉ, année, brief client…) et je mets à jour la description.</p>
+        </div>
+        <div class="proj-bottom">
+          <button class="proj-btn" style="border-color:rgba(167,139,250,.4);color:#a78bfa" onclick="event.stopPropagation();oModal('edu')"><span data-fr="Voir le PDF" data-en="View PDF">Voir le PDF</span></button>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SKILLS ═══════ -->
+<section id="skills">
+  <div class="inner">
+    <hr class="dv dv-violet fade"/>
+    <div class="sk-grid">
+
+      <div class="fade">
+        <div class="lbl" data-fr="Compétences" data-en="Skills">Compétences</div>
+        <h2 class="h2" data-fr="Savoir-<span class='g'>faire</span>" data-en="Know-<span class='g'>how</span>">Savoir-<span class="g">faire</span></h2>
+        <div id="skBox">
+          <div class="sk-row"><div class="sk-top"><span class="sk-name" data-fr="Stratégie de communication" data-en="Communication strategy">Stratégie de communication</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill" data-p="90"></div></div></div>
+          <div class="sk-row"><div class="sk-top"><span class="sk-name" data-fr="Création de contenu digital" data-en="Digital content creation">Création de contenu digital</span><span class="sk-pct">88%</span></div><div class="sk-track"><div class="sk-fill" data-p="88"></div></div></div>
+          <div class="sk-row"><div class="sk-top"><span class="sk-name" data-fr="Gestion de projet" data-en="Project management">Gestion de projet</span><span class="sk-pct">84%</span></div><div class="sk-track"><div class="sk-fill" data-p="84"></div></div></div>
+          <div class="sk-row"><div class="sk-top"><span class="sk-name" data-fr="Gestion des réseaux sociaux" data-en="Social media management">Gestion des réseaux sociaux</span><span class="sk-pct">82%</span></div><div class="sk-track"><div class="sk-fill" data-p="82"></div></div></div>
+          <div class="sk-row"><div class="sk-top"><span class="sk-name" data-fr="Analyse de données" data-en="Data analysis">Analyse de données</span><span class="sk-pct">75%</span></div><div class="sk-track"><div class="sk-fill" data-p="75"></div></div></div>
+          <div class="sk-row"><div class="sk-top"><span class="sk-name" data-fr="Design graphique" data-en="Graphic design">Design graphique</span><span class="sk-pct">72%</span></div><div class="sk-track"><div class="sk-fill" data-p="72"></div></div></div>
+          <div class="sk-row"><div class="sk-top"><span class="sk-name" data-fr="Événementiel" data-en="Events">Événementiel</span><span class="sk-pct">70%</span></div><div class="sk-track"><div class="sk-fill" data-p="70"></div></div></div>
+        </div>
+      </div>
+
+      <div class="fade d2">
+        <div class="lbl" data-fr="Outils" data-en="Tools">Outils</div>
+        <h2 class="h2">Tools</h2>
+        <div class="tools-wrap" style="margin-bottom:2.5rem">
+          <span class="tool">SharePoint</span><span class="tool">JIRA</span><span class="tool">Adobe InDesign</span><span class="tool">Photoshop</span><span class="tool">Illustrator</span><span class="tool">Canva</span><span class="tool">WordPress</span><span class="tool">WIX</span><span class="tool">Mailchimp</span><span class="tool">LinkedIn Ads</span><span class="tool">Pack Office</span><span class="tool">Google Analytics</span><span class="tool">ChatGPT / IA</span><span class="tool">Midjourney</span><span class="tool">HTML / CSS</span><span class="tool">Figma</span><span class="tool">Gestion BDD</span>
+        </div>
+        <div class="lbl" data-fr="Langues" data-en="Languages">Langues</div>
+        <div>
+          <div class="lang-row"><span class="lang-name" data-fr="Français" data-en="French">Français</span><span class="lang-tag" style="color:rgba(255,255,255,.45);border-color:rgba(255,255,255,.12)" data-fr="Langue maternelle" data-en="Native">Langue maternelle</span></div>
+          <div class="lang-row"><span class="lang-name">Anglais</span><span class="lang-tag" style="color:#a78bfa;border-color:rgba(167,139,250,.3)">C1</span></div>
+          <div class="lang-row"><span class="lang-name">Español</span><span class="lang-tag" style="color:#818cf8;border-color:rgba(129,140,248,.3)">B1</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FORMATION ═══════ -->
+<section id="formation">
+  <div class="inner">
+    <hr class="dv dv-gold fade"/>
+    <div class="lbl fade" data-fr="Formations" data-en="Education">Formations</div>
+    <h2 class="h2 fade d1" data-fr="Parcours<br><span class='g'>académique</span>" data-en="Academic<br><span class='g'>path</span>">Parcours<br><span class="g">académique</span></h2>
+    <div class="edu-grid">
+      <div class="edu-card fade d1">
+        <div class="edu-school" style="color:#a78bfa">ISCOM Paris</div>
+        <div class="edu-degree" data-fr="MBA Marketing,<br>Stratégies de Marque &amp; Publicité" data-en="MBA Marketing,<br>Brand Strategies &amp; Advertising">MBA Marketing,<br>Stratégies de Marque &amp; Publicité</div>
+        <div class="edu-dates">2026 — 2028</div>
+        <div class="edu-detail" data-fr="Rythme : 4 jours en entreprise / 1 jour à l'école" data-en="Schedule: 4 days in company / 1 day at school">Rythme : 4 jours en entreprise / 1 jour à l'école</div>
+      </div>
+      <div class="edu-card fade d2">
+        <div class="edu-school" style="color:#818cf8">IUT de Paris Rives de Seine</div>
+        <div class="edu-degree" data-fr="BUT Information<br>et Communication" data-en="BUT Information<br>and Communication">BUT Information<br>et Communication</div>
+        <div class="edu-dates">2023 — 2026</div>
+        <div class="edu-detail" data-fr="Spécialisation : Communication des Organisations · Trésorier &amp; membre du bureau de l'Agence Hélice (2024-2025) · Membre du pôle création (2023-2024)" data-en="Specialisation: Organisational Communication · Treasurer &amp; board member, Agence Hélice (2024-2025) · Creation team member (2023-2024)">Spécialisation : Communication des Organisations · Trésorier &amp; membre du bureau de l'Agence Hélice (2024-2025) · Membre du pôle création (2023-2024)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section id="contact">
+  <div class="inner">
+    <hr class="dv dv-rose fade"/>
+    <div class="lbl" style="justify-content:center" data-fr="Travaillons ensemble" data-en="Let's work together">Travaillons ensemble</div>
+    <h1 class="ct-title fade" data-fr="Disons<br>Bonjour" data-en="Say<br>Hello">Disons<br>Bonjour</h1>
+    <p class="ct-sub fade d1"
+      data-fr="Alternance 2 ans · sept. 2026 · MBA ISCOM · Marketing · Stratégie de marque · Publicité"
+      data-en="2-year work-study · Sept. 2026 · MBA ISCOM · Marketing · Brand strategy · Advertising">
+      Alternance 2 ans · sept. 2026 · MBA ISCOM · Marketing · Stratégie de marque · Publicité
+    </p>
+    <div class="ct-cards fade d2">
+      <div class="ct-card"><div class="lbl">Email</div><a href="mailto:hugo.descouts@outlook.fr">hugo.descouts@outlook.fr</a></div>
+      <div class="ct-card"><div class="lbl" data-fr="Téléphone" data-en="Phone">Téléphone</div><div class="ct-val"><a href="tel:+33762034563" style="color:rgba(255,255,255,.5);text-decoration:none;font-family:'Satoshi',sans-serif">07 62 03 45 63</a></div></div>
+      <div class="ct-card"><div class="lbl" data-fr="Localisation" data-en="Location">Localisation</div><div class="ct-big">Paris 75019 🇫🇷</div></div>
+    </div>
+  </div>
+  <footer>
+    <p>© 2026 Hugo Descouts · MBA ISCOM Paris · <span data-fr="Fait avec intention" data-en="Made with intention">Fait avec intention</span></p>
+  </footer>
+</section>
+
+</div><!-- .page -->
+
+<script>
+// ── NAV SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// ── MOBILE MENU ──
+function oMenu(){document.getElementById('mMenu').classList.add('open');document.body.style.overflow='hidden'}
+function cMenu(){document.getElementById('mMenu').classList.remove('open');document.body.style.overflow=''}
+
+// ── LANGUAGE ──
+let lang='fr';
+function setLang(l){
+  lang=l;
+  document.getElementById('lFr').classList.toggle('on',l==='fr');
+  document.getElementById('lEn').classList.toggle('on',l==='en');
+  document.getElementById('mlFr').classList.toggle('on',l==='fr');
+  document.getElementById('mlEn').classList.toggle('on',l==='en');
+  document.querySelectorAll('[data-'+l+']').forEach(el=>{
+    const v=el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML=v;
+  });
+}
+
+// ── ACCORDION ──
+function tExp(card){
+  const body=card.querySelector('.exp-body');
+  const chev=card.querySelector('.exp-chev');
+  const isOpen=body.classList.contains('open');
+  document.querySelectorAll('.exp-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.exp-chev').forEach(c=>c.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');chev.classList.add('open');}
+}
+
+// ── SCROLL REVEAL ──
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.08});
+document.querySelectorAll('.fade').forEach(el=>revObs.observe(el));
+
+// ── SKILL BARS ──
+const skObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.sk-fill').forEach((b,i)=>{
+        setTimeout(()=>{b.style.width=b.dataset.p+'%';},i*100);
+      });
+      skObs.unobserve(e.target);
+    }
+  });
+},{threshold:.15});
+const skBox=document.getElementById('skBox');
+if(skBox) skObs.observe(skBox);
+
+// ── PDF MODAL ──
+const pdfStore={};
+let curId='';
+const meta={
+  trempez:{tag:'3ème année · BUT',ttl:'TREMPEZ',color:'#e8c97a',grad:'linear-gradient(135deg,#e8c97a,#c9a84c)'},
+  tui:{tag:'SAÉ 3.04 · TUI',ttl:"Déconnec'TUI",color:'#60a5fa',grad:'linear-gradient(135deg,#60a5fa,#818cf8)'},
+  rose:{tag:'Projet',ttl:'Rose Festival',color:'#f43f5e',grad:'linear-gradient(135deg,#f43f5e,#ec4899)'},
+  edu:{tag:'Projet',ttl:"Ministère de l'Éducation Nationale",color:'#a78bfa',grad:'linear-gradient(135deg,#a78bfa,#818cf8)'},
+};
+
+function oModal(id){
+  curId=id;
+  const m=meta[id];
+  document.getElementById('mTag').textContent=m.tag;
+  document.getElementById('mTag').style.color=m.color;
+  document.getElementById('mTtl').textContent=m.ttl;
+  document.getElementById('pdfLbl').style.background=m.grad;
+  const frame=document.getElementById('pdfFrame');
+  const ph=document.getElementById('pdfPh');
+  if(pdfStore[id]){
+    frame.src=pdfStore[id];frame.style.display='block';ph.style.display='none';
+  } else {
+    frame.src='';frame.style.display='none';ph.style.display='flex';
+    document.getElementById('pdfInp').value='';
+  }
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function cModal(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function loadPdf(input){
+  const file=input.files[0];
+  if(!file) return;
+  const url=URL.createObjectURL(file);
+  pdfStore[curId]=url;
+  const frame=document.getElementById('pdfFrame');
+  frame.src=url;frame.style.display='block';
+  document.getElementById('pdfPh').style.display='none';
+}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)cModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cModal();});
+</script>
+</body>
+</html>
