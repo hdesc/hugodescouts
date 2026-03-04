@@ -15,7 +15,7 @@
     --bg: #030303;
     --fg: #ffffff;
     --muted: rgba(255,255,255,0.55);
-    --border: rgba(255,255,255,0.12);
+    --border: rgba(255,255,255,0.08);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; background: var(--bg); }
@@ -27,20 +27,14 @@
   button { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; }
   a { color: inherit; text-decoration: none; }
 
+  /* Bruit de fond discret */
   body::before {
     content: ''; position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none; z-index: 999;
   }
 
-  .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.35; }
-  .o1 { width: 50vw; height: 50vw; top: -10%; right: -10%; background: radial-gradient(circle, rgba(110,168,254,0.15), transparent 70%); animation: float 18s ease-in-out infinite; }
-  .o2 { width: 45vw; height: 45vw; bottom: -10%; left: -10%; background: radial-gradient(circle, rgba(248,113,113,0.1), transparent 70%); animation: float 22s ease-in-out infinite reverse; }
-  
-  @keyframes float { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-3%,4%)} }
-  @keyframes scrollTicker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-
+  /* Navigation */
   #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; transition: all 0.4s; }
   #nav.scrolled { background: rgba(3,3,3,0.9); backdrop-filter: blur(15px); padding: 1rem 2.5rem; border-bottom: 1px solid var(--border); }
   .nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; font-weight: 900; }
@@ -48,22 +42,27 @@
   .nav-links a { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
   .nav-links a:hover { color: var(--fg); }
 
+  /* Layout */
   .page { position: relative; z-index: 1; }
   section { padding: 8vw 4vw; }
   .inner { max-width: 1200px; margin: 0 auto; }
   
-  .huge-text { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(3.5rem, 11vw, 12rem); line-height: 1.1; text-transform: uppercase; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+  /* Typographie massive agence */
+  .huge-text { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(3.5rem, 11vw, 12rem); line-height: 0.85; text-transform: uppercase; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
   .huge-text-stroke { -webkit-text-stroke: 2px rgba(255,255,255,0.3); color: transparent; }
   .section-title { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 4rem; }
   .label-mono { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
   .label-mono::before { content: ''; width: 2rem; height: 1px; background: rgba(255,255,255,0.3); }
 
-  .dv { height: 1px; border: none; background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent); margin-bottom: 4rem; }
-
+  /* Éléments interactifs */
+  .agency-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 24px; transition: all 0.5s cubic-bezier(0.19,1,0.22,1); position: relative; overflow: hidden; }
+  
+  /* Ticker défilant infini */
   .ticker { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.2rem 0; background: rgba(255,255,255,0.02); }
   .ticker-track { display: flex; gap: 3rem; width: max-content; animation: scrollTicker 25s linear infinite; }
   .ticker-item { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 1.2rem; text-transform: uppercase; color: var(--muted); }
 
+  /* Modale */
   .modal-ov { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,.95); backdrop-filter: blur(20px); align-items: center; justify-content: center; padding: 1rem; }
   .modal-ov.open { display: flex; }
   .modal-box { background: #080808; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; width: 100%; max-width: 1000px; height: 85vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -81,7 +80,6 @@
 </style>
 </head>
 <body>
-<div class="orbs"><div class="orb o1"></div><div class="orb o2"></div></div>
 
 <nav id="nav">
   <div class="nav-logo">HD</div>
@@ -117,6 +115,7 @@
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
+// Composant d'apparition théâtrale (texte masqué qui monte)
 function RevealText({ children, delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -127,10 +126,11 @@ function RevealText({ children, delay = 0 }) {
   }, []);
   
   return (
-    <div ref={ref} style={{ overflow: 'hidden', width: '100%' }}>
+    <div ref={ref} style={{ overflow: 'hidden', display: 'inline-block', width: '100%' }}>
       <div style={{
-        transform: visible ? 'translateY(0)' : 'translateY(100%)',
+        transform: visible ? 'translateY(0)' : 'translateY(110%)',
         transition: `transform 1.2s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
+        willChange: 'transform'
       }}>
         {children}
       </div>
@@ -138,6 +138,7 @@ function RevealText({ children, delay = 0 }) {
   );
 }
 
+// Composant d'apparition globale (fondu vers le haut)
 function FadeUp({ children, delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -151,7 +152,7 @@ function FadeUp({ children, delay = 0 }) {
     <div ref={ref} style={{
       opacity: visible ? 1 : 0,
       transform: visible ? 'translateY(0)' : 'translateY(3rem)',
-      transition: `all 1s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
+      transition: `all 1.2s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
     }}>
       {children}
     </div>
@@ -224,14 +225,14 @@ function AgencyCarousel() {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '4rem' }}>
       {slides.map((s, i) => (
         <FadeUp key={i} delay={0.2 * i}>
-          <div className="agency-card" style={{ height: '500px', cursor: 'pointer', position: 'relative', overflow: 'hidden', borderRadius: '24px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="agency-card" style={{ height: '500px', cursor: 'pointer' }}>
             <img src={s.img} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(50%) brightness(0.6)', transition: 'all 0.8s' }} 
                  onMouseOver={e => { e.currentTarget.style.filter = 'grayscale(0%) brightness(1)'; e.currentTarget.style.transform = 'scale(1.05)'; }}
                  onMouseOut={e => { e.currentTarget.style.filter = 'grayscale(50%) brightness(0.6)'; e.currentTarget.style.transform = 'scale(1)'; }}
             />
             <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', pointerEvents: 'none' }}>
               <div className="label-mono">Sensibilité</div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#fff' }}>{s.title}</div>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900 }}>{s.title}</div>
             </div>
           </div>
         </FadeUp>
@@ -257,145 +258,34 @@ function About() {
 }
 
 function Experience() {
-  const [openId, setOpenId] = useState(null);
-  
   const exps = [
-    {
-      id: 'hermes', date: 'Sept. 2025 - Présent', company: 'Hermès', role: 'Assistant Adoption et Communication Processus IT',
-      color: '#f59e0b', bgHover: 'rgba(245, 158, 11, 0.05)', borderHover: 'rgba(245, 158, 11, 0.3)',
-      bullets: [
-        "Pilotage de la refonte intégrale du SharePoint intranet - optimisation UX et architecture.",
-        "Conception et déploiement de newsletters dédiées à l'adoption des procédures IT.",
-        "Audit des processus existants et création de nouveaux workflows.",
-        "Organisation d'événements et séminaires internes."
-      ],
-      chips: ['SharePoint', 'Newsletter', 'Communication interne', 'Luxe']
-    },
-    {
-      id: 'unppd', date: 'Sept. 2024 - Août 2025', company: 'UNPPD', role: 'Chargé de Communication',
-      color: '#3b82f6', bgHover: 'rgba(59, 130, 246, 0.05)', borderHover: 'rgba(59, 130, 246, 0.3)',
-      bullets: [
-        "Création d'une ligne éditoriale social media - x5 sur la communauté LinkedIn.",
-        "Gestion bout-en-bout d'un journal mensuel pour 3 500 laboratoires.",
-        "Animation du site WordPress et optimisation de l'expérience."
-      ],
-      chips: ['InDesign', 'WordPress', 'LinkedIn', 'BtoB']
-    },
-    {
-      id: 'cf', date: 'Mai 2024 - Juin 2024', company: 'Corporate Fiction', role: 'Communication Commerciale',
-      color: '#10b981', bgHover: 'rgba(16, 185, 129, 0.05)', borderHover: 'rgba(16, 185, 129, 0.3)',
-      bullets: [
-        "Immersion complète dans le fonctionnement d'une agence de communication.",
-        "Création de campagnes de prospection commerciale ciblées.",
-        "Analyse des besoins partenaires et recommandations."
-      ],
-      chips: ['Prospection', 'Stratégie', 'Relation client']
-    }
+    { id:'hermes', type: 'Alternance', date: 'Sept. 2025 - Présent', company: 'Hermès', role: 'Assistant Adoption IT', color: '#f59e0b', logo: 'orange_dot' },
+    { id:'unppd', type: 'Alternance', date: 'Sept. 2024 - Août 2025', company: 'UNPPD', role: 'Chargé de Communication', color: '#3b82f6', logo: 'blue_dot' },
+    { id:'cf', type: 'Stage', date: 'Mai 2024 - Juin 2024', company: 'Corporate Fiction', role: 'Com Commerciale', color: '#10b981', logo: 'green_dot' }
   ];
 
   return (
     <section id="experience">
       <div className="inner">
-        <hr className="dv" />
         <div className="label-mono">Parcours Professionnel</div>
         <RevealText>
           <h2 className="section-title">EXPÉRIENCES <span className="huge-text-stroke">CLÉS</span></h2>
         </RevealText>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-          {exps.map((exp, i) => {
-            const isOpen = openId === exp.id;
-            return (
-              <FadeUp key={exp.id} delay={i * 0.1}>
-                <div 
-                  onClick={() => setOpenId(isOpen ? null : exp.id)}
-                  style={{
-                    background: isOpen ? exp.bgHover : 'rgba(255,255,255,0.02)',
-                    border: `1px solid ${isOpen ? exp.borderHover : 'rgba(255,255,255,0.08)'}`,
-                    borderRadius: '24px', padding: '2.5rem', cursor: 'pointer', transition: 'all 0.4s',
-                    position: 'relative', overflow: 'hidden'
-                  }}
-                  onMouseEnter={e => { if(!isOpen) { e.currentTarget.style.background = exp.bgHover; e.currentTarget.style.borderColor = exp.borderHover; } }}
-                  onMouseLeave={e => { if(!isOpen) { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; } }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                    <div>
-                      <div className="label-mono" style={{ color: exp.color, marginBottom: '0.8rem' }}>{exp.date}</div>
-                      <div style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.3rem' }}>{exp.company}</div>
-                      <div style={{ color: 'var(--muted)', fontSize: '1.1rem' }}>{exp.role}</div>
-                    </div>
-                    <div style={{ fontSize: '2rem', transition: 'transform 0.4s', transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)', color: exp.color }}>
-                      +
-                    </div>
-                  </div>
-                  
-                  <div style={{ maxHeight: isOpen ? '500px' : '0', overflow: 'hidden', transition: 'max-height 0.5s cubic-bezier(0.19,1,0.22,1)' }}>
-                    <div style={{ paddingTop: '2rem', marginTop: '2rem', borderTop: `1px solid ${exp.borderHover}` }}>
-                      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                        {exp.bullets.map((b, idx) => (
-                          <li key={idx} style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1rem', lineHeight: 1.6, display: 'flex', gap: '1rem' }}>
-                            <span style={{ color: exp.color }}>→</span> {b}
-                          </li>
-                        ))}
-                      </ul>
-                      <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
-                        {exp.chips.map(c => (
-                          <span key={c} style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.4rem 1rem', borderRadius: '999px', border: `1px solid ${exp.borderHover}`, color: 'var(--muted)' }}>
-                            {c}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {exps.map((exp, i) => (
+            <FadeUp key={exp.id} delay={i * 0.1}>
+              <div className="agency-card" style={{ padding: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                  <div style={{ width: 12, height: 12, background: exp.color, borderRadius: '50%', boxShadow: `0 0 10px ${exp.color}` }}></div>
+                  <div>
+                    <div className="label-mono" style={{ color: exp.color, marginBottom: '0.5rem' }}>{exp.date}</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.3rem' }}>{exp.company}</div>
+                    <div style={{ color: 'var(--muted)', fontSize: '1rem' }}>{exp.role}</div>
                   </div>
                 </div>
-              </FadeUp>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Projects() {
-  const projs = [
-    { id:'trempez', title:'TREMPEZ', desc:'Projet ambitieux distingué comme meilleur de la promotion. Concept fort, storytelling soigné et stratégie de bout en bout.', color:'#e8c97a' },
-    { id:'tui', title:"Déconnec'TUI", desc:'Concept digital detox développé pour TUI. Distingué pour sa cohérence stratégique et sa pertinence de marché.', color:'#6ea8fe' },
-    { id:'rose', title:'Rose Festival', desc:'Stratégie de communication événementielle pour un festival culturel. Dispositif, identité visuelle et diffusion.', color:'#f87171' },
-    { id:'edu', title:'Éducation Nationale', desc:'Stratégie de communication institutionnelle. Analyse des publics et plan d\'action multicanal.', color:'#c4b5fd' }
-  ];
-
-  return (
-    <section id="projects">
-      <div className="inner">
-        <hr className="dv" />
-        <div className="label-mono">Réalisations</div>
-        <RevealText>
-          <h2 className="section-title">MES <span className="huge-text-stroke">PROJETS</span></h2>
-        </RevealText>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-          {projs.map((p, i) => (
-            <FadeUp key={p.id} delay={i * 0.1}>
-              <div 
-                onClick={() => window.oModal(p.title)}
-                style={{
-                  background: `linear-gradient(135deg, ${p.color}15 0%, transparent 100%)`,
-                  border: `1px solid ${p.color}30`, borderRadius: '20px', padding: '2.5rem',
-                  height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                  cursor: 'pointer', transition: 'all 0.4s', position: 'relative', overflow: 'hidden'
-                }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = p.color; e.currentTarget.style.boxShadow = `0 20px 40px ${p.color}20`; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = `${p.color}30`; e.currentTarget.style.boxShadow = 'none'; }}
-              >
-                <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '150px', height: '150px', background: p.color, filter: 'blur(80px)', opacity: 0.2 }}></div>
-                <div>
-                  <h3 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '1rem', color: 'var(--fg)' }}>{p.title}</h3>
-                  <p style={{ color: 'var(--muted)', lineHeight: 1.6, fontSize: '0.95rem' }}>{p.desc}</p>
-                </div>
-                <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: p.color }}>Voir le projet</span>
-                  <span style={{ fontSize: '1.2rem', color: p.color }}>→</span>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.5rem 1rem', borderRadius: '4px', border: `1px solid ${exp.color}`, color: exp.color }}>
+                  {exp.type}
                 </div>
               </div>
             </FadeUp>
@@ -406,36 +296,37 @@ function Projects() {
   );
 }
 
-function Skills() {
-  const skills = [
-    { icon: '📐', title: 'Stratégie', desc: 'Plans multi-canal, positionnement de marque.' },
-    { icon: '✍️', title: 'Contenu', desc: 'Production éditoriale, newsletters, DA.' },
-    { icon: '📱', title: 'Social Media', desc: 'Ligne éditoriale, croissance organique.' },
-    { icon: '🗂️', title: 'Gestion', desc: 'Coordination, JIRA, SharePoint.' }
+function Projects() {
+  const projs = [
+    { id:'trempez', title:'TREMPEZ', desc:'Concept fort, storytelling soigné et stratégie de bout en bout.', color:'#e8c97a' },
+    { id:'tui', title:"Déconnec'TUI", desc:'Digital detox développé pour TUI.', color:'#6ea8fe' },
+    { id:'rose', title:'Rose Festival', desc:'Stratégie de communication événementielle.', color:'#f87171' },
+    { id:'edu', title:'Éducation Nationale', desc:'Stratégie multicanal institutionnelle.', color:'#c4b5fd' }
   ];
 
   return (
-    <section id="skills">
+    <section id="projects">
       <div className="inner">
-        <hr className="dv" />
-        <div className="label-mono">Expertises</div>
+        <div className="label-mono">Réalisations</div>
         <RevealText>
-          <h2 className="section-title">COMPÉTENCES <span className="huge-text-stroke">PRO</span></h2>
+          <h2 className="section-title">MES <span className="huge-text-stroke">PROJETS</span></h2>
         </RevealText>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
-          {skills.map((s, i) => (
-            <FadeUp key={i} delay={i * 0.1}>
-              <div style={{
-                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '20px', padding: '2rem', transition: 'all 0.3s'
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+          {projs.map((p, i) => (
+            <FadeUp key={p.id} delay={i * 0.1}>
+              <div 
+                onClick={() => window.oModal(p.title)}
+                style={{
+                  background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: '20px', padding: '2rem', cursor: 'pointer', transition: 'all 0.4s'
+                }}
+                onMouseOver={e => { e.currentTarget.style.borderColor = p.color; e.currentTarget.style.background = `${p.color}05`; }}
+                onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.background = 'rgba(255,255,255,0.01)'; }}
               >
-                <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{s.icon}</div>
-                <div style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '0.5rem' }}>{s.title}</div>
-                <div style={{ color: 'var(--muted)', lineHeight: 1.5, fontSize: '0.9rem' }}>{s.desc}</div>
+                <div className="label-mono" style={{ color: p.color, marginBottom: '1rem' }}>Projet</div>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>{p.title}</h3>
+                <p style={{ color: 'var(--muted)', lineHeight: 1.5, fontSize: '0.9rem' }}>{p.desc}</p>
               </div>
             </FadeUp>
           ))}
@@ -449,7 +340,6 @@ function Contact() {
   return (
     <section id="contact" style={{ textAlign: 'center', paddingBottom: '10vh' }}>
       <div className="inner">
-        <hr className="dv" />
         <FadeUp>
           <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 900, fontSize: 'clamp(4rem, 12vw, 10rem)', lineHeight: 0.9, marginBottom: '2rem', background: 'linear-gradient(135deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Disons<br/>Bonjour.
@@ -457,7 +347,7 @@ function Contact() {
         </FadeUp>
         <FadeUp delay={0.2}>
           <p style={{ color: 'var(--muted)', fontSize: '1.2rem', marginBottom: '3rem' }}>Alternance 2 ans à partir de Septembre 2026</p>
-          <a href="mailto:hugo.descouts@outlook.fr" style={{ display: 'inline-block', background: '#ffffff', color: '#000000', padding: '1.2rem 3rem', borderRadius: '999px', fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', textDecoration: 'none', transition: 'transform 0.3s' }} onMouseEnter={e => e.currentTarget.style.transform='scale(1.05)'} onMouseLeave={e => e.currentTarget.style.transform='scale(1)'}>
+          <a href="mailto:hugo.descouts@outlook.fr" style={{ display: 'inline-block', background: '#ffffff', color: '#000000', padding: '1.2rem 3rem', borderRadius: '999px', fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', textDecoration: 'none' }}>
             hugo.descouts@outlook.fr
           </a>
         </FadeUp>
@@ -480,7 +370,6 @@ function App() {
       <About />
       <Experience />
       <Projects />
-      <Skills />
       <Contact />
     </div>
   );
@@ -490,6 +379,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 
 <script>
+function oMenu(){document.getElementById('mMenu').classList.add('open');document.body.style.overflow='hidden'}
+function cMenu(){document.getElementById('mMenu').classList.remove('open');document.body.style.overflow=''}
+
 let curId = '';
 function oModal(title) {
   document.getElementById('mTtl').textContent = title;
