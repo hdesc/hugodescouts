@@ -6,912 +6,314 @@
 <title>Hugo Descouts - Et si j'étais votre prochain alternant ?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
   :root {
-    --bg: #000000;
+    --bg: #030303;
     --fg: #ffffff;
-    --muted: rgba(255,255,255,0.65);
-    --border: rgba(255,255,255,0.12);
-    --gold: #e8c97a;
-    --blue: #6ea8fe;
-    --rose: #f87171;
-    --violet: #c4b5fd;
-    --green: #34d399;
+    --muted: rgba(255,255,255,0.55);
+    --border: rgba(255,255,255,0.08);
+    --accent: #ffffff;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; background: var(--bg); }
   body { background: var(--bg); color: var(--fg); font-family: 'Cabinet Grotesk', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: rgba(196,181,253,.4); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
   img { display: block; max-width: 100%; }
   button { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; }
   a { color: inherit; text-decoration: none; }
 
-body::before {
-content: '';
-position: fixed;
-inset: 0;
-background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-pointer-events: none;
-z-index: 999;
-opacity: 0.2;
-}
+  /* Bruit de fond discret */
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999;
+  }
 
-.orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; opacity: 0.4; }
-.orb { position: absolute; border-radius: 50%; filter: blur(80px); }
-.o1 { width: min(700px,80vw); height: min(700px,80vw); top: -15%; right: -10%;
-background: radial-gradient(circle, rgba(110,168,254,.15) 0%, rgba(196,181,253,.05) 50%, transparent 70%);
-animation: oa 16s ease-in-out infinite; }
-.o2 { width: min(600px,70vw); height: min(600px,70vw); bottom: -5%; left: -10%;
-background: radial-gradient(circle, rgba(248,113,113,.12) 0%, rgba(236,72,153,.04) 50%, transparent 70%);
-animation: ob 21s ease-in-out infinite; }
-.o3 { width: min(450px,55vw); height: min(450px,55vw); top: 38%; left: 28%;
-background: radial-gradient(circle, rgba(52,211,153,.08) 0%, rgba(6,182,212,.03) 50%, transparent 70%);
-animation: oc 26s ease-in-out infinite; }
-@keyframes oa { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-3%,5%)} 66%{transform:translate(3%,-3%)} }
-@keyframes ob { 0%,100%{transform:translate(0,0)} 50%{transform:translate(5%,-6%)} }
-@keyframes oc { 0%,100%{transform:translate(0,0)} 40%{transform:translate(-4%,4%)} 80%{transform:translate(4%,-3%)} }
+  /* Orbes lumineuses très douces */
+  .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.3; }
+  .o1 { width: 60vw; height: 60vw; top: -20%; right: -10%; background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%); animation: float 20s ease-in-out infinite; }
+  .o2 { width: 50vw; height: 50vw; bottom: -10%; left: -10%; background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 70%); animation: float 25s ease-in-out infinite reverse; }
+  
+  @keyframes float { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-5%,5%)} }
+  @keyframes scrollTicker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-@keyframes fadeUp { from { opacity:0; transform:translateY(4rem) scale(0.98); } to { opacity:1; transform:translateY(0) scale(1); } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-@keyframes wobble { 0%,100%{transform:rotate(-8deg)} 50%{transform:rotate(8deg)} }
-@keyframes scrollTicker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  /* Navigation */
+  #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s cubic-bezier(0.19,1,0.22,1); }
+  #nav.scrolled { background: rgba(3,3,3,0.8); backdrop-filter: blur(20px); padding: 1rem 2.5rem; border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; font-weight: 900; }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--fg); }
 
-.anim-up { animation: fadeUp 1.2s cubic-bezier(.19,1,.22,1) both; }
-.anim-in { animation: fadeIn 1s ease both; }
+  /* Layout de base */
+  .page { position: relative; z-index: 1; }
+  section { padding: 10vw 4vw; }
+  .inner { max-width: 1400px; margin: 0 auto; }
+  
+  /* Typographie massive agence */
+  .huge-text { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(4rem, 12vw, 14rem); line-height: 0.85; text-transform: uppercase; letter-spacing: -0.04em; margin-bottom: 2rem; }
+  .huge-text-stroke { WebkitTextStroke: 2px rgba(255,255,255,0.2); color: transparent; }
+  
+  .section-title { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: clamp(3rem, 7vw, 7rem); line-height: 0.9; letter-spacing: -0.03em; margin-bottom: 4rem; }
+  
+  .label-mono { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .label-mono::before { content: ''; width: 2rem; height: 1px; background: rgba(255,255,255,0.3); }
 
-#nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.1rem clamp(1.2rem,4vw,2.5rem);
-display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-transition: background .4s, border-color .4s; }
-#nav.scrolled { background: rgba(0,0,0,.88); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
-.nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.3rem; color: var(--fg); letter-spacing: -.01em; }
-.nav-links { display: flex; gap: 1.5rem; align-items: center; }
-.nav-links a { font-size: .82rem; font-weight: 500; color: var(--muted); transition: color .25s; white-space: nowrap; }
-.nav-links a:hover { color: var(--fg); }
-.lang-pill { display: flex; background: rgba(255,255,255,.07); border-radius: 999px; padding: .14rem; gap: .08rem; }
-.lb { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
-padding: .26rem .62rem; border-radius: 999px; color: var(--muted); transition: all .2s; }
-.lb.on { background: rgba(255,255,255,.15); color: var(--fg); }
-.hbg { display: none; font-size: 1.5rem; padding: .25rem; }
-.mob-menu { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.97); backdrop-filter: blur(24px);
-z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
-.mob-menu.open { display: flex; }
-.mob-menu a { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: clamp(2rem,6vw,2.8rem); color: var(--fg); }
-.mob-close { position: absolute; top: 1.4rem; right: 1.6rem; font-size: 1.9rem; color: var(--muted); }
-.mob-lang { display: flex; gap: .8rem; margin-top: .5rem; }
-.mob-lang button { font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
-padding: .38rem 1.1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); color: var(--muted); transition: all .2s; }
-.mob-lang button.on { background: rgba(255,255,255,.12); color: var(--fg); }
+  /* Éléments interactifs */
+  .agency-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 24px; transition: all 0.5s cubic-bezier(0.19,1,0.22,1); position: relative; overflow: hidden; }
+  .agency-card:hover { background: rgba(255,255,255,0.05); transform: translateY(-10px); border-color: rgba(255,255,255,0.2); }
+  
+  /* Ticker défilant infini */
+  .ticker { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.5rem 0; background: rgba(255,255,255,0.01); }
+  .ticker-track { display: flex; gap: 4rem; width: max-content; animation: scrollTicker 30s linear infinite; }
+  .ticker-item { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 1.5rem; text-transform: uppercase; color: var(--muted); }
 
-@media(max-width:768px) {
-.nav-links { display: none; }
-.hbg { display: block; }
-}
-
-.ticker { overflow: hidden; background: rgba(255,255,255,.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: .8rem 0; }
-.ticker-track { display: flex; gap: 3rem; width: max-content; animation: scrollTicker 22s linear infinite; }
-.ticker-item { font-family: 'DM Mono', monospace; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--fg); white-space: nowrap; font-weight: bold; }
-.ticker-dot { color: var(--violet); }
-
-.page { position: relative; z-index: 1; }
-section { padding: clamp(4.5rem,9vw,8rem) clamp(1.2rem,4vw,3rem); }
-.inner { max-width: 1100px; margin: 0 auto; }
-.lbl { font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .28em; text-transform: uppercase;
-color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: .6rem; }
-.lbl::before { content: ''; width: 1.4rem; height: 1px; background: rgba(255,255,255,.3); }
-.dv { height: 1px; border: none; margin-bottom: clamp(3rem,5vw,5rem); }
-.dv-v { background: linear-gradient(to right, transparent, rgba(196,181,253,.45), rgba(110,168,254,.3), transparent); }
-.dv-e { background: linear-gradient(to right, transparent, rgba(52,211,153,.45), rgba(6,182,212,.3), transparent); }
-.dv-r { background: linear-gradient(to right, transparent, rgba(248,113,113,.45), rgba(236,72,153,.3), transparent); }
-.dv-g { background: linear-gradient(to right, transparent, rgba(232,201,122,.45), rgba(245,158,11,.3), transparent); }
-
-.glass { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 20px; backdrop-filter: blur(12px); transition: background .3s, border-color .3s; }
-.glass:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18); }
-
-.modal-ov { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,.9); backdrop-filter: blur(20px); align-items: center; justify-content: center; padding: 1rem; }
-.modal-ov.open { display: flex; }
-.modal-box { background: #0a0a0a; border: 1px solid rgba(255,255,255,.15); border-radius: 20px; width: 100%; max-width: 920px; height: 88vh; display: flex; flex-direction: column; overflow: hidden; }
-.m-head { padding: 1.1rem 1.6rem; border-bottom: 1px solid rgba(255,255,255,.1); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-shrink: 0; }
-.m-stag { font-family: 'DM Mono', monospace; font-size: .54rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .22rem; }
-.m-ttl { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--fg); }
-.m-close { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); border-radius: 999px; padding: .3rem .85rem; color: var(--fg); font-family: 'DM Mono', monospace; font-size: .58rem; transition: all .2s; }
-.m-close:hover { background: rgba(255,255,255,.15); }
-.m-body { flex: 1; overflow: hidden; }
-.pdf-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.1rem; }
-.pdf-ph p { font-size: .88rem; color: var(--muted); text-align: center; line-height: 1.85; }
-.pdf-lbl { font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; padding: .55rem 1.4rem; border-radius: 999px; color: #fff; transition: opacity .25s; cursor: pointer; }
-.pdf-lbl:hover { opacity: .82; }
-.pdf-frame { width: 100%; height: 100%; border: none; display: none; }
-
-@media(max-width:480px) {
-.mob-menu a { font-size: 2rem; }
-}
+  @media(max-width: 768px) { .nav-links { display: none; } }
 </style>
-
 </head>
 <body>
-<div class="orbs"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
-
-<div class="mob-menu" id="mMenu">
-  <button class="mob-close" onclick="cMenu()">✕</button>
-  <a href="#proposition" onclick="cMenu()">La proposition</a>
-  <a href="#about" onclick="cMenu()">Profil</a>
-  <a href="#experience" onclick="cMenu()">Expériences</a>
-  <a href="#projects" onclick="cMenu()">Projets</a>
-  <a href="#contact" onclick="cMenu()">Contact</a>
-  <div class="mob-lang">
-    <button onclick="setLang('fr')" id="mlFr" class="on">FR</button>
-    <button onclick="setLang('en')" id="mlEn">EN</button>
-  </div>
-</div>
+<div class="orbs"><div class="orb o1"></div><div class="orb o2"></div></div>
 
 <nav id="nav">
-  <span class="nav-logo">HD</span>
+  <div class="nav-logo">HD</div>
   <div class="nav-links">
-    <a href="#proposition" data-fr="La proposition" data-en="The pitch">La proposition</a>
-    <a href="#about" data-fr="Profil" data-en="Profile">Profil</a>
-    <a href="#experience" data-fr="Expériences" data-en="Experience">Expériences</a>
-    <a href="#projects" data-fr="Projets" data-en="Projects">Projets</a>
+    <a href="#about">Profil</a>
+    <a href="#experience">Expériences</a>
+    <a href="#projects">Projets</a>
     <a href="#contact">Contact</a>
   </div>
-  <div style="display:flex;align-items:center;gap:.7rem;flex-shrink:0">
-    <div class="lang-pill">
-      <button class="lb on" onclick="setLang('fr')" id="lFr">FR</button>
-      <button class="lb" onclick="setLang('en')" id="lEn">EN</button>
-    </div>
-    <button class="hbg" onclick="oMenu()">☰</button>
-  </div>
 </nav>
-
-<div class="modal-ov" id="modal">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="m-head">
-      <div><div class="m-stag" id="mTag"></div><div class="m-ttl" id="mTtl"></div></div>
-      <button class="m-close" onclick="cModal()">Fermer ✕</button>
-    </div>
-    <div class="m-body">
-      <div class="pdf-ph" id="pdfPh">
-        <div style="font-size:2.8rem">📎</div>
-        <p>PDF non encore chargé.<br/>Sélectionne ton fichier depuis ton ordinateur.</p>
-        <label class="pdf-lbl" id="pdfLbl" for="pdfInp">+ Charger un PDF</label>
-        <input type="file" id="pdfInp" accept="application/pdf" style="display:none" onchange="loadPdf(this)"/>
-      </div>
-      <iframe class="pdf-frame" id="pdfFrame"></iframe>
-    </div>
-  </div>
-</div>
 
 <div id="root"></div>
 
 <script type="text/babel">
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useRef } = React;
 
-function useInView(threshold = 0.1) {
+// Composant d'apparition théâtrale (texte masqué qui monte)
+function RevealText({ children, delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold });
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
-  return [ref, visible];
+  
+  return (
+    <div ref={ref} style={{ overflow: 'hidden', display: 'inline-block', width: '100%' }}>
+      <div style={{
+        transform: visible ? 'translateY(0)' : 'translateY(110%)',
+        transition: `transform 1.2s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
+        willChange: 'transform'
+      }}>
+        {children}
+      </div>
+    </div>
+  );
 }
 
-function Reveal({ children, delay = 0, style = {} }) {
-  const [ref, visible] = useInView(0.1);
+// Composant d'apparition globale (fondu vers le haut)
+function FadeUp({ children, delay = 0 }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  
   return (
     <div ref={ref} style={{
       opacity: visible ? 1 : 0,
-      transform: visible ? 'translateY(0) scale(1)' : 'translateY(4rem) scale(0.98)',
-      transition: `opacity 1s ${delay}s ease-out, transform 1.2s ${delay}s cubic-bezier(.19,1,.22,1)`,
-      ...style
+      transform: visible ? 'translateY(0)' : 'translateY(3rem)',
+      transition: `all 1.2s ${delay}s cubic-bezier(0.19, 1, 0.22, 1)`,
     }}>
       {children}
     </div>
   );
 }
 
-function Orbs() {
+function Hero() {
   return (
-    <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden', opacity: 0.4 }}>
-      {[
-        { style:{ width:'min(700px,80vw)', height:'min(700px,80vw)', top:'-15%', right:'-10%', background:'radial-gradient(circle,rgba(110,168,254,.15) 0%,rgba(196,181,253,.05) 50%,transparent 70%)', animation:'oa 16s ease-in-out infinite' }},
-        { style:{ width:'min(600px,70vw)', height:'min(600px,70vw)', bottom:'-5%', left:'-10%', background:'radial-gradient(circle,rgba(248,113,113,.12) 0%,rgba(236,72,153,.04) 50%,transparent 70%)', animation:'ob 21s ease-in-out infinite' }},
-        { style:{ width:'min(450px,55vw)', height:'min(450px,55vw)', top:'38%', left:'28%', background:'radial-gradient(circle,rgba(52,211,153,.08) 0%,rgba(6,182,212,.03) 50%,transparent 70%)', animation:'oc 26s ease-in-out infinite' }},
-      ].map((o,i) => (
-        <div key={i} style={{ position:'absolute', borderRadius:'50%', filter:'blur(80px)', ...o.style }} />
+    <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '10vh' }}>
+      <div className="inner">
+        <FadeUp delay={0.1}>
+          <div className="label-mono" style={{ color: '#34d399' }}>
+            <span style={{ width: 8, height: 8, background: '#34d399', borderRadius: '50%', boxShadow: '0 0 12px #34d399' }}></span>
+            Disponible Septembre 2026
+          </div>
+        </FadeUp>
+        
+        <RevealText delay={0.2}>
+          <div className="huge-text">HUGO</div>
+        </RevealText>
+        <RevealText delay={0.3}>
+          <div className="huge-text" style={{ WebkitTextStroke: '2px rgba(255,255,255,0.2)', color: 'transparent', marginTop: '-3vw' }}>DESCOUTS</div>
+        </RevealText>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', marginTop: '5rem' }}>
+          <FadeUp delay={0.5}>
+            <p style={{ fontSize: '1.25rem', lineHeight: 1.6, color: 'var(--muted)', maxWidth: '500px' }}>
+              Stratège et créatif. Futur étudiant en MBA ISCOM. J'apporte une vision audacieuse et une exécution millimétrée pour des campagnes qui marquent les esprits.
+            </p>
+          </FadeUp>
+          <FadeUp delay={0.6}>
+            <div style={{ display: 'flex', gap: '3rem' }}>
+              <div>
+                <div style={{ fontSize: '3rem', fontWeight: 900 }}>3</div>
+                <div className="label-mono" style={{ marginTop: '0.5rem' }}>Expériences pro</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '3rem', fontWeight: 900 }}>4</div>
+                <div className="label-mono" style={{ marginTop: '0.5rem' }}>Projets publiés</div>
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Ticker() {
+  const items = ['Direction Artistique', 'Stratégie', 'Hermès', 'Social Media', 'MBA ISCOM', 'Design', 'Création'];
+  return (
+    <div className="ticker">
+      <div className="ticker-track">
+        {[...items, ...items, ...items].map((item, i) => (
+          <span key={i} className="ticker-item">{item} <span style={{ color: 'rgba(255,255,255,0.2)', margin: '0 1rem' }}>/</span></span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AgencyCarousel() {
+  const slides = [
+    { img: 'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg', title: 'BALLET' },
+    { img: 'https://cinedweller.com/wp-content/uploads/2025/03/queer-affiche.jpg.webp', title: 'CINÉMA' },
+    { img: 'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false', title: 'MODE' }
+  ];
+  
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '4rem' }}>
+      {slides.map((s, i) => (
+        <FadeUp key={i} delay={0.2 * i}>
+          <div className="agency-card" style={{ height: '500px', cursor: 'pointer' }}>
+            <img src={s.img} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(50%) brightness(0.6)', transition: 'all 0.8s' }} 
+                 onMouseOver={e => { e.currentTarget.style.filter = 'grayscale(0%) brightness(1)'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+                 onMouseOut={e => { e.currentTarget.style.filter = 'grayscale(50%) brightness(0.6)'; e.currentTarget.style.transform = 'scale(1)'; }}
+            />
+            <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', pointerEvents: 'none' }}>
+              <div className="label-mono">Sensibilité</div>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900 }}>{s.title}</div>
+            </div>
+          </div>
+        </FadeUp>
       ))}
     </div>
   );
 }
 
-function Ticker() {
-const items = ['Communication stratégique','Création de contenu','Marketing digital','Hermès','LinkedIn','Événementiel','Design graphique','Stratégie de marque','Adobe Suite','MBA ISCOM'];
-const doubled = [...items, ...items];
-return (
-<div className="ticker">
-<div className="ticker-track">
-{doubled.map((item, i) => (
-<span key={i} className="ticker-item">
-{item} <span className="ticker-dot">◆</span>{' '}
-</span>
-))}
-</div>
-</div>
-);
-}
-
-function Hero({ lang }) {
-const [loaded, setLoaded] = useState(false);
-useEffect(() => { setTimeout(() => setLoaded(true), 150); }, []);
-const anim = (d) => ({
-opacity: loaded ? 1 : 0,
-transform: loaded ? 'none' : 'translateY(3rem) scale(0.98)',
-transition: `opacity 1s ${d}s ease, transform 1.2s ${d}s cubic-bezier(.19,1,.22,1)`,
-});
-return (
-<section id="proposition" style={{ minHeight:'100vh', display:'flex', flexDirection:'column', justifyContent:'center', paddingTop:'7rem', position:'relative', zIndex:1 }}>
-<div className="inner">
-<div style={{ ...anim(.1), display:'flex', alignItems:'center', gap:'.6rem', marginBottom:'2rem', flexWrap:'wrap' }}>
-<span style={{ display:'inline-flex', alignItems:'center', gap:'.45rem', fontFamily:"'DM Mono',monospace", fontSize:'.65rem', letterSpacing:'.18em', textTransform:'uppercase', color:'var(--muted)' }}>
-<span style={{ width:7, height:7, borderRadius:'50%', background:'#34d399', boxShadow:'0 0 10px #34d399', animation:'pulse 2s infinite', flexShrink:0 }} />
-{lang === 'fr' ? 'Disponible sept. 2026' : 'Available Sept. 2026'}
-</span>
-<span style={{ color:'rgba(255,255,255,.2)', fontFamily:'monospace' }}>·</span>
-<span style={{ fontFamily:"'DM Mono',monospace", fontSize:'.65rem', letterSpacing:'.18em', textTransform:'uppercase', color:'var(--muted)' }}>
-MBA ISCOM Paris
-</span>
-</div>
-    <div style={{ ...anim(.15), overflow:'hidden' }}>
-      <h1 style={{
-        fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800,
-        fontSize:'clamp(1.1rem,2.5vw,1.5rem)', letterSpacing:'.12em', textTransform:'uppercase',
-        color:'rgba(255,255,255,.5)', marginBottom:'1rem'
-      }}>
-        {lang === 'fr' ? 'Et si j\'étais votre prochain alternant ?' : 'What if I were your next work-study hire?'}
-      </h1>
-    </div>
-    <div style={{ ...anim(.2) }}>
-      <h2 style={{
-        fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:900,
-        fontSize:'clamp(3.5rem,11vw,10.5rem)', lineHeight:.88, letterSpacing:'-.04em',
-        color:'var(--fg)', marginBottom:'2.5rem'
-      }}>
-        HUGO<br/>
-        <span style={{ WebkitTextStroke:'2px rgba(255,255,255,.3)', color:'transparent' }}>DESCOUTS</span>
-      </h2>
-    </div>
-    <div style={{ ...anim(.3), display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,380px),1fr))', gap:'2rem', alignItems:'start' }}>
-      <p style={{ fontSize:'clamp(1rem,1.6vw,1.2rem)', color:'var(--muted)', fontWeight:400, lineHeight:1.82, maxWidth:520 }}>
-        {lang === 'fr'
-          ? "Stratège et créatif, j'apporte avec moi 3 expériences professionnelles solides dont une chez Hermès, une maîtrise des outils du marketing digital et une capacité prouvée à produire du contenu qui génère des résultats."
-          : "Strategic and creative, I bring 3 solid professional experiences including one at Hermès, a mastery of digital marketing tools, and a proven ability to produce content that drives results."
-        }
-      </p>
-      <div style={{ display:'flex', gap:'clamp(2rem,4vw,4rem)', flexWrap:'wrap' }}>
-        {[
-          { n:'3', l: lang === 'fr' ? 'Expériences pro' : 'Pro experiences' },
-          { n:'4', l: lang === 'fr' ? 'Projets publiés' : 'Published projects' },
-          { n:'2', l: lang === 'fr' ? 'Alternances' : 'Work-studies' },
-        ].map(({ n, l }) => (
-          <div key={l}>
-            <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:900, fontSize:'clamp(3rem,6vw,5rem)', color:'var(--fg)', lineHeight:1 }}>{n}</div>
-            <div style={{ fontFamily:"'DM Mono',monospace", fontSize:'.6rem', letterSpacing:'.15em', color:'var(--muted)', textTransform:'uppercase', marginTop:'.5rem' }}>{l}</div>
-          </div>
-        ))}
+function About() {
+  return (
+    <section id="about">
+      <div className="inner">
+        <div className="label-mono">À propos</div>
+        <RevealText>
+          <h2 className="section-title">
+            PROFIL <span className="huge-text-stroke">STRATÉGIQUE</span>
+          </h2>
+        </RevealText>
+        <AgencyCarousel />
       </div>
-    </div>
-  </div>
-  <div style={{ ...anim(.6), position:'absolute', bottom:'2.5rem', left:'50%', transform:'translateX(-50%)', display:'flex', flexDirection:'column', alignItems:'center', gap:'.4rem' }}>
-    <span style={{ fontFamily:"'DM Mono',monospace", fontSize:'.6rem', letterSpacing:'.2em', textTransform:'uppercase', color:'var(--muted)' }}>scroll</span>
-    <div style={{ width:1, height:40, background:'linear-gradient(to bottom, rgba(255,255,255,.5), transparent)' }} />
-  </div>
-</section>
-);
+    </section>
+  );
 }
 
-function PassionCarousel({ lang }) {
-const [cur, setCur] = useState(0);
-const slides = [
-{
-img: 'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg',
-label: 'BALLET & OPÉRA',
-sub: lang === 'fr' ? 'Onéguine · Lac des Cygnes · Paquita' : 'Onegin · Swan Lake · Paquita',
-},
-{
-img: 'https://cinedweller.com/wp-content/uploads/2025/03/queer-affiche.jpg.webp',
-label: 'CINÉMA',
-sub: lang === 'fr' ? 'The Substance · Queer · L\'Inconnu de la Grande Arche' : 'The Substance · Queer · L\'Inconnu de la Grande Arche',
-},
-{
-img: 'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false',
-label: 'MODE',
-sub: 'Balenciaga · Gucci · Hermès',
-},
-];
-const total = slides.length;
+function Experience() {
+  const exps = [
+    { date: 'Sept. 2025', company: 'Hermès', role: 'Communication Interne & IT' },
+    { date: '2024 - 2025', company: 'UNPPD', role: 'Chargé de Communication' },
+    { date: 'Mai 2024', company: 'Corporate Fiction', role: 'Communication Commerciale' }
+  ];
 
-useEffect(() => {
-const t = setInterval(() => setCur(c => (c + 1) % total), 4500);
-return () => clearInterval(t);
-}, []);
-
-return (
-<div style={{ position:'relative', borderRadius:20, overflow:'hidden', height:'clamp(350px,50vw,550px)', border:'1px solid var(--border)' }}>
-{slides.map((s, i) => (
-<div key={i} style={{
-position:'absolute', inset:0,
-opacity: i === cur ? 1 : 0,
-transform: i === cur ? 'scale(1)' : 'scale(1.05)',
-transition:'opacity 1.2s cubic-bezier(.77,0,.175,1), transform 1.2s cubic-bezier(.77,0,.175,1)',
-}}>
-<img src={s.img} alt={s.label} style={{ width:'100%', height:'100%', objectFit:'cover', filter:'brightness(.6)' }} />
-<div style={{ position:'absolute', inset:0, background:'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-<div style={{ position:'absolute', bottom:0, left:0, right:0, padding:'2.5rem' }}>
-<div style={{ fontFamily:"'DM Mono',monospace", fontSize:'.65rem', letterSpacing:'.25em', textTransform:'uppercase', color:'var(--muted)', marginBottom:'.8rem' }}>
-{lang === 'fr' ? 'Passion' : 'Passion'}
-</div>
-<div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:900, fontSize:'clamp(2.2rem,5vw,4.5rem)', lineHeight:1, letterSpacing:'-.03em', color:'var(--fg)' }}>
-{s.label}
-</div>
-<div style={{ fontFamily:"'DM Mono',monospace", fontSize:'.7rem', color:'var(--muted)', marginTop:'.8rem', letterSpacing:'.05em' }}>
-{s.sub}
-</div>
-</div>
-</div>
-))}
-  {[
-    { dir:'prev', icon:'‹', action:() => setCur(c => (c - 1 + total) % total), pos:'left:1.5rem' },
-    { dir:'next', icon:'›', action:() => setCur(c => (c + 1) % total), pos:'right:1.5rem' },
-  ].map(({ dir, icon, action, pos }) => (
-    <button key={dir} onClick={action} style={{
-      position:'absolute', top:'50%', transform:'translateY(-50%)',
-      [dir === 'prev' ? 'left' : 'right']: '1.5rem',
-      background:'rgba(255,255,255,.1)', backdropFilter:'blur(10px)',
-      border:'1px solid rgba(255,255,255,.2)', borderRadius:'50%',
-      width:45, height:45, display:'flex', alignItems:'center', justifyContent:'center',
-      color:'var(--fg)', fontSize:'1.5rem', transition:'background .3s',
-      zIndex:2,
-    }}
-    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,.2)'}
-    onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,.1)'}
-    >{icon}</button>
-  ))}
-  <div style={{ position:'absolute', bottom:'1.5rem', left:'50%', transform:'translateX(-50%)', display:'flex', gap:'.6rem', zIndex:2 }}>
-    {slides.map((_, i) => (
-      <button key={i} onClick={() => setCur(i)} style={{
-        width: i === cur ? 24 : 8, height:8, borderRadius:999,
-        background: i === cur ? 'var(--fg)' : 'rgba(255,255,255,.3)',
-        transition:'all .4s', padding:0,
-      }} />
-    ))}
-  </div>
-</div>
-);
-}
-
-function About({ lang }) {
-return (
-<section id="about" style={{ position:'relative', zIndex:1 }}>
-<div className="inner">
-<hr className="dv dv-v" />
-<div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,420px),1fr))', gap:'clamp(4rem,8vw,8rem)', alignItems:'start' }}>
-<Reveal>
-<div className="lbl" data-fr="À propos" data-en="About me">{lang === 'fr' ? 'À propos' : 'About me'}</div>
-<h2 style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:900, fontSize:'clamp(2.8rem,6vw,5.5rem)', lineHeight:.9, letterSpacing:'-.04em', color:'var(--fg)', marginBottom:'2.5rem' }}>
-{lang === 'fr' ? <>Profil<br/><span style={{ WebkitTextStroke:'1.5px rgba(255,255,255,.3)', color:'transparent' }}>stratégique</span></> : <>Strategic<br/><span style={{ WebkitTextStroke:'1.5px rgba(255,255,255,.3)', color:'transparent' }}>profile</span></>}
-</h2>
-<div style={{ display:'flex', flexDirection:'column', gap:'1.5rem' }}>
-{[
-lang === 'fr'
-? <><strong style={{color:'var(--fg)',fontWeight:700}}>Hugo Descouts</strong>, futur étudiant en MBA Marketing, Stratégies de Marque et Publicité à l’ISCOM Paris. Mon profil est à la fois <strong style={{color:'var(--fg)',fontWeight:700}}>stratégique et opérationnel</strong> - je conçois des lignes éditoriales, je les produis, je mesure leurs résultats.</>
-: <><strong style={{color:'var(--fg)',fontWeight:700}}>Hugo Descouts</strong>, future MBA student in Marketing, Brand Strategies and Advertising at ISCOM Paris. My profile is both <strong style={{color:'var(--fg)',fontWeight:700}}>strategic and operational</strong> - I design editorial lines, produce them, measure their results.</>,
-lang === 'fr'
-? <>Trois expériences dans des univers radicalement différents - <strong style={{color:'var(--fg)',fontWeight:700}}>Hermès</strong> pour le luxe et la communication interne, <strong style={{color:'var(--fg)',fontWeight:700}}>l’UNPPD</strong> pour la communication institutionnelle, <strong style={{color:'var(--fg)',fontWeight:700}}>Corporate Fiction</strong> pour l’environnement agence. Chaque poste m’a appris à m’adapter, à produire avec rigueur, à penser avec ambition.</>
-: <>Three experiences in radically different worlds - <strong style={{color:'var(--fg)',fontWeight:700}}>Hermès</strong> for luxury and internal communication, <strong style={{color:'var(--fg)',fontWeight:700}}>UNPPD</strong> for institutional communication, <strong style={{color:'var(--fg)',fontWeight:700}}>Corporate Fiction</strong> for agency work. Each role taught me to adapt, produce with rigour, and think with ambition.</>,
-].map((p, i) => (
-<p key={i} style={{ fontSize:'clamp(1rem,1.5vw,1.1rem)', color:'var(--muted)', fontWeight:400, lineHeight:1.82 }}>{p}</p>
-))}
-<p style={{ fontFamily:"'DM Mono',monospace", fontSize:'.75rem', color:'rgba(255,255,255,.4)', letterSpacing:'.08em', marginTop:'1rem' }}>
-Anglais C1 · Espagnol B1 · Paris 75019
-</p>
-</div>
-</Reveal>
-<Reveal delay={.2}>
-<div className="lbl">{lang === 'fr' ? 'Univers & sensibilités' : 'Universes & sensibilities'}</div>
-<PassionCarousel lang={lang} />
-</Reveal>
-</div>
-</div>
-</section>
-);
-}
-
-function Experience({ lang }) {
-const [open, setOpen] = useState(null);
-const exps = [
-{
-id:'hermes', type: lang === 'fr' ? 'Alternance' : 'Work-Study', typeStyle:'alt',
-date:'Sept. 2025 - Aujourd\'hui', company:'Hermès', isGold:true,
-role: lang === 'fr' ? 'Assistant Adoption et Communication Processus IT' : 'IT Process Adoption and Communication Assistant',
-bullets: lang === 'fr' ? [
-'Pilotage de la refonte intégrale du SharePoint intranet - optimisation UX et architecture de l\'information, générant plus de 2 000 visites hebdomadaires.',
-'Conception et déploiement de newsletters dédiées à l\'adoption des nouvelles procédures IT et à la diffusion d\'une culture digitale interne.',
-'Audit complet des processus existants, création et déploiement de nouveaux workflows pour fluidifier les méthodes de travail.',
-'Coordination de l\'organisation du séminaire de direction - recherches de lieux, négociations fournisseurs, gestion des devis.',
-] : [
-'Led the full redesign of the SharePoint intranet - UX optimisation and information architecture generating 2,000+ weekly visits.',
-'Designed and deployed newsletters dedicated to IT procedure adoption and internal digital culture.',
-'Full audit of existing processes, creation and deployment of new workflows to streamline team working methods.',
-'Coordinated the management seminar - venue research, supplier negotiations, quote management.',
-],
-chips:['SharePoint','Newsletter','JIRA', lang === 'fr' ? 'Communication interne' : 'Internal comms', lang === 'fr' ? 'Gestion de projet' : 'Project management', lang === 'fr' ? 'Luxe' : 'Luxury'],
-},
-{
-id:'unppd', type: lang === 'fr' ? 'Alternance' : 'Work-Study', typeStyle:'alt',
-date:'Sept. 2024 - Août 2025', company:'UNPPD', isGold:false,
-role: lang === 'fr' ? 'Chargé·e de Communication' : 'Communication Officer',
-bullets: lang === 'fr' ? [
-'Création et gestion d\'une ligne éditoriale social media - conception d\'une dizaine de carousels partenaires, multiplication par 5 de la communauté LinkedIn.',
-'Gestion bout-en-bout d\'un journal mensuel distribué à plus de 3 500 laboratoires - mise en page InDesign, rédaction, relation annonceurs.',
-'Animation du site WordPress - publications régulières, mise à jour des rubriques, optimisation de l\'expérience de lecture.',
-] : [
-'Created and managed a social media editorial line - designed 10+ partner carousels, LinkedIn community multiplied by 5.',
-'End-to-end management of a monthly journal distributed to 3,500+ laboratories - InDesign layout, writing, advertiser relations.',
-'WordPress website management - regular publications, section updates, reading experience optimisation.',
-],
-chips:['InDesign','Photoshop','WordPress','LinkedIn', lang === 'fr' ? 'Rédaction' : 'Copywriting','BtoB','Print'],
-},
-{
-id:'cf', type: lang === 'fr' ? 'Stage' : 'Internship', typeStyle:'stage',
-date:'Mai 2024 - Juin 2024', company:'Corporate Fiction', isGold:false,
-role: lang === 'fr' ? 'Communication Commerciale · Agence' : 'Commercial Communication · Agency',
-bullets: lang === 'fr' ? [
-'Immersion opérationnelle dans le fonctionnement d\'une agence de communication, de la prise de brief à la livraison client.',
-'Construction d\'une base de données prospects et développement de campagnes de prospection commerciale ciblées.',
-'Analyse des besoins en communication de partenaires avec formulation de recommandations stratégiques adaptées.',
-] : [
-'Operational immersion in agency life from brief intake to client delivery.',
-'Built a prospect database and developed targeted commercial prospecting campaigns.',
-'Analysis of partner communication needs with tailored strategic recommendations.',
-],
-chips: lang === 'fr' ? ['Prospection','Stratégie','Excel','Relation client','BDD'] : ['Prospecting','Strategy','Excel','Client relations','Database'],
-},
-];
-
-return (
-<section id="experience" style={{ position:'relative', zIndex:1 }}>
-<div className="inner">
-<hr className="dv dv-e" />
-<Reveal>
-<div className="lbl">{lang === 'fr' ? 'Parcours professionnel' : 'Professional path'}</div>
-<h2 style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:'clamp(2.2rem,5vw,5rem)', lineHeight:.9, letterSpacing:'-.04em', color:'var(--fg)', marginBottom:'2.5rem' }}>
-{lang === 'fr' ? <>Expériences<span style={{ display:'block', WebkitTextStroke:'1px rgba(255,255,255,.2)', color:'transparent' }}>professionnelles</span></> : <>Professional<span style={{ display:'block', WebkitTextStroke:'1px rgba(255,255,255,.2)', color:'transparent' }}>experience</span></>}
-</h2>
-</Reveal>
-<div style={{ display:'flex', flexDirection:'column', gap:'.85rem' }}>
-{exps.map((exp, i) => (
-<Reveal key={exp.id} delay={i * .08}>
-<ExpCard exp={exp} isOpen={open === exp.id} onToggle={() => setOpen(open === exp.id ? null : exp.id)} lang={lang} />
-</Reveal>
-))}
-</div>
-</div>
-</section>
-);
-}
-
-function ExpCard({ exp, isOpen, onToggle, lang }) {
-const [hovered, setHovered] = useState(false);
-return (
-<div
-onClick={onToggle}
-onMouseEnter={() => setHovered(true)}
-onMouseLeave={() => setHovered(false)}
-style={{
-borderRadius:18, background: exp.isGold ? (hovered ? 'rgba(232,201,122,.06)' : 'rgba(232,201,122,.03)') : (hovered ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.04)'),
-border: `1px solid ${exp.isGold ? (hovered ? 'rgba(232,201,122,.38)' : 'rgba(232,201,122,.16)') : (hovered ? 'rgba(255,255,255,.12)' : 'rgba(255,255,255,.07)')}`,
-overflow:'hidden', cursor:'pointer', transition:'all .3s',
-}}
->
-<div style={{ padding:'clamp(1.3rem,3vw,1.9rem) clamp(1.3rem,3vw,2rem)', display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'1rem' }}>
-<div style={{ flex:1, minWidth:0 }}>
-<div style={{ display:'flex', alignItems:'center', gap:'.6rem', marginBottom:'.55rem', flexWrap:'wrap' }}>
-<span style={{
-fontFamily:"'DM Mono',monospace", fontSize:'.54rem', letterSpacing:'.14em', textTransform:'uppercase',
-padding:'.18rem .5rem', borderRadius:4,
-border: `1px solid ${exp.typeStyle === 'alt' ? 'rgba(52,211,153,.32)' : 'rgba(245,158,11,.32)'}`,
-color: exp.typeStyle === 'alt' ? '#34d399' : '#f59e0b',
-}}>{exp.type}</span>
-<span style={{ fontFamily:"'DM Mono',monospace", fontSize:'.6rem', color:'rgba(255,255,255,.4)' }}>{exp.date}</span>
-</div>
-<div style={{
-fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800,
-fontSize:'clamp(1.3rem,2.8vw,2.2rem)', lineHeight:1.05, marginBottom:'.28rem',
-...(exp.isGold ? { background:'linear-gradient(135deg,#f0d98a,#c9a84c,#f0d98a)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundSize:'200% auto', animation:'shimmer 4s linear infinite' } : { color:'var(--fg)' }),
-}}>{exp.company}</div>
-<div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontSize:'.82rem', color:'var(--muted)', fontWeight:400 }}>{exp.role}</div>
-</div>
-<span style={{ color:'var(--muted)', fontSize:'1.05rem', transition:'transform .35s', transform: isOpen ? 'rotate(180deg)' : 'none', flexShrink:0, marginTop:'.4rem' }}>↓</span>
-</div>
-  <div style={{ maxHeight: isOpen ? 600 : 0, overflow:'hidden', transition:'max-height .55s cubic-bezier(.19,1,.22,1)' }}>
-    <div style={{ padding:'0 clamp(1.3rem,3vw,2rem) clamp(1.2rem,2vw,1.8rem)', borderTop:'1px solid rgba(255,255,255,.06)' }}>
-      <ul style={{ listStyle:'none', marginTop:'1.1rem', display:'flex', flexDirection:'column', gap:'.6rem' }}>
-        {exp.bullets.map((b, i) => (
-          <li key={i} style={{ fontSize:'.87rem', color:'var(--muted)', lineHeight:1.75, fontWeight:300, paddingLeft:'1.1rem', position:'relative' }}>
-            <span style={{ position:'absolute', left:0, color:'rgba(255,255,255,.3)', fontSize:'.72rem', top:'.08rem' }}>→</span>
-            {b}
-          </li>
-        ))}
-      </ul>
-      <div style={{ display:'flex', flexWrap:'wrap', gap:'.42rem', marginTop:'1rem' }}>
-        {exp.chips.map(c => (
-          <span key={c} style={{ fontFamily:"'DM Mono',monospace", fontSize:'.57rem', letterSpacing:'.07em', padding:'.22rem .6rem', borderRadius:999, background:'rgba(255,255,255,.06)', color:'var(--muted)', border:'1px solid rgba(255,255,255,.08)' }}>{c}</span>
-        ))}
-      </div>
-    </div>
-  </div>
-</div>
-);
-}
-
-function ProjCard({ id, featured, award, title, desc, accentColor, glowColor, img, lang, onOpen }) {
-const [hovered, setHovered] = useState(false);
-const gradients = {
-'#e8c97a': 'linear-gradient(135deg,rgba(232,201,122,.16) 0%,rgba(201,168,76,.07) 100%)',
-'#6ea8fe': 'linear-gradient(135deg,rgba(110,168,254,.16) 0%,rgba(99,102,241,.07) 100%)',
-'#f87171': 'linear-gradient(135deg,rgba(248,113,113,.16) 0%,rgba(239,68,68,.07) 100%)',
-'#c4b5fd': 'linear-gradient(135deg,rgba(196,181,253,.16) 0%,rgba(139,92,246,.07) 100%)',
-};
-const shadows = {
-'#e8c97a': 'rgba(232,201,122,.22)',
-'#6ea8fe': 'rgba(110,168,254,.22)',
-'#f87171': 'rgba(248,113,113,.22)',
-'#c4b5fd': 'rgba(196,181,253,.22)',
-};
-return (
-<div
-onClick={() => onOpen(id)}
-onMouseEnter={() => setHovered(true)}
-onMouseLeave={() => setHovered(false)}
-style={{
-borderRadius:18, padding:'clamp(1.5rem,3vw,2.2rem)',
-display:'flex', flexDirection:'column', justifyContent:'space-between',
-cursor:'pointer', position:'relative', overflow:'hidden',
-minHeight: featured ? 320 : 240,
-background: gradients[accentColor],
-border:`1px solid ${hovered ? accentColor + '55' : accentColor + '22'}`,
-transition:'all .35s cubic-bezier(.19,1,.22,1)',
-transform: hovered ? 'translateY(-6px)' : 'none',
-boxShadow: hovered ? `0 28px 70px -15px ${shadows[accentColor]}` : 'none',
-}}
->
-<div style={{ position:'absolute', width:200, height:200, borderRadius:'50%', top:'-25%', right:'-8%', background:accentColor, filter:'blur(65px)', opacity: hovered ? .3 : .14, transition:'opacity .3s', pointerEvents:'none' }} />
-  {img && (
-    <div style={{ position:'absolute', inset:0, borderRadius:18, overflow:'hidden', pointerEvents:'none' }}>
-      <img src={img} alt={title} style={{ width:'100%', height:'100%', objectFit:'cover', filter:'brightness(.18)', mixBlendMode:'luminosity' }} />
-    </div>
-  )}
-  <div style={{ position:'relative', zIndex:1 }}>
-    {award && (
-      <div style={{ display:'inline-flex', alignItems:'center', gap:'.35rem', background:'rgba(255,255,255,.1)', border:'1px solid rgba(255,255,255,.14)', borderRadius:999, padding:'.24rem .7rem', fontFamily:"'DM Mono',monospace", fontSize:'.54rem', letterSpacing:'.11em', textTransform:'uppercase', color:'var(--fg)', marginBottom:'.9rem', width:'fit-content' }}>
-        <span style={{ display:'inline-block', animation:'wobble 3.5s ease-in-out infinite' }}>🏆</span>
-        {lang === 'fr' ? 'Meilleur projet de promo' : 'Best class project'}
-      </div>
-    )}
-    <h3 style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize: featured ? 'clamp(1.6rem,3vw,2.5rem)' : 'clamp(1.2rem,2vw,1.7rem)', lineHeight:1.05, letterSpacing:'-.02em', color:'var(--fg)', marginBottom:'.65rem' }}>{title}</h3>
-    <p style={{ fontSize:'.82rem', color:'var(--muted)', lineHeight:1.65, fontWeight:300, marginBottom:'1.2rem' }}>{desc}</p>
-  </div>
-  <div style={{ position:'relative', zIndex:1, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-    <span style={{ fontFamily:"'DM Mono',monospace", fontSize:'.56rem', letterSpacing:'.12em', textTransform:'uppercase', padding:'.3rem .75rem', borderRadius:4, border:`1px solid ${accentColor}55`, color:accentColor, background:'transparent' }}>
-      {lang === 'fr' ? 'Voir le PDF' : 'View PDF'}
-    </span>
-    <span style={{ color:'rgba(255,255,255,.3)', transition:'transform .3s, color .3s', transform: hovered ? 'translate(4px,-4px)' : 'none', fontSize:'1.1rem' }}>↗</span>
-  </div>
-</div>
-);
-}
-
-function Projects({ lang }) {
-const projects = {
-fr: [
-{ id:'trempez', featured:true, award:true, accentColor:'#e8c97a', title:'TREMPEZ', desc:'Projet ambitieux distingué comme meilleur de la promotion pour sa vision, son exécution et son impact. Concept fort, storytelling soigné et stratégie de bout en bout.' },
-{ id:'tui', featured:true, award:true, accentColor:'#6ea8fe', title:"Déconnec'TUI", desc:'Concept digital detox développé pour TUI - offre de voyage ciblant les 25-35 ans en quête de sens. Distingué pour sa cohérence stratégique et sa pertinence de marché.', img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&fit=crop' },
-{ id:'rose', featured:false, accentColor:'#f87171', title:'Rose Festival', desc:'Stratégie de communication événementielle pour un festival culturel. Dispositif de communication, identité visuelle et plan de diffusion.' },
-{ id:'edu', featured:false, accentColor:'#c4b5fd', title:"Ministère de l’Éducation Nationale", desc:'Stratégie de communication institutionnelle. Analyse des publics, positionnement de marque et plan d\'action multicanal.' },
-],
-en: [
-{ id:'trempez', featured:true, award:true, accentColor:'#e8c97a', title:'TREMPEZ', desc:'Ambitious project distinguished as best of the cohort for its vision, execution and impact. Strong concept, refined storytelling, end-to-end strategy.' },
-{ id:'tui', featured:true, award:true, accentColor:'#6ea8fe', title:"Déconnec'TUI", desc:'Digital detox concept developed for TUI - travel offer targeting 25-35 year-olds seeking meaning. Recognised for its strategic coherence and market relevance.', img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&fit=crop' },
-{ id:'rose', featured:false, accentColor:'#f87171', title:'Rose Festival', desc:'Event communication strategy for a cultural festival. Communication framework, visual identity and distribution plan.' },
-{ id:'edu', featured:false, accentColor:'#c4b5fd', title:'Ministry of National Education', desc:'Institutional communication strategy. Audience analysis, brand positioning and multi-channel action plan.' },
-],
-};
-const list = projects[lang];
-const featured = list.filter(p => p.featured);
-const others = list.filter(p => !p.featured);
-
-return (
-<section id="projects" style={{ position:'relative', zIndex:1 }}>
-<div className="inner">
-<hr className="dv dv-r" />
-<Reveal>
-<div className="lbl">{lang === 'fr' ? 'Projets publiés' : 'Published projects'}</div>
-<h2 style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:'clamp(2.2rem,5vw,5rem)', lineHeight:.9, letterSpacing:'-.04em', color:'var(--fg)', marginBottom:'2.5rem' }}>
-Projets
-</h2>
-</Reveal>
-<Reveal delay={.1}>
-<div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,340px),1fr))', gap:'1.1rem', marginBottom:'1.1rem' }}>
-{featured.map(p => <ProjCard key={p.id} {...p} lang={lang} onOpen={oModal} />)}
-</div>
-<div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,280px),1fr))', gap:'.9rem' }}>
-{others.map(p => <ProjCard key={p.id} {...p} lang={lang} onOpen={oModal} />)}
-</div>
-</Reveal>
-</div>
-</section>
-);
-}
-
-function Skills({ lang }) {
-const cards = lang === 'fr' ? [
-{ icon:'📐', title:'Stratégie de communication', desc:'Plans multi-canal, positionnement de marque, analyse des publics, définition des messages clés.' },
-{ icon:'✍️', title:'Création de contenu', desc:'Production éditoriale, newsletters, posts, direction artistique de visuels print et digitaux.' },
-{ icon:'📱', title:'Social Media & Community', desc:'Stratégie de contenu, ligne éditoriale, croissance organique prouvée - multiplication par 5 des abonnés LinkedIn.' },
-{ icon:'🗂️', title:'Gestion de projet', desc:'Coordination d\'équipes, suivi des livrables, gestion des priorités. JIRA, SharePoint, environnements exigeants.' },
-{ icon:'📊', title:'Analyse & Data', desc:'Google Analytics, bases de données, reporting, insights actionnables pour piloter des campagnes.' },
-{ icon:'🎨', title:'Design & Production', desc:'Suite Adobe complète (InDesign, Photoshop, Illustrator), Canva, Figma, motion pour les réseaux.' },
-{ icon:'🌐', title:'Web & Digital', desc:'WordPress, WIX, HTML/CSS, SEO éditorial, Mailchimp, outils d\'automatisation.' },
-{ icon:'🎪', title:'Événementiel', desc:'Organisation logistique d\'événements corporate, coordination des parties prenantes, gestion fournisseurs.' },
-] : [
-{ icon:'📐', title:'Communication strategy', desc:'Multi-channel plans, brand positioning, audience analysis, key message definition.' },
-{ icon:'✍️', title:'Content creation', desc:'Editorial production, newsletters, posts, art direction for print and digital visuals.' },
-{ icon:'📱', title:'Social Media & Community', desc:'Content strategy, editorial line, proven organic growth - LinkedIn followers multiplied by 5.' },
-{ icon:'🗂️', title:'Project management', desc:'Team coordination, deliverable tracking, priority management. JIRA, SharePoint, demanding environments.' },
-{ icon:'📊', title:'Analytics & Data', desc:'Google Analytics, databases, reporting, actionable insights to drive campaigns.' },
-{ icon:'🎨', title:'Design & Production', desc:'Full Adobe Suite (InDesign, Photoshop, Illustrator), Canva, Figma, social media motion.' },
-{ icon:'🌐', title:'Web & Digital', desc:'WordPress, WIX, HTML/CSS, editorial SEO, Mailchimp, automation tools.' },
-{ icon:'🎪', title:'Event communication', desc:'Corporate event logistics, stakeholder coordination, supplier management.' },
-];
-
-return (
-<section id="skills" style={{ position:'relative', zIndex:1 }}>
-<div className="inner">
-<hr className="dv dv-v" />
-<Reveal>
-<div className="lbl">{lang === 'fr' ? 'Ce que j\'apporte' : 'What I bring'}</div>
-<h2 style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:'clamp(2.2rem,5vw,5rem)', lineHeight:.9, letterSpacing:'-.04em', color:'var(--fg)', marginBottom:'2.5rem' }}>
-{lang === 'fr' ? <>Expertises<span style={{ display:'block', WebkitTextStroke:'1px rgba(255,255,255,.2)', color:'transparent' }}>et savoir-faire</span></> : <>Areas of<span style={{ display:'block', WebkitTextStroke:'1px rgba(255,255,255,.2)', color:'transparent' }}>expertise</span></>}
-</h2>
-</Reveal>
-<Reveal delay={.1}>
-<div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,230px),1fr))', gap:'.8rem', marginBottom:'3rem' }}>
-{cards.map((c, i) => (
-<ExCard key={i} {...c} />
-))}
-</div>
-</Reveal>
-    <Reveal delay={.2}>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,300px),1fr))', gap:'2rem' }}>
-        <div>
-          <div className="lbl">{lang === 'fr' ? 'Outils maîtrisés' : 'Tools'}</div>
-          <div style={{ display:'flex', flexWrap:'wrap', gap:'.5rem' }}>
-            {['SharePoint','JIRA','InDesign','Photoshop','Illustrator','Canva','Figma','WordPress','WIX','Mailchimp','Pack Office','Google Analytics','ChatGPT','Midjourney','HTML / CSS'].map(t => (
-              <span key={t} style={{ fontFamily:"'DM Mono',monospace", fontSize:'.6rem', letterSpacing:'.07em', padding:'.3rem .8rem', borderRadius:999, background:'rgba(255,255,255,.05)', color:'var(--muted)', border:'1px solid rgba(255,255,255,.08)', transition:'all .25s', cursor:'default' }}
-                onMouseEnter={e => { e.target.style.background='rgba(196,181,253,.14)'; e.target.style.color='#c4b5fd'; e.target.style.borderColor='rgba(196,181,253,.28)'; }}
-                onMouseLeave={e => { e.target.style.background='rgba(255,255,255,.05)'; e.target.style.color='var(--muted)'; e.target.style.borderColor='rgba(255,255,255,.08)'; }}
-              >{t}</span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <div className="lbl">{lang === 'fr' ? 'Langues' : 'Languages'}</div>
-          <div style={{ display:'flex', flexDirection:'column', gap:'.1rem' }}>
-            {[
-              { name: lang === 'fr' ? 'Français' : 'French', level: lang === 'fr' ? 'Langue maternelle' : 'Native', color:'var(--muted)', border:'rgba(255,255,255,.12)' },
-              { name:'Anglais', level:'C1', color:'#c4b5fd', border:'rgba(196,181,253,.3)' },
-              { name:'Español', level:'B1', color:'#6ea8fe', border:'rgba(110,168,254,.3)' },
-            ].map(l => (
-              <div key={l.name} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'.65rem 0', borderBottom:'1px solid rgba(255,255,255,.06)' }}>
-                <span style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontSize:'.9rem', fontWeight:500, color:'var(--fg)' }}>{l.name}</span>
-                <span style={{ fontFamily:"'DM Mono',monospace", fontSize:'.58rem', padding:'.14rem .5rem', borderRadius:4, border:`1px solid ${l.border}`, color:l.color }}>{l.level}</span>
+  return (
+    <section id="experience">
+      <div className="inner">
+        <div className="label-mono">Parcours</div>
+        <RevealText>
+          <h2 className="section-title">
+            EXPÉRIENCES <span className="huge-text-stroke">CLÉS</span>
+          </h2>
+        </RevealText>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {exps.map((exp, i) => (
+            <FadeUp key={i} delay={i * 0.1}>
+              <div className="agency-card" style={{ padding: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
+                <div style={{ flex: 1 }}>
+                  <div className="label-mono" style={{ marginBottom: '0.5rem' }}>{exp.date}</div>
+                  <div style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>{exp.company}</div>
+                  <div style={{ color: 'var(--muted)', fontSize: '1.2rem' }}>{exp.role}</div>
+                </div>
+                <div style={{ width: '50px', height: '50px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
+                  ↗
+                </div>
               </div>
-            ))}
-          </div>
+            </FadeUp>
+          ))}
         </div>
       </div>
-    </Reveal>
-  </div>
-</section>
-);
+    </section>
+  );
 }
 
-function ExCard({ icon, title, desc }) {
-const [hovered, setHovered] = useState(false);
-return (
-<div
-onMouseEnter={() => setHovered(true)}
-onMouseLeave={() => setHovered(false)}
-style={{
-padding:'1.5rem 1.6rem', borderRadius:16,
-background: hovered ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.04)',
-border: `1px solid ${hovered ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.07)'}`,
-transition:'all .3s',
-transform: hovered ? 'translateY(-3px)' : 'none',
-}}
->
-<div style={{ fontSize:'1.4rem', marginBottom:'.7rem' }}>{icon}</div>
-<div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:700, fontSize:'.9rem', color:'var(--fg)', marginBottom:'.4rem', lineHeight:1.2 }}>{title}</div>
-<div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontSize:'.78rem', color:'var(--muted)', lineHeight:1.6, fontWeight:300 }}>{desc}</div>
-</div>
-);
-}
-
-function Formation({ lang }) {
-return (
-<section style={{ position:'relative', zIndex:1, paddingTop:0 }}>
-<div className="inner">
-<hr className="dv dv-g" />
-<Reveal>
-<div className="lbl">{lang === 'fr' ? 'Formations' : 'Education'}</div>
-<h2 style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:'clamp(2.2rem,5vw,5rem)', lineHeight:.9, letterSpacing:'-.04em', color:'var(--fg)', marginBottom:'2.5rem' }}>
-{lang === 'fr' ? <>Parcours<span style={{ display:'block', WebkitTextStroke:'1px rgba(255,255,255,.2)', color:'transparent' }}>académique</span></> : <>Academic<span style={{ display:'block', WebkitTextStroke:'1px rgba(255,255,255,.2)', color:'transparent' }}>path</span></>}
-</h2>
-</Reveal>
-<Reveal delay={.1}>
-<div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,320px),1fr))', gap:'1rem' }}>
-{[
-{ school:'ISCOM Paris', color:'#c4b5fd', degree: lang === 'fr' ? 'MBA Marketing, Stratégies de Marque et Publicité' : 'MBA Marketing, Brand Strategies and Advertising', dates:'2026 - 2028', detail: lang === 'fr' ? 'Rythme 4j entreprise / 1j école. Recherche alternance à partir de sept. 2026.' : 'Schedule 4 days company / 1 day school. Looking for work-study from Sept. 2026.' },
-{ school:'IUT de Paris Rives de Seine', color:'#6ea8fe', degree: lang === 'fr' ? 'BUT Information et Communication' : 'BUT Information and Communication', dates:'2023 - 2026', detail: lang === 'fr' ? 'Spécialisation Communication des Organisations. Trésorier de l\'Agence Hélice (2024-2025), pôle création (2023-2024).' : 'Organisational Communication specialisation. Treasurer of Agence Hélice (2024-2025), creation team (2023-2024).' },
-].map((e, i) => (
-<div key={i} className="glass" style={{ padding:'1.9rem 2rem' }}>
-<div style={{ fontFamily:"'DM Mono',monospace", fontSize:'.58rem', letterSpacing:'.14em', textTransform:'uppercase', color:e.color, marginBottom:'.45rem' }}>{e.school}</div>
-<div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:'clamp(.95rem,1.8vw,1.3rem)', color:'var(--fg)', lineHeight:1.18, marginBottom:'.5rem' }}>{e.degree}</div>
-<div style={{ fontFamily:"'DM Mono',monospace", fontSize:'.6rem', color:'rgba(255,255,255,.3)', marginBottom:'.75rem' }}>{e.dates}</div>
-<div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontSize:'.82rem', color:'var(--muted)', lineHeight:1.65, fontWeight:300 }}>{e.detail}</div>
-</div>
-))}
-</div>
-</Reveal>
-</div>
-</section>
-);
-}
-
-function Contact({ lang }) {
-return (
-<section id="contact" style={{ position:'relative', zIndex:1, textAlign:'center' }}>
-<div className="inner">
-<hr className="dv dv-r" />
-<Reveal>
-<div className="lbl" style={{ justifyContent:'center' }}>{lang === 'fr' ? 'Travaillons ensemble' : "Let's work together"}</div>
-      <h2 style={{
-        fontFamily:"'Playfair Display', serif",
-        fontStyle:'italic',
-        fontWeight:900,
-        fontSize:'clamp(4rem,15vw,14rem)',
-        lineHeight:.88,
-        letterSpacing:'-.02em',
-        background:'linear-gradient(135deg,#ffffff 0%,rgba(255,255,255,.4) 100%)',
-        WebkitBackgroundClip:'text',
-        WebkitTextFillColor:'transparent',
-        marginBottom:'2.5rem',
-      }}>
-        Disons<br/>Bonjour.
-      </h2>
-      <p style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontSize:'clamp(1rem,1.5vw,1.1rem)', color:'var(--muted)', maxWidth:500, margin:'0 auto 4rem', lineHeight:1.75 }}>
-        {lang === 'fr'
-          ? 'Alternance 2 ans à partir de sept. 2026 · MBA ISCOM · Marketing · Stratégie de marque · Publicité'
-          : '2-year work-study from Sept. 2026 · MBA ISCOM · Marketing · Brand strategy · Advertising'
-        }
-      </p>
-    </Reveal>
-    <Reveal delay={.15}>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,240px),1fr))', gap:'.9rem', maxWidth:840, margin:'0 auto 4rem', textAlign:'left' }}>
-        {[
-          { label:'Email', content: <a href="mailto:hugo.descouts@outlook.fr" style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:700, fontSize:'clamp(.85rem,1.3vw,1rem)', background:'linear-gradient(135deg,#818cf8,#c4b5fd)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', wordBreak:'break-all', lineHeight:1.45 }}>hugo.descouts@outlook.fr</a> },
-          { label: lang === 'fr' ? 'Téléphone' : 'Phone', content: <a href="tel:+33762034563" style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontSize:'.9rem', color:'var(--muted)' }}>07 62 03 45 63</a> },
-          { label: lang === 'fr' ? 'Localisation' : 'Location', content: <span style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:'1.5rem', color:'var(--fg)', letterSpacing:'-.02em' }}>Paris 75019 🇫🇷</span> },
-        ].map((c, i) => (
-          <div key={i} className="glass" style={{ padding:'1.7rem' }}>
-            <div className="lbl">{c.label}</div>
-            {c.content}
+function Contact() {
+  return (
+    <section id="contact" style={{ textAlign: 'center', paddingBottom: '10vh' }}>
+      <div className="inner">
+        <FadeUp>
+          <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 900, fontSize: 'clamp(5rem, 15vw, 12rem)', lineHeight: 0.9, marginBottom: '3rem' }}>
+            Disons<br/>Bonjour.
           </div>
-        ))}
+        </FadeUp>
+        <FadeUp delay={0.2}>
+          <a href="mailto:hugo.descouts@outlook.fr" style={{ display: 'inline-block', background: '#ffffff', color: '#000000', padding: '1.5rem 3rem', borderRadius: '999px', fontSize: '1.2rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            Me contacter
+          </a>
+        </FadeUp>
       </div>
-    </Reveal>
-  </div>
-  <footer style={{ borderTop:'1px solid rgba(255,255,255,.1)', padding:'2rem', textAlign:'center', marginTop:'4rem' }}>
-    <p style={{ fontFamily:"'DM Mono',monospace", fontSize:'.65rem', letterSpacing:'.15em', color:'rgba(255,255,255,.3)', textTransform:'uppercase' }}>
-      © 2026 Hugo Descouts · MBA ISCOM Paris · {lang === 'fr' ? 'Fait avec intention' : 'Made with intention'}
-    </p>
-  </footer>
-</section>
-);
+    </section>
+  );
 }
 
 function App() {
-const [lang, setLangState] = useState('fr');
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  }, []);
 
-useEffect(() => {
-window.addEventListener('scroll', () => {
-document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 50);
-});
-}, []);
-
-window.setLang = (l) => {
-setLangState(l);
-document.getElementById('lFr')?.classList.toggle('on', l === 'fr');
-document.getElementById('lEn')?.classList.toggle('on', l === 'en');
-document.getElementById('mlFr')?.classList.toggle('on', l === 'fr');
-document.getElementById('mlEn')?.classList.toggle('on', l === 'en');
-};
-
-return (
-<>
-<Orbs />
-<div className="page">
-<Ticker />
-<Hero lang={lang} />
-<About lang={lang} />
-<Experience lang={lang} />
-<Projects lang={lang} />
-<Skills lang={lang} />
-<Formation lang={lang} />
-<Contact lang={lang} />
-</div>
-</>
-);
+  return (
+    <div className="page">
+      <Hero />
+      <Ticker />
+      <About />
+      <Experience />
+      <Contact />
+    </div>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
-
-<script>
-function oMenu(){document.getElementById('mMenu').classList.add('open');document.body.style.overflow='hidden'}
-function cMenu(){document.getElementById('mMenu').classList.remove('open');document.body.style.overflow=''}
-
-const pdfStore = {};
-let curId = '';
-const meta = {
-  trempez:{ tag:'Projet primé', ttl:'TREMPEZ', color:'#e8c97a', grad:'linear-gradient(135deg,#e8c97a,#c9a84c)' },
-  tui:{ tag:'Projet primé', ttl:"Déconnec'TUI", color:'#6ea8fe', grad:'linear-gradient(135deg,#6ea8fe,#818cf8)' },
-  rose:{ tag:'Projet', ttl:'Rose Festival', color:'#f87171', grad:'linear-gradient(135deg,#f87171,#ec4899)' },
-  edu:{ tag:'Projet', ttl:"Ministère de l'Éducation Nationale", color:'#c4b5fd', grad:'linear-gradient(135deg,#c4b5fd,#818cf8)' },
-};
-function oModal(id) {
-  curId = id;
-  const m = meta[id];
-  document.getElementById('mTag').textContent = m.tag;
-  document.getElementById('mTag').style.color = m.color;
-  document.getElementById('mTtl').textContent = m.ttl;
-  document.getElementById('pdfLbl').style.background = m.grad;
-  const frame = document.getElementById('pdfFrame'), ph = document.getElementById('pdfPh');
-  if (pdfStore[id]) { frame.src = pdfStore[id]; frame.style.display = 'block'; ph.style.display = 'none'; }
-  else { frame.src = ''; frame.style.display = 'none'; ph.style.display = 'flex'; document.getElementById('pdfInp').value = ''; }
-  document.getElementById('modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function cModal() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow = ''; }
-function loadPdf(input) {
-  const file = input.files[0]; if (!file) return;
-  const url = URL.createObjectURL(file);
-  pdfStore[curId] = url;
-  const frame = document.getElementById('pdfFrame');
-  frame.src = url; frame.style.display = 'block';
-  document.getElementById('pdfPh').style.display = 'none';
-}
-document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) cModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') cModal(); });
-</script>
-
 </body>
 </html>
