@@ -3,447 +3,283 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Hugo Descouts</title>
+<title>Hugo Descouts — Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
-/* ─── TOKENS ─── */
-:root{
-  --cream:#F2EDE4;
-  --ink:#0D0D0D;
-  --red:#E8210A;
-  --ink60:rgba(13,13,13,.6);
-  --ink20:rgba(13,13,13,.12);
-  --ink08:rgba(13,13,13,.08);
+:root {
+  --bg: #050505;
+  --bg1: #0a0a0a;
+  --bg2: #0f0f0f;
+  --fg: #f0ede6;
+  --g: #00FF87;
+  --g2: #00cc6a;
+  --g-glow: rgba(0,255,135,.15);
+  --m: rgba(240,237,230,.45);
+  --b: rgba(240,237,230,.08);
+  --b2: rgba(0,255,135,.2);
 }
 
-/* ─── RESET ─── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;background:var(--cream)}
-body{background:var(--cream);color:var(--ink);font-family:'Cabinet Grotesk',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-img{display:block;max-width:100%}
-button{cursor:pointer;border:none;background:none;color:inherit;font-family:inherit}
-a{color:inherit;text-decoration:none}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--cream)}
-::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body { background: var(--bg); color: var(--fg); font-family: 'Syne', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; cursor: none; }
+img { display: block; max-width: 100%; }
+button { cursor: none; border: none; background: none; color: inherit; font-family: inherit; }
+a { color: inherit; text-decoration: none; cursor: none; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--g); border-radius: 2px; }
 
-/* ─── NOISE ─── */
-body::after{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:998;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity:.6;
-}
+/* ── CURSOR ── */
+#cur { position: fixed; z-index: 9999; pointer-events: none; width: 8px; height: 8px; background: var(--g); border-radius: 50%; transform: translate(-50%,-50%); transition: width .3s, height .3s; mix-blend-mode: difference; }
+#cur-r { position: fixed; z-index: 9998; pointer-events: none; width: 38px; height: 38px; border: 1px solid rgba(0,255,135,.4); border-radius: 50%; transform: translate(-50%,-50%); transition: width .4s, height .4s, opacity .3s; }
+.hovering #cur { width: 22px; height: 22px; }
+.hovering #cur-r { width: 64px; height: 64px; opacity: .5; }
 
-/* ─── NAV ─── */
-#nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  padding:clamp(1rem,2.5vw,1.8rem) clamp(1.5rem,4vw,3.5rem);
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  transition:background .35s,border-color .35s;
-}
-#nav.scrolled{background:rgba(242,237,228,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--ink20)}
-.nav-logo{
-  font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.08em;
-  color:var(--ink);line-height:1;user-select:none;
-}
-.nav-links{display:flex;gap:clamp(1.5rem,3vw,3rem);align-items:center}
-.nav-links a{
-  font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--ink60);transition:color .2s;white-space:nowrap;
-}
-.nav-links a:hover{color:var(--ink)}
-.hbg{display:none;color:var(--ink);font-size:1.4rem;padding:.25rem}
+/* ── NOISE ── */
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 997;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E"); opacity: .6; }
 
-/* ─── MOBILE MENU ─── */
-.mob{
-  display:none;position:fixed;inset:0;background:var(--cream);z-index:300;
-  flex-direction:column;justify-content:flex-end;
-  padding:clamp(2.5rem,6vw,5rem);gap:1.5rem;
-}
-.mob.open{display:flex}
-.mob a{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,6rem);
-  letter-spacing:.03em;color:var(--ink);line-height:1.1;border-bottom:1px solid var(--ink20);
-  padding-bottom:.4rem;
-}
-.mob a:hover{color:var(--red)}
-.mob-x{position:absolute;top:1.8rem;right:2rem;font-size:1.8rem;color:var(--ink60)}
+/* ── TICKER ── */
+.tk { overflow: hidden; border-top: 1px solid var(--b2); border-bottom: 1px solid var(--b2); background: var(--bg); padding: .75rem 0; }
+.tk-t { display: flex; width: max-content; animation: tk 30s linear infinite; }
+.tk-t.rev { animation-direction: reverse; animation-duration: 24s; }
+@keyframes tk { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.tk-i { font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--m); white-space: nowrap; padding: 0 2rem; }
+.tk-i.g { color: var(--g); }
 
-/* ─── TICKER ─── */
-.ticker-wrap{
-  overflow:hidden;
-  border-top:1.5px solid var(--ink);
-  border-bottom:1.5px solid var(--ink);
-  background:var(--ink);
-  position:relative;z-index:10;
-  padding:.9rem 0;
-}
-.t-track{display:flex;width:max-content;animation:tick 32s linear infinite}
-@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.t-item{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1.4rem;letter-spacing:.08em;
-  color:var(--cream);white-space:nowrap;padding:0 2.5rem;
-}
-.t-item.acc{color:var(--red)}
+/* ── NAV ── */
+#nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; padding: 1.4rem clamp(1.5rem,4vw,3rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; transition: background .4s, border-color .4s; }
+#nav.sc { background: rgba(5,5,5,.95); backdrop-filter: blur(24px); border-bottom: 1px solid var(--b); }
+.n-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: .08em; color: var(--g); line-height: 1; }
+.n-links { display: flex; gap: 2rem; }
+.n-links a { font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--m); transition: color .25s; }
+.n-links a:hover { color: var(--g); }
+.hbg { display: none; font-size: 1.5rem; color: var(--fg); padding: .25rem; }
 
-/* ─── PAGE WRAPPER ─── */
-.page{position:relative;z-index:1}
-section{padding:clamp(5rem,10vw,10rem) clamp(1.5rem,5vw,4.5rem)}
-.inner{max-width:1380px;margin:0 auto}
+/* ── MOB MENU ── */
+.mob { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 600; flex-direction: column; justify-content: flex-end; padding: clamp(3rem,7vw,5rem); gap: 1.2rem; }
+.mob.open { display: flex; }
+.mob a { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,10vw,6rem); color: var(--fg); line-height: 1.1; border-bottom: 1px solid var(--b); padding-bottom: .4rem; transition: color .3s; letter-spacing: .02em; }
+.mob a:hover { color: var(--g); }
+.mob-x { position: absolute; top: 1.8rem; right: 2rem; font-size: 1.8rem; color: var(--m); }
 
-/* ─── TYPOGRAPHY HELPERS ─── */
-.bb{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(4.5rem,14vw,16rem);
-  line-height:.88;letter-spacing:.01em;
-  color:var(--ink);display:block;
-}
-.bb-o{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(4.5rem,14vw,16rem);
-  line-height:.88;letter-spacing:.01em;
-  -webkit-text-stroke:1.5px var(--ink);color:transparent;display:block;
-}
-.sh{/* section head */
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(3rem,9vw,10rem);
-  line-height:.9;letter-spacing:.01em;color:var(--ink);
-}
-.sh-o{-webkit-text-stroke:1.5px var(--ink);color:transparent}
-.mono{
-  font-family:'DM Mono',monospace;font-size:.68rem;
-  letter-spacing:.25em;text-transform:uppercase;color:var(--red);
-  display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;
-}
-.mono::before{content:'';width:2rem;height:1.5px;background:var(--red);flex-shrink:0}
-.body{
-  font-size:clamp(.95rem,1.4vw,1.15rem);
-  color:var(--ink60);line-height:1.82;font-weight:400;
-}
-.body strong{color:var(--ink);font-weight:700}
-hr.dv{height:1.5px;border:none;background:var(--ink20);margin-bottom:clamp(3rem,5vw,5rem)}
+/* ── LAYOUT ── */
+.page { position: relative; z-index: 1; }
+section { padding: clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4.5rem); }
+.inner { max-width: 1380px; margin: 0 auto; }
 
-/* ─── CLIP REVEAL ─── */
-.clip{overflow:hidden;display:block}
-.clip-inner{
-  display:block;
-  transform:translateY(105%);
-  transition:transform 1.3s cubic-bezier(.19,1,.22,1);
-}
-.clip-inner.in{transform:none}
-.fu{/* fade-up */
-  opacity:0;transform:translateY(3rem);
-  transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.19,1,.22,1);
-}
-.fu.in{opacity:1;transform:none}
+/* ── SCROLL REVEAL ── */
+.fu { opacity: 0; transform: translateY(2.8rem); transition: opacity .9s ease, transform .9s cubic-bezier(.19,1,.22,1); }
+.fu.in { opacity: 1; transform: none; }
+.cl { overflow: hidden; display: block; }
+.cl-i { display: block; transform: translateY(108%); transition: transform 1.3s cubic-bezier(.19,1,.22,1); }
+.cl-i.in { transform: none; }
 
-/* ─── HERO ─── */
-#hero{
-  min-height:100svh;display:flex;flex-direction:column;
-  justify-content:flex-end;
-  padding-top:8rem;padding-bottom:clamp(3rem,5vw,5rem);
-  border-bottom:1.5px solid var(--ink);position:relative;
-}
-.hero-line{overflow:hidden}
-.hero-overline{
-  font-family:'DM Mono',monospace;font-size:.7rem;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--ink60);
-  display:flex;align-items:center;gap:.7rem;margin-bottom:2.5rem;
-}
-.live{
-  width:8px;height:8px;border-radius:50%;background:var(--red);
-  box-shadow:0 0 8px var(--red);flex-shrink:0;
-  animation:blink 2s infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.hero-bottom{
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:flex-end;gap:2rem;
-  margin-top:clamp(2rem,4vw,4rem);
-}
-.hero-desc{
-  font-size:clamp(1rem,1.5vw,1.25rem);
-  color:var(--ink60);line-height:1.75;max-width:560px;
-}
-.hero-stats{display:flex;gap:clamp(2rem,4vw,4rem);flex-wrap:wrap;justify-content:flex-end}
-.stat-n{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,5rem);color:var(--red);line-height:1}
-.stat-l{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink60);margin-top:.3rem}
+/* ── TYPE ── */
+.bb { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem,15vw,17rem); line-height: .88; letter-spacing: .01em; color: var(--fg); display: block; }
+.bb-o { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem,15vw,17rem); line-height: .88; letter-spacing: .01em; -webkit-text-stroke: 1.5px rgba(240,237,230,.2); color: transparent; display: block; }
+.sh { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,9vw,10rem); line-height: .9; letter-spacing: .01em; color: var(--fg); }
+.sh-o { -webkit-text-stroke: 1.5px rgba(240,237,230,.18); color: transparent; }
+.lbl { font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .3em; text-transform: uppercase; color: var(--g); display: flex; align-items: center; gap: .8rem; margin-bottom: 1.5rem; }
+.lbl::before { content: ''; width: 2rem; height: 1px; background: var(--g); flex-shrink: 0; }
+hr.dv { height: 1px; border: none; background: linear-gradient(to right, transparent, var(--g), transparent); margin-bottom: clamp(3rem,5vw,5rem); opacity: .25; }
+.body-t { font-size: clamp(.95rem,1.4vw,1.1rem); color: var(--m); line-height: 1.85; font-weight: 400; }
+.body-t strong { color: var(--fg); font-weight: 700; }
 
-/* ─── PASSIONS STRIP ─── */
-.passion-strip{
-  display:grid;grid-template-columns:repeat(3,1fr);
-}
-.p-panel{
-  position:relative;overflow:hidden;
-  aspect-ratio:2/3;cursor:default;
-}
-.p-panel img{
-  width:100%;height:100%;object-fit:cover;
-  filter:grayscale(100%) contrast(1.05);
-  transition:transform .9s cubic-bezier(.19,1,.22,1),filter .7s;
-}
-.p-panel:hover img{transform:scale(1.06);filter:grayscale(0%) contrast(1)}
-.p-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(13,13,13,.92) 0%,rgba(13,13,13,.15) 50%,transparent 100%);
-}
-.p-label{position:absolute;bottom:0;left:0;right:0;padding:clamp(1.5rem,3vw,2.5rem)}
-.p-cat{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--red);margin-bottom:.6rem}
-.p-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(2rem,5vw,4.5rem);
-  letter-spacing:.03em;color:#fff;line-height:1;
-}
-.p-panel:not(:last-child){border-right:1.5px solid var(--ink20)}
+/* ── HERO ── */
+#hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding-top: 8rem; position: relative; overflow: hidden; border-bottom: 1px solid var(--b); }
+.h-glow { position: absolute; top: -20%; right: -10%; width: 70vw; height: 70vw; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,135,.05) 0%, transparent 65%); pointer-events: none; animation: pulse-g 8s ease-in-out infinite; }
+@keyframes pulse-g { 0%,100% { transform: scale(1); opacity: .6; } 50% { transform: scale(1.1); opacity: 1; } }
+.h-grid-bg { position: absolute; inset: 0; pointer-events: none; opacity: .04;
+  background-image: linear-gradient(var(--g) 1px, transparent 1px), linear-gradient(90deg, var(--g) 1px, transparent 1px);
+  background-size: clamp(40px,5vw,80px) clamp(40px,5vw,80px); }
+.h-ov { font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .24em; text-transform: uppercase; color: var(--m); display: flex; align-items: center; gap: .7rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.live { width: 8px; height: 8px; border-radius: 50%; background: var(--g); box-shadow: 0 0 10px var(--g); flex-shrink: 0; animation: blink 2s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .15; } }
+.h-bottom { display: grid; grid-template-columns: 1fr auto; align-items: flex-end; gap: 2rem; padding-bottom: clamp(3rem,5vw,5rem); margin-top: 2.5rem; }
+.s-n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,6vw,5.5rem); color: var(--g); line-height: 1; }
+.s-l { font-family: 'DM Mono', monospace; font-size: .57rem; letter-spacing: .15em; text-transform: uppercase; color: var(--m); margin-top: .3rem; }
 
-/* ─── EXPERIENCE ─── */
-.xp-item{
-  border-bottom:1.5px solid var(--ink20);
-  padding:clamp(2rem,4vw,3.5rem) 0;
-  cursor:pointer;transition:padding .4s;
-}
-.xp-item:first-child{border-top:1.5px solid var(--ink20)}
-.xp-item:hover{padding-left:1rem}
-.xp-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(1.5rem,3vw,3rem)}
-.xp-logo{
-  width:clamp(52px,6vw,72px);height:clamp(52px,6vw,72px);
-  background:#fff;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  padding:8px;flex-shrink:0;overflow:hidden;
-  border:1px solid var(--ink20);
-}
-.xp-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.xp-co{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(2rem,5vw,4.5rem);
-  line-height:1;letter-spacing:.02em;color:var(--ink);
-  transition:color .3s;
-}
-.xp-item:hover .xp-co,.xp-item.open .xp-co{color:var(--red)}
-.xp-role{font-size:clamp(.82rem,1.2vw,1rem);color:var(--ink60);margin-top:.3rem;font-weight:400}
-.xp-badge{
-  font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.12em;
-  text-transform:uppercase;padding:.2rem .55rem;border-radius:3px;
-  border:1px solid;display:inline-block;margin-bottom:.4rem;
-}
-.xp-badge.alt{color:#059669;border-color:rgba(5,150,105,.35)}
-.xp-badge.stage{color:#d97706;border-color:rgba(217,119,6,.35)}
-.xp-date{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--ink60);text-transform:uppercase;white-space:nowrap}
-.xp-plus{font-size:2rem;color:var(--ink20);transition:transform .4s,color .3s;flex-shrink:0}
-.xp-item:hover .xp-plus,.xp-item.open .xp-plus{color:var(--red)}
-.xp-item.open .xp-plus{transform:rotate(45deg)}
-.xp-body{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.19,1,.22,1)}
-.xp-body.open{max-height:700px}
-.xp-inner{
-  padding:2rem 0 .5rem 0;
-  padding-left:calc(clamp(52px,6vw,72px) + clamp(1.5rem,3vw,3rem));
-  border-top:1px solid var(--ink08);margin-top:1rem;
-}
-.xp-ul{list-style:none;display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.5rem}
-.xp-ul li{
-  font-size:clamp(.88rem,1.2vw,1.05rem);
-  color:var(--ink60);line-height:1.7;display:flex;gap:1rem;
-}
-.xp-ul li::before{content:'→';color:var(--red);flex-shrink:0}
-.chips{display:flex;flex-wrap:wrap;gap:.5rem}
-.chip{
-  font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
-  padding:.3rem .85rem;border-radius:3px;
-  border:1px solid var(--ink20);color:var(--ink60);
-}
+/* ── HERMÈS SECTION ── */
+#hermes { padding: 0; position: relative; min-height: 100vh; display: flex; align-items: flex-end; overflow: hidden; }
+.hm-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0d0800 0%, #1c1005 35%, #0d0800 100%); }
+.hm-img { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1800&q=80&fit=crop&crop=center'); background-size: cover; background-position: center; opacity: .07; mix-blend-mode: luminosity; }
+.hm-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 90% 80% at 60% 30%, rgba(201,150,58,.1) 0%, transparent 65%); }
+.hm-lines { position: absolute; inset: 0; pointer-events: none; }
+.hm-line { position: absolute; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(201,150,58,.08), transparent); }
+.hm-content { position: relative; z-index: 2; width: 100%; max-width: 1380px; margin: 0 auto; padding: clamp(5rem,9vw,8rem) clamp(1.5rem,5vw,4.5rem); }
+.hm-badge { display: inline-flex; align-items: center; gap: .7rem; background: rgba(201,150,58,.1); border: 1px solid rgba(201,150,58,.3); border-radius: 999px; padding: .4rem 1.3rem; font-family: 'DM Mono', monospace; font-size: .63rem; letter-spacing: .2em; text-transform: uppercase; color: #C9963A; margin-bottom: 2.5rem; }
+.hm-top { display: flex; align-items: center; gap: 2.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.hm-logo { width: clamp(90px,10vw,130px); height: clamp(90px,10vw,130px); background: #fff; border-radius: 18px; display: flex; align-items: center; justify-content: center; padding: 14px; box-shadow: 0 0 80px rgba(201,150,58,.22); flex-shrink: 0; overflow: hidden; border: 2px solid rgba(201,150,58,.2); }
+.hm-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.hm-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem,12vw,11rem); color: #C9963A; line-height: .9; text-shadow: 0 0 100px rgba(201,150,58,.2); letter-spacing: .02em; }
+.hm-role { font-family: 'DM Mono', monospace; font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; color: rgba(201,150,58,.65); margin-bottom: .7rem; }
+.hm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,400px), 1fr)); gap: 4rem; margin-top: 3rem; align-items: start; }
+.hm-ul { list-style: none; display: flex; flex-direction: column; gap: .9rem; margin-bottom: 1.8rem; }
+.hm-ul li { font-size: clamp(.88rem,1.2vw,1.02rem); color: rgba(240,237,230,.55); line-height: 1.75; display: flex; gap: 1rem; }
+.hm-ul li::before { content: '◆'; color: #C9963A; font-size: .45rem; margin-top: .38rem; flex-shrink: 0; }
+.hm-chip { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .32rem .9rem; border-radius: 3px; border: 1px solid rgba(201,150,58,.3); color: #C9963A; display: inline-block; }
+.hm-kpi-row { display: flex; gap: clamp(2rem,4vw,4rem); flex-wrap: wrap; padding: 2rem; background: rgba(201,150,58,.05); border: 1px solid rgba(201,150,58,.12); border-radius: 14px; }
+.hm-kpi-n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem,5vw,4rem); color: #C9963A; line-height: 1; }
+.hm-kpi-l { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(201,150,58,.55); margin-top: .3rem; max-width: 130px; }
 
-/* ─── PROJECTS ─── */
-.proj-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  border:1.5px solid var(--ink);
-}
-.proj-cell{
-  padding:clamp(2rem,4vw,3.5rem);
-  border-right:1.5px solid var(--ink);
-  border-bottom:1.5px solid var(--ink);
-  cursor:pointer;
-  transition:background .3s;
-  display:flex;flex-direction:column;justify-content:space-between;
-  min-height:clamp(280px,28vw,380px);
-  position:relative;overflow:hidden;
-}
-.proj-cell:hover{background:var(--ink)}
-.proj-cell:hover .proj-num,.proj-cell:hover .proj-title,.proj-cell:hover .proj-desc,.proj-cell:hover .proj-cta-txt{color:#fff}
-.proj-cell:hover .proj-cta-arrow{color:var(--red)}
-.proj-cell:nth-child(2n){border-right:none}
-.proj-cell:nth-child(3),.proj-cell:nth-child(4){border-bottom:none}
-.proj-num{
-  font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;
-  color:var(--ink60);transition:color .3s;margin-bottom:1rem;
-  display:flex;align-items:center;gap:.7rem;
-}
-.proj-award{
-  font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;
-  text-transform:uppercase;border:1px solid var(--red);color:var(--red);
-  padding:.2rem .6rem;border-radius:2px;display:inline-block;
-}
-.proj-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(2.5rem,4.5vw,5.5rem);
-  line-height:.92;letter-spacing:.01em;color:var(--ink);
-  transition:color .3s;margin-bottom:.8rem;
-}
-.proj-desc{
-  font-size:clamp(.85rem,1.1vw,.95rem);
-  color:var(--ink60);line-height:1.65;flex:1;
-  margin-bottom:2rem;transition:color .3s;
-}
-.proj-cta{display:flex;align-items:center;justify-content:space-between}
-.proj-cta-txt{
-  font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--ink60);
-  border-bottom:1px solid var(--ink20);padding-bottom:.15rem;
-  transition:color .3s;
-}
-.proj-cta-arrow{font-size:1.4rem;color:var(--ink20);transition:transform .35s,color .3s}
-.proj-cell:hover .proj-cta-arrow{transform:translate(6px,-6px)}
+/* ── PHOTO + ABOUT ── */
+#about { background: var(--bg1); }
+.ab-grid { display: grid; grid-template-columns: clamp(260px, 28vw, 380px) 1fr; gap: clamp(3rem,6vw,7rem); align-items: start; }
+.ph-frame { border-radius: 14px; overflow: hidden; aspect-ratio: 3/4; position: relative; border: 1px solid var(--b2); }
+.ph-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); }
+.ph-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,5,5,.6) 0%, transparent 55%); pointer-events: none; }
+.ph-cap { position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; z-index: 2; }
+.ph-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #fff; letter-spacing: .03em; line-height: 1; }
+.ph-sub { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-top: .3rem; }
 
-/* ─── SKILLS ─── */
-.sk-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));
-  border:1.5px solid var(--ink);
-}
-.sk-card{
-  padding:2.2rem 2.4rem;
-  border-right:1.5px solid var(--ink);
-  border-bottom:1.5px solid var(--ink);
-  transition:background .25s;
-}
-.sk-card:hover{background:var(--red)}
-.sk-card:hover .sk-t,.sk-card:hover .sk-d{color:#fff}
-.sk-t{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1rem;color:var(--ink);margin-bottom:.45rem;transition:color .25s;line-height:1.3}
-.sk-d{font-size:.82rem;color:var(--ink60);line-height:1.65;transition:color .25s}
-.sk-icon{font-size:1.4rem;margin-bottom:.9rem}
+/* ── PASSIONS ── */
+.pp-row { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid var(--b); }
+.pp { position: relative; overflow: hidden; aspect-ratio: 2/3; }
+.pp img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(85%) brightness(.65); transition: transform .9s cubic-bezier(.19,1,.22,1), filter .7s; display: block; }
+.pp:hover img { transform: scale(1.07); filter: grayscale(0%) brightness(.8); }
+.pp-ov { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,5,5,.9) 0%, rgba(5,5,5,.1) 55%, transparent 100%); }
+.pp-lbl { position: absolute; bottom: 0; left: 0; right: 0; padding: clamp(1.5rem,3vw,2.5rem); }
+.pp-cat { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .28em; text-transform: uppercase; color: var(--g); margin-bottom: .55rem; }
+.pp-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,5vw,4.5rem); color: #fff; line-height: 1; letter-spacing: .03em; }
+.pp-sub { font-family: 'DM Mono', monospace; font-size: .58rem; color: rgba(255,255,255,.38); margin-top: .4rem; letter-spacing: .03em; }
+.pp:not(:last-child) { border-right: 1px solid var(--b); }
 
-/* ─── TOOLS ─── */
-.tools{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:3rem}
-.tool{
-  font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;
-  padding:.35rem .9rem;border-radius:3px;
-  background:transparent;color:var(--ink60);border:1px solid var(--ink20);
-  transition:all .25s;cursor:default;
-}
-.tool:hover{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+/* ── XP ── */
+.xp-i { border-bottom: 1px solid var(--b); padding: clamp(2rem,4vw,3.5rem) 0; cursor: none; transition: padding .4s; }
+.xp-i:first-child { border-top: 1px solid var(--b); }
+.xp-i:hover { padding-left: .8rem; }
+.xp-r { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(1.5rem,3vw,3rem); }
+.xp-logo { width: clamp(52px,6vw,68px); height: clamp(52px,6vw,68px); background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 8px; flex-shrink: 0; overflow: hidden; border: 1px solid var(--b); }
+.xp-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.xp-co { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,5vw,4.5rem); line-height: 1; color: var(--fg); transition: color .3s; letter-spacing: .02em; }
+.xp-i:hover .xp-co, .xp-i.open .xp-co { color: var(--g); }
+.xp-role { font-size: clamp(.8rem,1.1vw,.95rem); color: var(--m); margin-top: .3rem; }
+.xp-bdg { font-family: 'DM Mono', monospace; font-size: .54rem; letter-spacing: .12em; text-transform: uppercase; padding: .18rem .55rem; border-radius: 3px; border: 1px solid; display: inline-block; margin-bottom: .4rem; }
+.alt { color: #34d399; border-color: rgba(52,211,153,.3); }
+.stage { color: #f59e0b; border-color: rgba(245,158,11,.3); }
+.xp-date { font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .12em; color: var(--m); text-transform: uppercase; white-space: nowrap; }
+.xp-plus { font-size: 2rem; color: var(--b); transition: transform .4s, color .3s; flex-shrink: 0; line-height: 1; }
+.xp-i:hover .xp-plus, .xp-i.open .xp-plus { color: var(--g); }
+.xp-i.open .xp-plus { transform: rotate(45deg); }
+.xp-body { max-height: 0; overflow: hidden; transition: max-height .6s cubic-bezier(.19,1,.22,1); }
+.xp-body.open { max-height: 600px; }
+.xp-inn { padding: 2rem 0 .5rem calc(clamp(52px,6vw,68px) + clamp(1.5rem,3vw,3rem)); border-top: 1px solid var(--b); }
+.xp-ul { list-style: none; display: flex; flex-direction: column; gap: .8rem; margin-bottom: 1.5rem; }
+.xp-ul li { font-size: clamp(.88rem,1.1vw,1rem); color: var(--m); line-height: 1.72; display: flex; gap: 1rem; }
+.xp-ul li::before { content: '→'; color: var(--g); flex-shrink: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .3rem .85rem; border-radius: 3px; border: 1px solid var(--b); color: var(--m); }
 
-/* ─── FORMATION ─── */
-.edu-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));
-  border:1.5px solid var(--ink);margin-top:3rem;
-}
-.edu-card{
-  padding:2.5rem 3rem;
-  border-right:1.5px solid var(--ink);
-}
-.edu-card:last-child{border-right:none}
-.edu-school{font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:.6rem}
-.edu-deg{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,2.5vw,2.2rem);letter-spacing:.02em;color:var(--ink);line-height:1.1;margin-bottom:.6rem}
-.edu-dates{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink60);margin-bottom:.9rem}
-.edu-detail{font-size:.85rem;color:var(--ink60);line-height:1.65}
+/* ── PROJECTS ── */
+.pj-grid { display: grid; grid-template-columns: repeat(2,1fr); border: 1px solid var(--b); }
+.pj { padding: clamp(2rem,4vw,3.5rem); border-right: 1px solid var(--b); border-bottom: 1px solid var(--b); cursor: none; position: relative; overflow: hidden; min-height: clamp(260px,24vw,360px); display: flex; flex-direction: column; justify-content: space-between; transition: background .4s; }
+.pj:hover { background: rgba(0,255,135,.03); }
+.pj:nth-child(2n) { border-right: none; }
+.pj:nth-child(3), .pj:nth-child(4) { border-bottom: none; }
+.pj-glow { position: absolute; width: 350px; height: 350px; border-radius: 50%; top: -40%; right: -20%; background: radial-gradient(circle, rgba(0,255,135,.06) 0%, transparent 70%); pointer-events: none; opacity: 0; transition: opacity .4s; }
+.pj:hover .pj-glow { opacity: 1; }
+.pj-num { font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .2em; color: var(--m); margin-bottom: 1rem; display: flex; align-items: center; gap: .7rem; }
+.pj-aw { font-family: 'DM Mono', monospace; font-size: .54rem; letter-spacing: .12em; text-transform: uppercase; border: 1px solid var(--g); color: var(--g); padding: .2rem .6rem; border-radius: 2px; }
+.pj-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem,5vw,5.5rem); line-height: .92; color: var(--fg); margin-bottom: .8rem; transition: color .3s; letter-spacing: .01em; }
+.pj:hover .pj-title { color: var(--g); }
+.pj-desc { font-size: clamp(.83rem,1.1vw,.93rem); color: var(--m); line-height: 1.65; flex: 1; margin-bottom: 2rem; }
+.pj-cta { display: flex; align-items: center; justify-content: space-between; }
+.pj-link { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--g); border-bottom: 1px solid rgba(0,255,135,.25); padding-bottom: .15rem; transition: border-color .3s; }
+.pj-arr { font-size: 1.3rem; color: var(--m); transition: transform .35s, color .3s; }
+.pj:hover .pj-arr { transform: translate(5px,-5px); color: var(--g); }
 
-/* ─── CONTACT ─── */
-#contact{
-  background:var(--ink);
-  color:var(--cream);
-}
-.ct-bb{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(4rem,13vw,14rem);
-  line-height:.88;letter-spacing:.01em;
-  color:var(--cream);
-}
-.ct-bb-o{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(4rem,13vw,14rem);
-  line-height:.88;letter-spacing:.01em;
-  -webkit-text-stroke:1.5px rgba(242,237,228,.25);color:transparent;
-}
-.ct-email{
-  font-family:'Cabinet Grotesk',sans-serif;font-weight:800;
-  font-size:clamp(1rem,2.5vw,1.8rem);
-  color:var(--cream);
-  border-bottom:2px solid rgba(242,237,228,.25);display:inline-block;
-  padding-bottom:.25rem;transition:border-color .3s,color .3s;
-}
-.ct-email:hover{color:var(--red);border-color:var(--red)}
-.ct-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:2rem;margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(242,237,228,.1)}
-.ct-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.35);margin-bottom:.5rem}
-.ct-val{font-family:'Cabinet Grotesk',sans-serif;font-weight:600;font-size:1rem;color:var(--cream)}
-footer{
-  background:var(--ink);
-  border-top:1px solid rgba(242,237,228,.1);
-  padding:1.5rem clamp(1.5rem,5vw,4.5rem);
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
-}
-footer p{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(242,237,228,.25)}
+/* ── SKILLS — Thesource grid ── */
+#skills { background: var(--bg1); }
+.sk-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 4rem; }
+.kpi-block { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--b); border-radius: 12px; overflow: hidden; }
+.kpi-row { display: flex; align-items: center; gap: 2rem; padding: 1.5rem 2rem; border-bottom: 1px solid var(--b); transition: background .3s; }
+.kpi-row:last-child { border-bottom: none; }
+.kpi-row:hover { background: rgba(0,255,135,.04); }
+.kpi-n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem,4.5vw,3.8rem); color: var(--g); line-height: 1; min-width: 120px; letter-spacing: .01em; }
+.kpi-l { font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .15em; text-transform: uppercase; color: var(--m); }
+.sk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); border-top: 1px solid var(--b); border-left: 1px solid var(--b); }
+.sk-c { padding: 2.5rem 2.8rem; border-right: 1px solid var(--b); border-bottom: 1px solid var(--b); position: relative; overflow: hidden; transition: color .4s; }
+.sk-c::before { content: ''; position: absolute; inset: 0; background: var(--g); transform: translateY(101%); transition: transform .55s cubic-bezier(.19,1,.22,1); z-index: 0; }
+.sk-c:hover::before { transform: none; }
+.sk-c > * { position: relative; z-index: 1; }
+.sk-c:hover .sk-t, .sk-c:hover .sk-d { color: var(--bg); }
+.sk-ico { font-size: 1.5rem; margin-bottom: .9rem; display: block; }
+.sk-t { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--fg); margin-bottom: .45rem; transition: color .4s; line-height: 1.3; }
+.sk-d { font-size: .82rem; color: var(--m); line-height: 1.65; transition: color .4s; }
+.tools { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 3rem; }
+.tool { font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .08em; padding: .35rem .9rem; border-radius: 3px; background: transparent; color: var(--m); border: 1px solid var(--b); transition: all .25s; cursor: none; }
+.tool:hover { background: var(--g); color: var(--bg); border-color: var(--g); }
 
-/* ─── MODAL ─── */
-.modal-ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(13,13,13,.96);backdrop-filter:blur(16px);align-items:center;justify-content:center;padding:1rem}
-.modal-ov.open{display:flex}
-.modal-box{background:var(--cream);border:2px solid var(--ink);border-radius:8px;width:100%;max-width:1020px;height:88vh;display:flex;flex-direction:column;overflow:hidden}
-.m-head{padding:1.2rem 2rem;border-bottom:1.5px solid var(--ink20);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
-.m-ttl{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.05em;color:var(--ink)}
-.m-close{background:var(--ink);border-radius:4px;padding:.5rem 1.2rem;color:var(--cream);font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;transition:background .2s}
-.m-close:hover{background:var(--red)}
-.m-body{flex:1;overflow:hidden}
-.pdf-ph{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem}
-.pdf-ph p{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--ink60);text-align:center;line-height:1.8}
-.pdf-lbl{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1.8rem;border-radius:4px;background:var(--ink);color:var(--cream);cursor:pointer;transition:background .2s}
-.pdf-lbl:hover{background:var(--red)}
-.pdf-frame{width:100%;height:100%;border:none;display:none}
+/* ── FORMATION ── */
+.edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,320px), 1fr)); border: 1px solid var(--b); border-radius: 12px; overflow: hidden; margin-top: 3rem; }
+.edu-c { padding: 2.5rem 3rem; border-right: 1px solid var(--b); }
+.edu-c:last-child { border-right: none; }
+.edu-s { font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--g); margin-bottom: .6rem; }
+.edu-d { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.4rem,2.5vw,2.2rem); letter-spacing: .02em; color: var(--fg); line-height: 1.1; margin-bottom: .6rem; }
+.edu-dt { font-family: 'DM Mono', monospace; font-size: .6rem; color: var(--m); margin-bottom: .9rem; }
+.edu-p { font-size: .85rem; color: var(--m); line-height: 1.65; }
 
-/* ─── RESPONSIVE ─── */
-@media(max-width:900px){
-  .passion-strip{grid-template-columns:1fr}
-  .p-panel{aspect-ratio:16/9}
-  .proj-grid{grid-template-columns:1fr}
-  .proj-cell:nth-child(n){border-right:none}
-  .proj-cell:nth-child(3){border-bottom:1.5px solid var(--ink)}
-  .hero-bottom{grid-template-columns:1fr;gap:2rem}
-  .hero-stats{justify-content:flex-start}
-}
-@media(max-width:768px){
-  .nav-links{display:none}
-  .hbg{display:block}
-  .xp-row{grid-template-columns:auto 1fr}
-  .xp-date{display:none}
-  .xp-inner{padding-left:0}
-  .edu-grid{grid-template-columns:1fr}
-  .edu-card{border-right:none;border-bottom:1.5px solid var(--ink)}
-  .edu-card:last-child{border-bottom:none}
-}
+/* ── CONTACT ── */
+#contact { position: relative; overflow: hidden; }
+.ct-glow { position: absolute; bottom: -20%; right: -10%; width: 80vw; height: 80vw; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,135,.04) 0%, transparent 65%); pointer-events: none; }
+.ct-big { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem,14vw,14rem); line-height: .88; color: var(--fg); letter-spacing: .01em; }
+.ct-big-o { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem,14vw,14rem); line-height: .88; -webkit-text-stroke: 1.5px rgba(240,237,230,.18); color: transparent; letter-spacing: .01em; }
+.ct-email { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1rem,2.5vw,1.8rem); color: var(--fg); border-bottom: 2px solid rgba(240,237,230,.18); display: inline-block; padding-bottom: .3rem; transition: color .3s, border-color .3s; }
+.ct-email:hover { color: var(--g); border-color: var(--g); }
+.ct-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,180px), 1fr)); gap: 2rem; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--b); }
+.ct-lbl { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--m); margin-bottom: .5rem; }
+.ct-val { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--fg); }
+footer { border-top: 1px solid var(--b); padding: 1.5rem clamp(1.5rem,5vw,4.5rem); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+footer p { font-family: 'DM Mono', monospace; font-size: .57rem; letter-spacing: .15em; text-transform: uppercase; color: var(--m); }
+
+/* ── MODAL ── */
+.mod-ov { display: none; position: fixed; inset: 0; z-index: 900; background: rgba(5,5,5,.97); backdrop-filter: blur(16px); align-items: center; justify-content: center; padding: 1rem; }
+.mod-ov.open { display: flex; }
+.mod-box { background: var(--bg2); border: 1px solid var(--b2); border-radius: 12px; width: 100%; max-width: 1020px; height: 88vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 80px rgba(0,255,135,.06); }
+.m-head { padding: 1.2rem 2rem; border-bottom: 1px solid var(--b); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+.m-ttl { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: .05em; color: var(--fg); }
+.m-close { background: var(--g); border-radius: 4px; padding: .5rem 1.2rem; color: var(--bg); font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; transition: opacity .2s; }
+.m-close:hover { opacity: .85; }
+.m-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+.pdf-ph { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; }
+.pdf-ph p { font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--m); text-align: center; line-height: 1.8; }
+.pdf-lbl { font-family: 'DM Mono', monospace; font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; padding: .75rem 1.8rem; border-radius: 4px; background: var(--g); color: var(--bg); cursor: none; transition: opacity .2s; font-weight: 600; }
+.pdf-lbl:hover { opacity: .85; }
+.pdf-frame { width: 100%; border: none; display: none; flex: 1; }
+.pdf-note { background: rgba(0,255,135,.08); border: 1px solid rgba(0,255,135,.2); border-radius: 4px; padding: .6rem 1.4rem; margin: 0 2rem; flex-shrink: 0; font-family: 'DM Mono', monospace; font-size: .62rem; color: var(--g); text-align: center; display: none; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px) { .ab-grid { grid-template-columns: 1fr; } .ph-frame { max-width: 340px; } .hm-grid { grid-template-columns: 1fr; } .sk-intro { grid-template-columns: 1fr; } }
+@media(max-width:900px) { .pp-row { grid-template-columns: 1fr; } .pp { aspect-ratio: 16/9; } .pj-grid { grid-template-columns: 1fr; } .pj:nth-child(n) { border-right: none; } .pj:nth-child(3) { border-bottom: 1px solid var(--b); } .h-bottom { grid-template-columns: 1fr; } }
+@media(max-width:768px) { .n-links { display: none; } .hbg { display: block; } .xp-r { grid-template-columns: auto 1fr; } .xp-date { display: none; } .xp-inn { padding-left: 0; } .edu-grid { grid-template-columns: 1fr; } .edu-c { border-right: none; border-bottom: 1px solid var(--b); } .edu-c:last-child { border-bottom: none; } }
 </style>
 </head>
 <body>
 
-<!-- MOB MENU -->
+<div id="cur"></div>
+<div id="cur-r"></div>
+
 <div class="mob" id="mob">
   <button class="mob-x" onclick="cMob()">✕</button>
   <a href="#about" onclick="cMob()">Profil</a>
+  <a href="#hermes" onclick="cMob()">Hermès</a>
   <a href="#experience" onclick="cMob()">Expériences</a>
   <a href="#projects" onclick="cMob()">Projets</a>
   <a href="#skills" onclick="cMob()">Compétences</a>
   <a href="#contact" onclick="cMob()">Contact</a>
 </div>
 
-<!-- NAV -->
 <nav id="nav">
-  <span class="nav-logo">HD.</span>
-  <div class="nav-links">
+  <span class="n-logo">HD.</span>
+  <div class="n-links">
     <a href="#about">Profil</a>
+    <a href="#hermes">Hermès</a>
     <a href="#experience">Expériences</a>
     <a href="#projects">Projets</a>
     <a href="#skills">Compétences</a>
@@ -452,17 +288,17 @@ footer p{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;t
   <button class="hbg" onclick="oMob()">☰</button>
 </nav>
 
-<!-- MODAL -->
-<div class="modal-ov" id="modal">
-  <div class="modal-box" onclick="event.stopPropagation()">
+<div class="mod-ov" id="modal">
+  <div class="mod-box" onclick="event.stopPropagation()">
     <div class="m-head">
       <div class="m-ttl" id="mTtl">PROJET</div>
       <button class="m-close" onclick="cModal()">Fermer ✕</button>
     </div>
     <div class="m-body">
+      <div class="pdf-note" id="pdfNote">✓ PDF sauvegardé — disponible à la prochaine visite</div>
       <div class="pdf-ph" id="pdfPh">
-        <div style="font-size:2.5rem">📎</div>
-        <p>Sélectionne ton fichier PDF<br/>depuis ton ordinateur.</p>
+        <div style="font-size:3rem">📎</div>
+        <p>Charge ton PDF une fois.<br/>Il sera sauvegardé automatiquement.</p>
         <label class="pdf-lbl" for="pdfInp">Charger un PDF</label>
         <input type="file" id="pdfInp" accept="application/pdf" style="display:none" onchange="loadPdf(this)"/>
       </div>
@@ -476,82 +312,83 @@ footer p{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;t
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
-/* ── Scroll observers ── */
-function useVisible(threshold = 0.08) {
+/* ── cursor ── */
+function Cursor() {
+  useEffect(() => {
+    const cur = document.getElementById('cur');
+    const ring = document.getElementById('cur-r');
+    let rx = 0, ry = 0, mx = 0, my = 0;
+    const mv = e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; };
+    let raf;
+    const loop = () => { rx += (mx-rx)*.13; ry += (my-ry)*.13; ring.style.left=rx+'px'; ring.style.top=ry+'px'; raf=requestAnimationFrame(loop); };
+    window.addEventListener('mousemove', mv);
+    const addH = e => { if(e.target.closest('a,button,[data-hover]')) document.body.classList.add('hovering'); };
+    const remH = e => { if(e.target.closest('a,button,[data-hover]')) document.body.classList.remove('hovering'); };
+    document.addEventListener('mouseover', addH);
+    document.addEventListener('mouseout', remH);
+    raf = requestAnimationFrame(loop);
+    return () => { window.removeEventListener('mousemove', mv); cancelAnimationFrame(raf); document.removeEventListener('mouseover',addH); document.removeEventListener('mouseout',remH); };
+  }, []);
+  return null;
+}
+
+/* ── scroll reveal ── */
+function useVis(thr = .07) {
   const ref = useRef(null);
   const [v, setV] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold });
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold: thr });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
   return [ref, v];
 }
 
-/* Clip reveal — text slides up from bottom */
-function Clip({ children, delay = 0 }) {
-  const [ref, v] = useVisible(.05);
-  return (
-    <span className="clip" ref={ref}>
-      <span className="clip-inner" style={{ transitionDelay: `${delay}s`, ...(v ? { transform: 'none' } : {}) }}
-        ref={el => el && v && (el.style.transform = 'none')}>
-        {children}
-      </span>
-    </span>
-  );
+function FU({ children, delay = 0, style = {} }) {
+  const [ref, v] = useVis(.06);
+  return <div ref={ref} className={`fu${v?' in':''}`} style={{ transitionDelay:`${delay}s`, ...style }}>{children}</div>;
 }
 
-/* Fade up */
-function FU({ children, delay = 0, style = {} }) {
-  const [ref, v] = useVisible(.06);
-  return (
-    <div ref={ref} className={`fu${v ? ' in' : ''}`}
-      style={{ transitionDelay: `${delay}s`, ...style }}>
-      {children}
-    </div>
-  );
+/* ── countup ── */
+function CountUp({ to, suffix='', dur=2200 }) {
+  const [n, setN] = useState(0);
+  const [ref, v] = useVis(.1);
+  useEffect(() => {
+    if (!v) return;
+    let start = null;
+    const step = ts => { if (!start) start=ts; const p=Math.min((ts-start)/dur,1); setN(Math.floor(p*to)); if(p<1) requestAnimationFrame(step); else setN(to); };
+    requestAnimationFrame(step);
+  }, [v, to]);
+  return <span ref={ref}>{n.toLocaleString('fr')}{suffix}</span>;
 }
 
 /* ══ HERO ══ */
 function Hero() {
-  const [ready, setReady] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setReady(true), 80); return () => clearTimeout(t); }, []);
-  const a = d => ({
-    opacity: ready ? 1 : 0,
-    transform: ready ? 'none' : 'translateY(2.5rem)',
-    transition: `opacity 1.1s ${d}s ease, transform 1.1s ${d}s cubic-bezier(.19,1,.22,1)`,
-  });
-
+  const [rdy, setRdy] = useState(false);
+  useEffect(() => { const t=setTimeout(()=>setRdy(true),80); return ()=>clearTimeout(t); }, []);
+  const a = d => ({ opacity: rdy?1:0, transform: rdy?'none':'translateY(2.5rem)', transition:`opacity 1.1s ${d}s ease,transform 1.1s ${d}s cubic-bezier(.19,1,.22,1)` });
   return (
     <section id="hero">
+      <div className="h-glow"/>
+      <div className="h-grid-bg"/>
       <div className="inner">
         <div style={a(.08)}>
-          <div className="hero-overline">
-            <span className="live"/>
-            Disponible septembre 2026
-            <span style={{color:'var(--ink20)', margin:'0 .3rem'}}>·</span>
-            MBA ISCOM Paris
-          </div>
+          <div className="h-ov"><span className="live"/>Disponible septembre 2026<span style={{color:'rgba(240,237,230,.15)',margin:'0 .3rem'}}>·</span>MBA ISCOM Paris</div>
         </div>
-        <div style={a(.12)}>
-          <p style={{ fontFamily:"'DM Mono',monospace", fontSize:'clamp(.7rem,1.1vw,.82rem)', letterSpacing:'.22em', textTransform:'uppercase', color:'var(--ink60)', marginBottom:'1.2rem' }}>
-            Et si j'étais votre prochain alternant ?
-          </p>
+        <div style={a(.13)}>
+          <p style={{fontFamily:"'DM Mono',monospace",fontSize:'clamp(.68rem,1vw,.8rem)',letterSpacing:'.24em',textTransform:'uppercase',color:'rgba(240,237,230,.28)',marginBottom:'1.2rem'}}>Et si j'étais votre prochain alternant ?</p>
         </div>
         <div style={a(.18)}>
-          <span className="bb">HUGO</span>
-          <span className="bb-o">DESCOUTS</span>
+          <div className="bb">HUGO</div>
+          <div className="bb-o">DESCOUTS</div>
         </div>
-        <div className="hero-bottom" style={a(.3)}>
-          <p className="hero-desc">
-            <strong>Stratège et créatif.</strong> Futur étudiant en MBA ISCOM. Trois expériences solides dont Hermès, une maîtrise complète des outils du marketing digital, et une capacité prouvée à produire des contenus qui génèrent des résultats.
+        <div className="h-bottom" style={a(.3)}>
+          <p style={{fontSize:'clamp(1rem,1.5vw,1.2rem)',color:'var(--m)',maxWidth:550,lineHeight:1.82}}>
+            <strong style={{color:'var(--fg)'}}>Stratège et créatif.</strong> Futur étudiant en MBA ISCOM. Trois expériences solides dont Hermès, une maîtrise complète des outils marketing digital, et une capacité prouvée à produire des contenus qui génèrent des résultats mesurables.
           </p>
-          <div className="hero-stats">
-            {[['3','Expériences pro'],['4','Projets publiés'],['2','Alternances']].map(([n,l]) => (
-              <div key={l}>
-                <div className="stat-n">{n}</div>
-                <div className="stat-l">{l}</div>
-              </div>
+          <div className="hero-stats" style={{display:'flex',gap:'clamp(2rem,4vw,5rem)',flexWrap:'wrap',justifyContent:'flex-end'}}>
+            {[['3','Expériences'],['4','Projets'],['2','Alternances']].map(([n,l]) => (
+              <div key={l}><div className="s-n">{n}</div><div className="s-l">{l}</div></div>
             ))}
           </div>
         </div>
@@ -562,78 +399,79 @@ function Hero() {
 
 /* ══ TICKER ══ */
 function Ticker() {
-  const items = ['Communication','Stratégie de marque','Hermès','MBA ISCOM','Design Graphique','Social Media','Direction Artistique','Création de contenu','Marketing digital','Événementiel'];
-  const doubled = [...items, ...items];
+  const it = ['Communication','Stratégie de marque','Hermès','MBA ISCOM Paris','Design Graphique','Social Media','Création de contenu','Marketing digital','Événementiel','Adobe Suite'];
+  const d = [...it,...it];
   return (
-    <div className="ticker-wrap">
-      <div className="t-track">
-        {doubled.map((it, i) => (
-          <span key={i} className={`t-item${i % 4 === 0 ? ' acc' : ''}`}>{it}&nbsp;&nbsp;—&nbsp;&nbsp;</span>
-        ))}
+    <>
+      <div className="tk">
+        <div className="tk-t">{d.map((x,i)=><span key={i} className={`tk-i${i%5===0?' g':''}`}>{x}&nbsp;/&nbsp;</span>)}</div>
       </div>
-    </div>
+      <div className="tk" style={{borderTop:'none',marginTop:'-1px'}}>
+        <div className="tk-t rev">{d.map((x,i)=><span key={i} className={`tk-i${i%4===0?' g':''}`}>{x}&nbsp;/&nbsp;</span>)}</div>
+      </div>
+    </>
   );
 }
 
-/* ══ ABOUT ══ */
+/* ══ ABOUT + PHOTO ══ */
 function About() {
-  const passions = [
-    {
-      img: 'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg',
-      cat:'Sensibilité', title:'BALLET',
-    },
-    {
-      img: 'https://fr.web.img6.acsta.net/img/7f/27/7f2716df39b33e8a74e2aa710663ef91.jpg',
-      cat:'Sensibilité', title:'CINÉMA',
-    },
-    {
-      img: 'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false',
-      cat:'Sensibilité', title:'MODE',
-    },
+  const pp = [
+    { img:'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg', cat:'Sensibilité', title:'Ballet', sub:'Onéguine · Lac des Cygnes · Paquita' },
+    { img:'https://cinedweller.com/wp-content/uploads/2025/03/queer-affiche.jpg.webp', cat:'Sensibilité', title:'Cinéma', sub:'The Substance · Queer · L\'Inconnu' },
+    { img:'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false', cat:'Sensibilité', title:'Mode', sub:'Balenciaga · Gucci · Hermès' },
   ];
-
   return (
-    <section id="about" style={{ paddingBottom:0 }}>
+    <section id="about">
       <div className="inner">
-        <FU><div className="mono">À propos</div></FU>
-
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,400px),1fr))', gap:'clamp(3rem,6vw,7rem)', alignItems:'start', marginBottom:'clamp(3.5rem,6vw,6rem)' }}>
-          <div>
-            <div style={{ overflow:'hidden' }}>
-              <FU>
-                <h2 className="sh">
-                  PROFIL<br/>
-                  <span className="sh-o">STRATÉGIQUE</span>
-                </h2>
-              </FU>
-            </div>
-          </div>
-          <FU delay={.1}>
-            <div className="body" style={{ display:'flex', flexDirection:'column', gap:'1.1rem', paddingTop:'.5rem' }}>
-              <p><strong>Hugo Descouts</strong>, futur étudiant en MBA Marketing, Stratégies de Marque et Publicité à l'ISCOM Paris. Profil à la fois <strong>stratégique et opérationnel</strong> : je conçois des lignes éditoriales, je les produis et j'en mesure les résultats.</p>
-              <p>Trois expériences dans des univers radicalement différents : <strong>Hermès</strong> pour le luxe et la communication interne, <strong>l'UNPPD</strong> pour la communication institutionnelle BtoB, <strong>Corporate Fiction</strong> pour la vie d'agence. Chaque poste m'a appris à m'adapter, à produire avec rigueur, à penser avec ambition.</p>
-              <p style={{ fontFamily:"'DM Mono',monospace", fontSize:'.68rem', letterSpacing:'.08em', color:'var(--ink60)', marginTop:'.5rem' }}>
-                Anglais C1 · Espagnol B1 · Permis B · Paris 75019
-              </p>
+        <FU><div className="lbl">À propos</div></FU>
+        <div className="ab-grid">
+          <FU delay={.05}>
+            <div className="ph-frame">
+              <img src="https://media.licdn.com/dms/image/v2/D4E03AQEJY8yuOnA8QQ/profile-displayphoto-scale_400_400/B4EZv.5jbGJUAg-/0/1769508060323?e=1774483200&v=beta&t=rf_Y_We2upB4BnxgHxf9d8De7ELblGq8f2PZxT8djtA"
+                alt="Hugo Descouts"
+                onError={e => { e.target.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&fit=crop&crop=face'; }}
+              />
+              <div className="ph-cap">
+                <div className="ph-name">Hugo Descouts</div>
+                <div className="ph-sub">MBA ISCOM Paris · 2026</div>
+              </div>
             </div>
           </FU>
+          <div>
+            <FU delay={.08}>
+              <h2 className="sh">PROFIL<br/><span className="sh-o">STRATÉGIQUE</span></h2>
+            </FU>
+            <FU delay={.14} style={{marginTop:'2rem'}}>
+              <div className="body-t" style={{display:'flex',flexDirection:'column',gap:'1.1rem'}}>
+                <p><strong>Hugo Descouts</strong>, futur étudiant en MBA Marketing, Stratégies de Marque et Publicité à l'ISCOM Paris. Profil à la fois <strong>stratégique et opérationnel</strong> : je conçois des lignes éditoriales, je les produis, j'en mesure les résultats.</p>
+                <p>Trois expériences dans des univers radicalement différents : <strong>Hermès</strong> pour le luxe et la communication interne, <strong>l'UNPPD</strong> pour la communication institutionnelle BtoB, <strong>Corporate Fiction</strong> pour la vie d'agence.</p>
+                <p style={{fontFamily:"'DM Mono',monospace",fontSize:'.68rem',letterSpacing:'.08em',color:'var(--m)'}}>Anglais C1 · Espagnol B1 · Permis B · Paris 75019</p>
+              </div>
+            </FU>
+            <FU delay={.2} style={{marginTop:'2.5rem'}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'1.2rem',border:'1px solid var(--b)',borderRadius:12,padding:'1.6rem'}}>
+                {[['Anglais','C1','#c4b5fd'],['Espagnol','B1','#6ea8fe'],['Français','Natif','var(--g)']].map(([l,lv,c])=>(
+                  <div key={l}><div style={{fontFamily:"'DM Mono',monospace",fontSize:'.57rem',letterSpacing:'.15em',textTransform:'uppercase',color:'var(--m)',marginBottom:'.4rem'}}>{l}</div><div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.5rem',color:c,letterSpacing:'.05em'}}>{lv}</div></div>
+                ))}
+              </div>
+            </FU>
+          </div>
         </div>
       </div>
-
-      {/* Full-bleed passion strip */}
-      <div className="passion-strip">
-        {passions.map((p, i) => (
-          <FU key={i} delay={i * .07}>
-            <div className="p-panel">
+      <div className="pp-row" style={{marginTop:'clamp(3rem,6vw,6rem)'}}>
+        {pp.map((p,i)=>(
+          <FU key={i} delay={i*.07}>
+            <div className="pp">
               <img src={p.img} alt={p.title} loading="lazy"
-                style={{ width:'100%', height:'100%', objectFit:'cover', filter:'grayscale(100%) contrast(1.05)', transition:'transform .9s cubic-bezier(.19,1,.22,1), filter .7s' }}
-                onMouseOver={e => { e.currentTarget.style.transform='scale(1.06)'; e.currentTarget.style.filter='grayscale(0%) contrast(1)'; }}
-                onMouseOut={e => { e.currentTarget.style.transform='none'; e.currentTarget.style.filter='grayscale(100%) contrast(1.05)'; }}
+                style={{width:'100%',height:'100%',objectFit:'cover',filter:'grayscale(85%) brightness(.65)',transition:'transform .9s cubic-bezier(.19,1,.22,1),filter .7s',display:'block'}}
+                onMouseOver={e=>{e.currentTarget.style.transform='scale(1.07)';e.currentTarget.style.filter='grayscale(0%) brightness(.8)'}}
+                onMouseOut={e=>{e.currentTarget.style.transform='none';e.currentTarget.style.filter='grayscale(85%) brightness(.65)'}}
               />
-              <div className="p-ov"/>
-              <div className="p-label">
-                <div className="p-cat">{p.cat}</div>
-                <div className="p-title">{p.title}</div>
+              <div className="pp-ov"/>
+              <div className="pp-lbl">
+                <div className="pp-cat">{p.cat}</div>
+                <div className="pp-title">{p.title}</div>
+                <div className="pp-sub">{p.sub}</div>
               </div>
             </div>
           </FU>
@@ -643,99 +481,101 @@ function About() {
   );
 }
 
-/* ══ EXPERIENCE ══ */
-function Experience() {
-  const [openId, setOpenId] = useState(null);
-  const exps = [
-    {
-      id:'hermes', type:'Alternance', tStyle:'alt',
-      date:'Sept. 2025 — Présent',
-      logo:'https://companieslogo.com/img/orig/RMS.PA_BIG-10278b0f.png?t=1720244493',
-      company:'HERMÈS',
-      role:'Assistant Adoption et Communication Processus IT',
-      bullets:[
-        'Pilotage de la refonte intégrale du SharePoint intranet — optimisation UX générant plus de 2 000 visites hebdomadaires.',
-        'Conception et déploiement de newsletters dédiées à l\'adoption des nouvelles procédures IT.',
-        'Audit complet des processus existants et déploiement de nouveaux workflows.',
-        'Coordination du séminaire de direction : recherches de lieux, négociations fournisseurs, gestion des devis.',
-      ],
-      chips:['SharePoint','Newsletter','JIRA','Communication interne','Gestion de projet','Luxe'],
-    },
-    {
-      id:'unppd', type:'Alternance', tStyle:'alt',
-      date:'Sept. 2024 — Août 2025',
-      logo:'https://dentalforum2026.com/data/files/logo_unppd_2014hd.jpg',
-      company:'UNPPD',
-      role:'Chargée de Communication',
-      bullets:[
-        'Ligne éditoriale social media : carousels partenaires et multiplication par 5 de la communauté LinkedIn.',
-        'Gestion bout-en-bout d\'un journal mensuel distribué à plus de 3 500 laboratoires.',
-        'Animation du site WordPress et optimisation de l\'expérience de lecture.',
-      ],
-      chips:['InDesign','Photoshop','WordPress','LinkedIn','Rédaction','BtoB','Print'],
-    },
-    {
-      id:'cf', type:'Stage', tStyle:'stage',
-      date:'Mai 2024 — Juin 2024',
-      logo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCvoRKzi_I8YdIbjbPHJIMOjQs60obvHenHg&s',
-      company:'CORPORATE FICTION',
-      role:'Communication Commerciale · Agence',
-      bullets:[
-        'Immersion opérationnelle dans le fonctionnement d\'une agence de communication.',
-        'Construction d\'une base de données prospects et campagnes de prospection ciblées.',
-        'Analyse des besoins partenaires et recommandations stratégiques adaptées.',
-      ],
-      chips:['Prospection','Stratégie','Excel','Relation client','BDD'],
-    },
-  ];
+/* ══ HERMÈS CINEMATIC ══ */
+function Hermes() {
+  return (
+    <section id="hermes" style={{padding:0}}>
+      <div style={{position:'relative',minHeight:'100vh',display:'flex',alignItems:'flex-end',overflow:'hidden'}}>
+        <div className="hm-bg"/>
+        <div className="hm-img"/>
+        <div className="hm-glow"/>
+        {[12,28,52,72,88].map((x,i)=>(
+          <div key={i} className="hm-line" style={{left:`${x}%`,opacity:.5+i*.1,animation:`lineP ${7+i*2}s ease-in-out infinite`,animationDelay:`${i*1.3}s`}}/>
+        ))}
+        <style>{`@keyframes lineP{0%,100%{opacity:.3}50%{opacity:.7}}`}</style>
+        <div className="hm-content">
+          <FU>
+            <div className="hm-badge"><span style={{width:7,height:7,borderRadius:'50%',background:'#C9963A',boxShadow:'0 0 8px #C9963A',display:'inline-block'}}/>Alternance en cours · Sept. 2025 — Présent</div>
+          </FU>
+          <FU delay={.06}>
+            <div className="hm-top">
+              <div className="hm-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Hermes_logo.svg/1200px-Hermes_logo.svg.png" alt="Hermès"
+                  style={{maxWidth:'100%',maxHeight:'100%',objectFit:'contain'}}
+                  onError={e=>e.target.style.display='none'}/>
+              </div>
+              <div className="hm-name">Hermès</div>
+            </div>
+          </FU>
+          <FU delay={.1}>
+            <div className="hm-role">Assistant Adoption et Communication Processus IT</div>
+          </FU>
+          <div className="hm-grid">
+            <FU delay={.14}>
+              <ul className="hm-ul">
+                {['Pilotage de la refonte intégrale du SharePoint intranet — optimisation UX générant plus de 2 000 visites hebdomadaires.',
+                  'Conception et déploiement de newsletters dédiées à l\'adoption des nouvelles procédures IT.',
+                  'Audit complet des processus existants et déploiement de nouveaux workflows.',
+                  'Coordination du séminaire de direction : recherches de lieux, négociations fournisseurs, gestion des devis.',
+                ].map((b,i)=><li key={i}>{b}</li>)}
+              </ul>
+              <div style={{display:'flex',flexWrap:'wrap',gap:'.5rem'}}>
+                {['SharePoint','Newsletter','JIRA','Communication interne','Gestion de projet','Luxe'].map(c=><span key={c} className="hm-chip">{c}</span>)}
+              </div>
+            </FU>
+            <FU delay={.18}>
+              <div className="hm-kpi-row">
+                {[['2 000+','visites hebdomadaires SharePoint'],['100%','refonte intranet pilotée'],['4','axes de mission']].map(([n,l])=>(
+                  <div key={l}><div className="hm-kpi-n">{n}</div><div className="hm-kpi-l">{l}</div></div>
+                ))}
+              </div>
+            </FU>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
+/* ══ XP ══ */
+function Experience() {
+  const [open, setOpen] = useState(null);
+  const xps = [
+    { id:'unppd', type:'Alternance', ts:'alt', date:'Sept. 2024 — Août 2025', logo:'https://dentalforum2026.com/data/files/logo_unppd_2014hd.jpg', company:'UNPPD', role:'Chargée de Communication',
+      bullets:['Ligne éditoriale social media : carousels partenaires et multiplication par 5 de la communauté LinkedIn.','Gestion bout-en-bout d\'un journal mensuel distribué à plus de 3 500 laboratoires.','Animation du site WordPress et optimisation de l\'expérience de lecture.'],
+      chips:['InDesign','Photoshop','WordPress','LinkedIn','Rédaction','BtoB'] },
+    { id:'cf', type:'Stage', ts:'stage', date:'Mai 2024 — Juin 2024', logo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCvoRKzi_I8YdIbjbPHJIMOjQs60obvHenHg&s', company:'CORPORATE FICTION', role:'Communication Commerciale · Agence',
+      bullets:['Immersion opérationnelle dans le fonctionnement d\'une agence de communication.','Construction d\'une base de données prospects et campagnes de prospection ciblées.','Analyse des besoins partenaires et recommandations stratégiques adaptées.'],
+      chips:['Prospection','Stratégie','Excel','Relation client','BDD'] },
+  ];
   return (
     <section id="experience">
       <div className="inner">
         <hr className="dv"/>
-        <FU><div className="mono">Parcours professionnel</div></FU>
-        <FU delay={.05}>
-          <h2 className="sh">
-            EXPÉRIENCES<br/>
-            <span className="sh-o">PROFESSIONNELLES</span>
-          </h2>
-        </FU>
-
-        <div style={{ marginTop:'3.5rem' }}>
-          {exps.map((exp, i) => {
-            const isOpen = openId === exp.id;
+        <FU><div className="lbl">Autres expériences</div></FU>
+        <FU delay={.05}><h2 className="sh">EXPÉRIENCES <span className="sh-o">PROFESSIONNELLES</span></h2></FU>
+        <div style={{marginTop:'3.5rem'}}>
+          {xps.map((x,i)=>{
+            const isO = open===x.id;
             return (
-              <FU key={exp.id} delay={i * .06}>
-                <div
-                  className={`xp-item${isOpen ? ' open' : ''}`}
-                  onClick={() => setOpenId(isOpen ? null : exp.id)}
-                >
-                  <div className="xp-row">
-                    <div className="xp-logo">
-                      <img src={exp.logo} alt={exp.company}
-                        onError={e => e.target.style.display='none'}/>
-                    </div>
+              <FU key={x.id} delay={i*.07}>
+                <div className={`xp-i${isO?' open':''}`} onClick={()=>setOpen(isO?null:x.id)}>
+                  <div className="xp-r">
+                    <div className="xp-logo"><img src={x.logo} alt={x.company} onError={e=>e.target.style.display='none'}/></div>
                     <div>
-                      <div style={{ display:'flex', alignItems:'center', gap:'.7rem', marginBottom:'.4rem', flexWrap:'wrap' }}>
-                        <span className={`xp-badge ${exp.tStyle}`}>{exp.type}</span>
-                      </div>
-                      <div className="xp-co">{exp.company}</div>
-                      <div className="xp-role">{exp.role}</div>
+                      <span className={`xp-bdg ${x.ts}`}>{x.type}</span>
+                      <div className="xp-co">{x.company}</div>
+                      <div className="xp-role">{x.role}</div>
                     </div>
-                    <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:'1rem' }}>
-                      <span className="xp-date">{exp.date}</span>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:'1rem'}}>
+                      <span className="xp-date">{x.date}</span>
                       <span className="xp-plus">+</span>
                     </div>
                   </div>
-
-                  <div className={`xp-body${isOpen ? ' open' : ''}`}>
-                    <div className="xp-inner">
-                      <ul className="xp-ul">
-                        {exp.bullets.map((b, j) => <li key={j}>{b}</li>)}
-                      </ul>
-                      <div className="chips">
-                        {exp.chips.map(c => <span key={c} className="chip">{c}</span>)}
-                      </div>
+                  <div className={`xp-body${isO?' open':''}`}>
+                    <div className="xp-inn">
+                      <ul className="xp-ul">{x.bullets.map((b,j)=><li key={j}>{b}</li>)}</ul>
+                      <div className="chips">{x.chips.map(c=><span key={c} className="chip">{c}</span>)}</div>
                     </div>
                   </div>
                 </div>
@@ -750,38 +590,32 @@ function Experience() {
 
 /* ══ PROJECTS ══ */
 function Projects() {
-  const projs = [
-    { id:'trempez', num:'01', award:true, title:'TREMPEZ', desc:'Concept fort et storytelling soigné, distingué comme meilleur projet de la promotion pour sa vision stratégique et son exécution de bout en bout.' },
-    { id:'tui', num:'02', award:true, title:"DÉCONNEC'TUI", desc:'Offre digital detox pour TUI ciblant les 25-35 ans en quête de sens. Distingué pour sa cohérence stratégique et sa pertinence de marché.' },
-    { id:'rose', num:'03', award:false, title:'ROSE FESTIVAL', desc:'Stratégie de communication événementielle pour un festival culturel. Dispositif de communication, identité visuelle et plan de diffusion multicanal.' },
-    { id:'edu', num:'04', award:false, title:'ÉDUCATION NATIONALE', desc:'Stratégie de communication institutionnelle pour le Ministère. Analyse des publics, positionnement de marque, plan d\'action multicanal.' },
+  const pjs = [
+    { id:'trempez', num:'01', aw:true, title:'TREMPEZ', desc:'Concept fort et storytelling soigné, distingué meilleur projet de la promotion pour sa vision stratégique et son exécution de bout en bout.' },
+    { id:'tui', num:'02', aw:true, title:"DÉCONNEC'TUI", desc:'Offre digital detox pour TUI ciblant les 25-35 ans en quête de sens. Distingué pour sa cohérence stratégique et sa pertinence de marché.' },
+    { id:'rose', num:'03', aw:false, title:'ROSE FESTIVAL', desc:'Stratégie de communication événementielle pour un festival culturel. Dispositif de communication, identité visuelle et plan de diffusion multicanal.' },
+    { id:'edu', num:'04', aw:false, title:'ÉDUCATION NATIONALE', desc:'Stratégie de communication institutionnelle pour le Ministère. Analyse des publics, positionnement de marque et plan d\'action multicanal.' },
   ];
-
   return (
     <section id="projects">
       <div className="inner">
         <hr className="dv"/>
-        <FU><div className="mono">Réalisations</div></FU>
-        <FU delay={.05}>
-          <h2 className="sh">MES <span className="sh-o">PROJETS</span></h2>
-        </FU>
+        <FU><div className="lbl">Réalisations</div></FU>
+        <FU delay={.05}><h2 className="sh">MES <span className="sh-o">PROJETS</span></h2></FU>
       </div>
-
-      <div className="proj-grid" style={{ marginTop:'3.5rem' }}>
-        {projs.map((p, i) => (
-          <FU key={p.id} delay={i * .06}>
-            <div className="proj-cell" onClick={() => window.oModal(p.id, p.title)}>
+      <div className="pj-grid" style={{marginTop:'3.5rem'}}>
+        {pjs.map((p,i)=>(
+          <FU key={p.id} delay={i*.06}>
+            <div className="pj" onClick={()=>window.oModal(p.id, p.title)}>
+              <div className="pj-glow"/>
               <div>
-                <div className="proj-num">
-                  {p.num}
-                  {p.award && <span className="proj-award">🏆 Meilleur projet de promo</span>}
-                </div>
-                <h3 className="proj-title">{p.title}</h3>
-                <p className="proj-desc">{p.desc}</p>
+                <div className="pj-num">{p.num}{p.aw&&<span className="pj-aw">🏆 Meilleur projet de promo</span>}</div>
+                <h3 className="pj-title">{p.title}</h3>
+                <p className="pj-desc">{p.desc}</p>
               </div>
-              <div className="proj-cta">
-                <span className="proj-cta-txt">Voir le PDF</span>
-                <span className="proj-cta-arrow">↗</span>
+              <div className="pj-cta">
+                <span className="pj-link">Voir le PDF</span>
+                <span className="pj-arr">↗</span>
               </div>
             </div>
           </FU>
@@ -794,79 +628,75 @@ function Projects() {
 /* ══ SKILLS ══ */
 function Skills() {
   const cards = [
-    { icon:'📐', t:'Stratégie de communication', d:'Plans multi-canal, positionnement de marque, analyse des publics et définition des messages clés.' },
-    { icon:'✍️', t:'Création de contenu', d:'Production éditoriale, newsletters, posts, direction artistique print et digital.' },
-    { icon:'📱', t:'Social Media', d:'Stratégie de contenu, ligne éditoriale, croissance organique prouvée — ×5 abonnés LinkedIn.' },
-    { icon:'🗂️', t:'Gestion de projet', d:'Coordination d\'équipes, suivi des livrables, JIRA, SharePoint. Environnements exigeants.' },
-    { icon:'📊', t:'Analyse et Data', d:'Google Analytics, bases de données, reporting et insights actionnables.' },
-    { icon:'🎨', t:'Design et Production', d:'Suite Adobe complète, Canva, Figma. Print, identité visuelle, motion social.' },
-    { icon:'🌐', t:'Web et Digital', d:'WordPress, WIX, HTML/CSS, SEO éditorial, Mailchimp, automatisation.' },
-    { icon:'🎪', t:'Événementiel', d:'Organisation d\'événements corporate, coordination des parties prenantes.' },
+    { ico:'📐', t:'Stratégie de communication', d:'Plans multi-canal, positionnement de marque, analyse des publics et messages clés.' },
+    { ico:'✍️', t:'Création de contenu', d:'Production éditoriale, newsletters, posts, direction artistique print et digital.' },
+    { ico:'📱', t:'Social Media', d:'Stratégie de contenu, ligne éditoriale, croissance organique — ×5 abonnés LinkedIn.' },
+    { ico:'🗂️', t:'Gestion de projet', d:'Coordination d\'équipes, JIRA, SharePoint. Environnements exigeants.' },
+    { ico:'📊', t:'Analyse et Data', d:'Google Analytics, bases de données, reporting et insights actionnables.' },
+    { ico:'🎨', t:'Design et Production', d:'Suite Adobe complète, Canva, Figma. Print, identité visuelle, motion social.' },
+    { ico:'🌐', t:'Web et Digital', d:'WordPress, WIX, HTML/CSS, SEO éditorial, Mailchimp, automatisation.' },
+    { ico:'🎪', t:'Événementiel', d:'Organisation d\'événements corporate, coordination des parties prenantes.' },
   ];
-
+  const kpis = [
+    { to:2000, suffix:'+', l:'Visites hebdo SharePoint' },
+    { to:5, suffix:'×', l:'Abonnés LinkedIn UNPPD' },
+    { to:3500, suffix:'+', l:'Laboratoires touchés' },
+    { to:4, suffix:'', l:'Projets publiés' },
+  ];
   return (
     <section id="skills">
       <div className="inner">
         <hr className="dv"/>
-        <FU><div className="mono">Ce que j'apporte</div></FU>
-        <FU delay={.05}>
-          <h2 className="sh">EXPERTISES <span className="sh-o">ET SAVOIR-FAIRE</span></h2>
-        </FU>
+        <div className="sk-intro">
+          <div>
+            <FU><div className="lbl">Ce que j'apporte</div></FU>
+            <FU delay={.05}><h2 className="sh">EXPERTISES <span className="sh-o">ET SAVOIR-FAIRE</span></h2></FU>
+          </div>
+          <FU delay={.1}>
+            <div className="kpi-block">
+              {kpis.map((k,i)=>(
+                <div key={i} className="kpi-row">
+                  <div className="kpi-n"><CountUp to={k.to} suffix={k.suffix}/></div>
+                  <div className="kpi-l">{k.l}</div>
+                </div>
+              ))}
+            </div>
+          </FU>
+        </div>
       </div>
-
-      <div className="sk-grid" style={{ marginTop:'3.5rem' }}>
-        {cards.map((c, i) => (
-          <FU key={i} delay={i * .04}>
-            <div className="sk-card">
-              <div className="sk-icon">{c.icon}</div>
+      <div className="sk-grid">
+        {cards.map((c,i)=>(
+          <FU key={i} delay={i*.04}>
+            <div className="sk-c">
+              <span className="sk-ico">{c.ico}</span>
               <div className="sk-t">{c.t}</div>
               <div className="sk-d">{c.d}</div>
             </div>
           </FU>
         ))}
       </div>
-
       <div className="inner">
         <FU delay={.1}>
           <div className="tools">
-            {['SharePoint','JIRA','InDesign','Photoshop','Illustrator','Canva','Figma','WordPress','WIX','Mailchimp','Pack Office','Google Analytics','ChatGPT','Midjourney','HTML/CSS'].map(t => (
+            {['SharePoint','JIRA','InDesign','Photoshop','Illustrator','Canva','Figma','WordPress','WIX','Mailchimp','Pack Office','Google Analytics','ChatGPT','Midjourney','HTML/CSS'].map(t=>(
               <span key={t} className="tool">{t}</span>
             ))}
           </div>
         </FU>
-
-        <FU delay={.15}>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,280px),1fr))', gap:'3rem', marginTop:'4rem' }}>
-            <div>
-              <div className="mono">Langues</div>
-              {[
-                { n:'Français', l:'Langue maternelle', c:'var(--ink60)', bc:'var(--ink20)' },
-                { n:'Anglais', l:'C1', c:'#7c3aed', bc:'rgba(124,58,237,.3)' },
-                { n:'Español', l:'B1', c:'#0369a1', bc:'rgba(3,105,161,.3)' },
-              ].map(l => (
-                <div key={l.n} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'.7rem 0', borderBottom:'1px solid var(--ink08)' }}>
-                  <span style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:600, fontSize:'1rem', color:'var(--ink)' }}>{l.n}</span>
-                  <span style={{ fontFamily:"'DM Mono',monospace", fontSize:'.58rem', padding:'.15rem .5rem', borderRadius:3, border:`1px solid ${l.bc}`, color:l.c }}>{l.l}</span>
-                </div>
-              ))}
-            </div>
-
-            <div>
-              <div className="mono">Formations</div>
-              <div className="edu-grid" style={{ margin:0 }}>
-                {[
-                  { school:'ISCOM Paris', deg:'MBA Marketing, Stratégies de Marque et Publicité', dates:'2026 — 2028', detail:'Rythme 4j entreprise / 1j école. Recherche alternance à partir de sept. 2026.' },
-                  { school:'IUT Paris Rives de Seine', deg:'BUT Information et Communication', dates:'2023 — 2026', detail:'Spécialisation Communication des Organisations. Trésorier de l\'Agence Hélice (2024-2025).' },
-                ].map((e, i) => (
-                  <div key={i} className="edu-card">
-                    <div className="edu-school">{e.school}</div>
-                    <div className="edu-deg">{e.deg}</div>
-                    <div className="edu-dates">{e.dates}</div>
-                    <div className="edu-detail">{e.detail}</div>
-                  </div>
-                ))}
+        <FU delay={.15} style={{marginTop:'4rem'}}>
+          <div className="lbl" style={{marginBottom:'1.5rem'}}>Formations</div>
+          <div className="edu-grid">
+            {[
+              { s:'ISCOM Paris', d:'MBA Marketing, Stratégies de Marque et Publicité', dt:'2026 — 2028', p:'Rythme 4j entreprise / 1j école. Recherche alternance à partir de sept. 2026.' },
+              { s:'IUT Paris Rives de Seine', d:'BUT Information et Communication', dt:'2023 — 2026', p:'Spécialisation Communication des Organisations. Trésorier de l\'Agence Hélice (2024-2025).' },
+            ].map((e,i)=>(
+              <div key={i} className="edu-c">
+                <div className="edu-s">{e.s}</div>
+                <div className="edu-d">{e.d}</div>
+                <div className="edu-dt">{e.dt}</div>
+                <div className="edu-p">{e.p}</div>
               </div>
-            </div>
+            ))}
           </div>
         </FU>
       </div>
@@ -878,33 +708,24 @@ function Skills() {
 function Contact() {
   return (
     <section id="contact">
-      <div className="inner">
-        <FU>
-          <div style={{ fontFamily:"'DM Mono',monospace", fontSize:'.68rem', letterSpacing:'.28em', textTransform:'uppercase', color:'rgba(242,237,228,.3)', marginBottom:'2rem', display:'flex', alignItems:'center', gap:'.8rem' }}>
-            <span style={{ width:'2rem', height:'1.5px', background:'var(--red)', display:'block' }}/>
-            Travaillons ensemble
-          </div>
+      <div className="ct-glow"/>
+      <div className="inner" style={{position:'relative',zIndex:1}}>
+        <FU><div className="lbl">Travaillons ensemble</div></FU>
+        <FU delay={.06}>
+          <div className="ct-big">DISONS</div>
+          <div className="ct-big-o">Bonjour.</div>
         </FU>
-
-        <FU delay={.05}>
-          <div>
-            <div className="ct-bb">DISONS</div>
-            <div className="ct-bb-o">BONJOUR.</div>
-          </div>
-        </FU>
-
-        <FU delay={.15}>
-          <p style={{ fontSize:'clamp(1rem,1.4vw,1.15rem)', color:'rgba(242,237,228,.5)', lineHeight:1.75, maxWidth:500, margin:'2.5rem 0' }}>
+        <FU delay={.14} style={{marginTop:'2.5rem'}}>
+          <p style={{fontSize:'clamp(1rem,1.4vw,1.15rem)',color:'var(--m)',lineHeight:1.75,maxWidth:480,marginBottom:'2.5rem'}}>
             Alternance 2 ans à partir de septembre 2026. MBA ISCOM Paris. Marketing, stratégie de marque, publicité.
           </p>
           <a href="mailto:hugo.descouts@outlook.fr" className="ct-email">hugo.descouts@outlook.fr</a>
         </FU>
-
         <FU delay={.2}>
-          <div className="ct-info">
-            <div><div className="ct-label">Téléphone</div><a href="tel:+33762034563" className="ct-val" style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:600, color:'var(--cream)' }}>07 62 03 45 63</a></div>
-            <div><div className="ct-label">Localisation</div><div className="ct-val">Paris 75019 🇫🇷</div></div>
-            <div><div className="ct-label">Disponibilité</div><div className="ct-val">Septembre 2026</div></div>
+          <div className="ct-grid">
+            <div><div className="ct-lbl">Téléphone</div><a href="tel:+33762034563" className="ct-val" style={{color:'var(--fg)'}}>07 62 03 45 63</a></div>
+            <div><div className="ct-lbl">Localisation</div><div className="ct-val">Paris 75019 🇫🇷</div></div>
+            <div><div className="ct-lbl">Disponibilité</div><div className="ct-val">Septembre 2026</div></div>
           </div>
         </FU>
       </div>
@@ -915,59 +736,103 @@ function Contact() {
 /* ══ APP ══ */
 function App() {
   useEffect(() => {
-    const onScroll = () => document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 60);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    const fn = () => document.getElementById('nav')?.classList.toggle('sc', window.scrollY>60);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
   }, []);
-
   return (
     <div className="page">
-      <Hero />
-      <Ticker />
-      <About />
-      <Experience />
-      <Projects />
-      <Skills />
-      <Contact />
-      <footer>
-        <p>© 2026 Hugo Descouts · MBA ISCOM Paris</p>
-        <p>Fait avec intention</p>
-      </footer>
+      <Cursor/>
+      <Hero/>
+      <Ticker/>
+      <About/>
+      <Hermes/>
+      <Experience/>
+      <Projects/>
+      <Skills/>
+      <Contact/>
+      <footer><p>© 2026 Hugo Descouts · MBA ISCOM Paris</p><p>Fait avec intention</p></footer>
     </div>
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 
 <script>
+/* ── nav ── */
 function oMob(){ document.getElementById('mob').classList.add('open'); document.body.style.overflow='hidden'; }
 function cMob(){ document.getElementById('mob').classList.remove('open'); document.body.style.overflow=''; }
 
-const pdfStore = {};
+/* ── PDF MODAL — persistent via localStorage base64 ── */
+const PDF_KEY = 'hd_portfolio_pdfs_v3';
+
+function loadStore() {
+  try { return JSON.parse(localStorage.getItem(PDF_KEY)||'{}'); }
+  catch(e) { return {}; }
+}
+function saveStore(s) {
+  try { localStorage.setItem(PDF_KEY, JSON.stringify(s)); }
+  catch(e) {
+    try { localStorage.removeItem(PDF_KEY); localStorage.setItem(PDF_KEY, JSON.stringify(s)); }
+    catch(e2) { console.warn('localStorage plein'); }
+  }
+}
+function b64ToObjectUrl(b64) {
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for (let i=0; i<bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return URL.createObjectURL(new Blob([arr], {type:'application/pdf'}));
+}
+
 let curId = '';
-const meta = {
-  trempez:'TREMPEZ', tui:"DÉCONNEC'TUI",
-  rose:'ROSE FESTIVAL', edu:'ÉDUCATION NATIONALE',
-};
+const META = { trempez:'TREMPEZ', tui:"DÉCONNEC'TUI", rose:'ROSE FESTIVAL', edu:'ÉDUCATION NATIONALE' };
+
 function oModal(id, title) {
   curId = id;
-  document.getElementById('mTtl').textContent = meta[id] || title;
-  const frame = document.getElementById('pdfFrame'), ph = document.getElementById('pdfPh');
-  if (pdfStore[id]) { frame.src = pdfStore[id]; frame.style.display='block'; ph.style.display='none'; }
-  else { frame.src=''; frame.style.display='none'; ph.style.display='flex'; document.getElementById('pdfInp').value=''; }
+  document.getElementById('mTtl').textContent = META[id]||title;
+  document.getElementById('pdfNote').style.display = 'none';
+  const frame = document.getElementById('pdfFrame');
+  const ph = document.getElementById('pdfPh');
+  const store = loadStore();
+  if (store[id]) {
+    try {
+      frame.src = b64ToObjectUrl(store[id]);
+      frame.style.display = 'block';
+      ph.style.display = 'none';
+    } catch(e) { frame.style.display='none'; ph.style.display='flex'; }
+  } else {
+    frame.src=''; frame.style.display='none'; ph.style.display='flex';
+    document.getElementById('pdfInp').value='';
+  }
   document.getElementById('modal').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
-function cModal() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow=''; }
+
+function cModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 function loadPdf(input) {
   const file = input.files[0]; if (!file) return;
-  const url = URL.createObjectURL(file);
-  pdfStore[curId] = url;
-  const frame = document.getElementById('pdfFrame');
-  frame.src = url; frame.style.display='block';
-  document.getElementById('pdfPh').style.display='none';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const b64 = e.target.result.split(',')[1];
+    const store = loadStore();
+    store[curId] = b64;
+    saveStore(store);
+    const frame = document.getElementById('pdfFrame');
+    frame.src = b64ToObjectUrl(b64);
+    frame.style.display = 'block';
+    document.getElementById('pdfPh').style.display = 'none';
+    const note = document.getElementById('pdfNote');
+    note.style.display = 'block';
+    setTimeout(() => { note.style.display='none'; }, 4000);
+  };
+  reader.readAsDataURL(file);
 }
+
 document.getElementById('modal').addEventListener('click', function(e){ if(e.target===this) cModal(); });
 document.addEventListener('keydown', e => { if(e.key==='Escape') cModal(); });
 window.oModal = oModal;
