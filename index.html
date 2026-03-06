@@ -76,8 +76,8 @@ section{padding:clamp(4rem,6vw,6.5rem) clamp(1.5rem,5vw,4rem)}
 .display{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,15vw,18rem);line-height:.85;letter-spacing:.02em;text-transform:uppercase;overflow:visible}
 .sec-label{font-size:.6rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
 .sec-label::before{content:'';width:2.5rem;height:1px;background:var(--red);flex-shrink:0}
-.sec-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5.5vw,6rem);line-height:.95;letter-spacing:.03em;text-transform:uppercase;margin-bottom:clamp(2rem,3.5vw,3rem);overflow:visible}
-.sec-h-o{-webkit-text-stroke:1.5px currentColor;color:transparent;opacity:.55}
+.sec-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5.5vw,6rem);line-height:.95;letter-spacing:.03em;text-transform:uppercase;margin-bottom:clamp(2rem,3.5vw,3rem);overflow:visible;color:var(--white)}
+.sec-h-o{opacity:.35}
 .sec-h-lt{color:var(--ink)}
 .sl-lt{color:var(--red2)}
 .sl-lt::before{background:var(--red2)}
@@ -396,10 +396,15 @@ function About() {
     <section id="about">
       <div className="inner">
         <CR><div className="sec-label sl-lt">À propos</div></CR>
-        <CR delay={.05}><div className="about-intro">PROFIL STRATÉGIQUE —<br/>EXÉCUTION CRÉATIVE.</div></CR>
+        <FU delay={.05}><h2 className="sec-h sec-h-lt">MON PROFIL</h2></FU>
+        <CR delay={.08}><div className="about-intro">Stratégique &amp; opérationnel.</div></CR>
         <FU delay={.1}><p className="about-body"><strong>Hugo Descouts</strong> — futur étudiant en MBA Marketing, Stratégies de Marque et Publicité à l'ISCOM Paris. Profil à la fois <strong>stratégique et opérationnel</strong> : je conçois des lignes éditoriales, je les produis et j'en mesure les résultats. Trois expériences dans des univers radicalement différents m'ont appris à m'adapter, à produire avec rigueur et à penser avec ambition.</p></FU>
       </div>
-      <div className="pp-grid" style={{ marginTop:'clamp(3rem,5vw,5rem)' }}>
+      <div className="inner" style={{ paddingTop:'clamp(2.5rem,4vw,3.5rem)', paddingBottom:'1rem' }}>
+        <CR><div className="sec-label sl-lt">Culture &amp; intérêts</div></CR>
+        <FU delay={.05}><h2 className="sec-h sec-h-lt">MES PASSIONS</h2></FU>
+      </div>
+      <div className="pp-grid" style={{ marginTop:'0' }}>
         {pp.map((p,i) => (
           <FU key={i} delay={i*.08}>
             <div className="pp">
@@ -429,13 +434,13 @@ function Hermes() {
         <div>
           <FU><div className="hm-tag"><span className="dot"/>Alternance en cours · Sept. 2025 · Présent</div></FU>
           <FU delay={.05}>
-            <div className="hm-logo">
-              <img src="https://upload.wikimedia.org/wikipedia/fr/4/43/Logo_Herm%C3%A8s.svg" alt="Hermès" onError={e=>e.target.style.display='none'}/>
+            <div style={{ display:'flex', alignItems:'center', gap:'1.5rem', marginBottom:'1rem' }}>
+              <div className="hm-logo" style={{ marginBottom:0, flexShrink:0 }}>
+                <img src="https://upload.wikimedia.org/wikipedia/fr/4/43/Logo_Herm%C3%A8s.svg" alt="Hermès" onError={e=>e.target.style.display='none'}/>
+              </div>
+              <div className="hm-co" style={{ marginBottom:0 }}>HERMÈS</div>
             </div>
           </FU>
-          <CR delay={.08}>
-            <div className="hm-co">HERMÈS</div>
-          </CR>
           <FU delay={.12}><div className="hm-role">Assistant Adoption et Communication Processus IT</div></FU>
           <FU delay={.15}>
             <div className="hm-kpis">
@@ -483,7 +488,7 @@ function Experience() {
     <section id="experience">
       <div className="inner">
         <CR><div className="sec-label sl-lt">Autres expériences</div></CR>
-        <CR delay={.05}><h2 className="sec-h sec-h-lt">EXPÉ<span className="sec-h-o">RIENCES</span></h2></CR>
+        <FU delay={.05}><h2 className="sec-h sec-h-lt">EXPÉRIENCES</h2></FU>
         <div>
           {xps.map((x,i) => {
             const isO = open===x.id;
@@ -529,7 +534,7 @@ function Projects() {
     <section id="projects">
       <div className="inner">
         <CR><div className="sec-label">Réalisations</div></CR>
-        <CR delay={.05}><h2 className="sec-h">MES <span className="sec-h-o">PROJETS</span></h2></CR>
+        <FU delay={.05}><h2 className="sec-h">MES PROJETS</h2></FU>
       </div>
       <div className="pj-grid" style={{ margin:'0 clamp(1.5rem,5vw,4rem)' }}>
         {pjs.map((p,i) => (
@@ -567,7 +572,7 @@ function Skills() {
     <section id="skills">
       <div className="inner">
         <CR><div className="sec-label sl-lt">Ce que j'apporte</div></CR>
-        <CR delay={.05}><h2 className="sec-h sec-h-lt">EXPERT<span className="sec-h-o">ISES</span></h2></CR>
+        <FU delay={.05}><h2 className="sec-h sec-h-lt">COMPÉTENCES</h2></FU>
       </div>
       <div className="sk-grid" style={{ margin:'0 clamp(1.5rem,5vw,4rem)' }}>
         {cards.map((c,i) => (
