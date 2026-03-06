@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Hugo Descouts — Portfolio</title>
+<title>Hugo Descouts · Alternance MBA ISCOM 2026 · Communication & Marketing</title>
+<meta name="author" content="Hugo Descouts"/>
+<meta name="description" content="Futur étudiant en MBA ISCOM Paris, disponible en alternance dès septembre 2026. Spécialiste communication, stratégie de marque et marketing digital. Expérience chez Hermès."/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Hugo Descouts · Alternance MBA ISCOM 2026"/>
+<meta property="og:description" content="Stratège et créatif. Futur MBA ISCOM Paris. Expériences chez Hermès, UNPPD et Corporate Fiction. Disponible en alternance dès septembre 2026."/>
+<meta property="og:image" content="https://media.licdn.com/dms/image/v2/D4E03AQEJY8yuOnA8QQ/profile-displayphoto-scale_400_400/B4EZv.5jbGJUAg-/0/1769508060323?e=1774483200&v=beta&t=rf_Y_We2upB4BnxgHxf9d8De7ELblGq8f2PZxT8djtA"/>
+<meta property="og:image:width" content="400"/>
+<meta property="og:image:height" content="400"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Hugo Descouts · Alternance MBA ISCOM 2026"/>
+<meta name="twitter:description" content="Stratège et créatif. Futur MBA ISCOM Paris. Expériences chez Hermès, UNPPD et Corporate Fiction."/>
+<meta name="twitter:image" content="https://media.licdn.com/dms/image/v2/D4E03AQEJY8yuOnA8QQ/profile-displayphoto-scale_400_400/B4EZv.5jbGJUAg-/0/1769508060323?e=1774483200&v=beta&t=rf_Y_We2upB4BnxgHxf9d8De7ELblGq8f2PZxT8djtA"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2305130b'/><text y='.9em' font-size='72' font-family='serif' font-weight='900' fill='%2334d399'>H</text></svg>"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -177,13 +190,18 @@ section { padding: clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem); }
 .tk-item { font-family: 'Archivo Black', sans-serif; font-size: 2.2rem; color: var(--dark); white-space: nowrap; padding: 0 2rem; text-transform: uppercase; }
 .tk-sep { color: var(--g2); margin: 0 1.5rem; }
 
-/* ─── HERO ─── */
+/* HERO */
 #hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding-top: 9rem; border-bottom: 1px solid var(--border); }
 .hero-bottom { display: grid; grid-template-columns: 1fr auto; align-items: flex-end; gap: 2rem; margin-top: clamp(3rem,5vw,5rem); padding-bottom: clamp(3rem,5vw,5rem); }
 .hero-desc { font-size: clamp(1rem,1.5vw,1.2rem); color: var(--m); line-height: 1.8; max-width: 540px; }
 .hero-stats { display: flex; gap: clamp(2rem,4vw,4rem); flex-wrap: wrap; justify-content: flex-end; }
 .s-n { font-family: 'Archivo Black', sans-serif; font-size: clamp(3rem,6vw,5rem); color: var(--g); line-height: 1; }
 .s-l { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--m); margin-top: .35rem; }
+.hero-photo { width: clamp(72px,9vw,110px); height: clamp(72px,9vw,110px); border-radius: 50%; object-fit: cover; border: 2px solid rgba(52,211,153,.4); box-shadow: 0 0 30px rgba(52,211,153,.15); flex-shrink: 0; }
+.btn-cta { display: inline-flex; align-items: center; gap: .7rem; background: var(--g); color: var(--dark); font-family: 'Archivo Black', sans-serif; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; padding: .85rem 2rem; border-radius: 999px; transition: background .25s, transform .25s; cursor: pointer; text-decoration: none; }
+.btn-cta:hover { background: #fff; transform: translateY(-2px); }
+.btn-cta-ghost { background: transparent; color: var(--g); border: 1.5px solid rgba(52,211,153,.35); }
+.btn-cta-ghost:hover { background: rgba(52,211,153,.08); color: var(--g); transform: translateY(-2px); }
 
 /* ─── PASSIONS ─── */
 .pp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
@@ -360,7 +378,7 @@ footer p { font-size: .6rem; font-weight: 600; letter-spacing: .15em; text-trans
 /* ─── RESPONSIVE ─── */
 @media(max-width:1100px) { .sk-intro { grid-template-columns: 1fr; } }
 @media(max-width:900px) { .pp-grid { grid-template-columns: 1fr; } .pp { aspect-ratio: 16/9; } .pj-grid { grid-template-columns: 1fr; } .pj:nth-child(n) { border-right: none; } .pj:nth-child(3) { border-bottom: 1px solid var(--border); } .hero-bottom { grid-template-columns: 1fr; } .hero-stats { justify-content: flex-start; } .hm-grid { grid-template-columns: 1fr; } }
-@media(max-width:768px) { .n-links { display: none; } .hbg { display: block; } .xp-row { grid-template-columns: auto 1fr; } .xp-date { display: none; } .xp-inn { padding-left: 0; } .edu-c { border-right: none; border-bottom: 1px solid var(--border); } .edu-c:last-child { border-bottom: none; } }
+@media(max-width:768px) { .n-links { display: none; } .hbg { display: block; } .xp-row { grid-template-columns: auto 1fr; } .xp-date { display: none; } .xp-inn { padding-left: 0; } .edu-c { border-right: none; border-bottom: 1px solid var(--border); } .edu-c:last-child { border-bottom: none; } .hero-photo { width: 60px; height: 60px; } .btn-cta { font-size: .72rem; padding: .75rem 1.5rem; } }
 </style>
 </head>
 <body>
@@ -441,9 +459,17 @@ function Hero() {
     <section id="hero">
       <div className="inner">
         <div style={a(.08)}>
-          <div className="badge">
-            <span className="dot"/>
-            Disponible Septembre 2026 · MBA ISCOM Paris
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+            <img
+              className="hero-photo"
+              src="https://media.licdn.com/dms/image/v2/D4E03AQEJY8yuOnA8QQ/profile-displayphoto-scale_400_400/B4EZv.5jbGJUAg-/0/1769508060323?e=1774483200&v=beta&t=rf_Y_We2upB4BnxgHxf9d8De7ELblGq8f2PZxT8djtA"
+              alt="Hugo Descouts"
+              onError={e => e.target.style.display = 'none'}
+            />
+            <div className="badge">
+              <span className="dot"/>
+              Disponible Septembre 2026 · MBA ISCOM Paris
+            </div>
           </div>
         </div>
         <div style={a(.14)}>
@@ -456,9 +482,15 @@ function Hero() {
           <div className="big big-o">DESCOUTS</div>
         </div>
         <div className="hero-bottom" style={a(.32)}>
-          <p className="hero-desc">
-            <strong style={{ color: '#fff' }}>Stratège et créatif.</strong> Futur étudiant en MBA ISCOM Paris — trois expériences solides dont <strong style={{ color: 'var(--g)' }}>Hermès</strong>, une maîtrise complète des outils du marketing digital et une capacité prouvée à produire des contenus qui génèrent des résultats.
-          </p>
+          <div>
+            <p className="hero-desc" style={{ marginBottom: '2rem' }}>
+              <strong style={{ color: '#fff' }}>Stratège et créatif.</strong> Futur étudiant en MBA ISCOM Paris. Trois expériences solides dont <strong style={{ color: 'var(--g)' }}>Hermès</strong>, une maîtrise complète des outils du marketing digital et une capacité prouvée à produire des contenus qui génèrent des résultats.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <a href="#projects" className="btn-cta">Voir mes projets ↓</a>
+              <a href="#contact" className="btn-cta btn-cta-ghost">Me contacter</a>
+            </div>
+          </div>
           <div className="hero-stats">
             {[['3','Expériences'],['4','Projets'],['2','Alternances']].map(([n,l]) => (
               <div key={l}><div className="s-n">{n}</div><div className="s-l">{l}</div></div>
@@ -472,7 +504,7 @@ function Hero() {
 
 /* ══ TICKER ══ */
 function Ticker() {
-  const it = ['Communication','Stratégie de marque','Hermès','MBA ISCOM Paris','Design Graphique','Social Media','Création de contenu'];
+  const it = ['Communication','Stratégie de marque','Direction Artistique','Social Media','Création de contenu','MBA ISCOM Paris','Marketing Digital','Gestion de projet'];
   const d = [...it, ...it, ...it];
   return (
     <div className="ticker">
@@ -486,9 +518,9 @@ function Ticker() {
 /* ══ PASSIONS / ABOUT ══ */
 function About() {
   const pp = [
-    { img: 'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg', cat: 'Sensibilité', title: 'Ballet', sub: 'Onéguine · Lac des Cygnes · Paquita' },
-    { img: 'https://cinedweller.com/wp-content/uploads/2025/03/queer-affiche.jpg.webp', cat: 'Sensibilité', title: 'Cinéma', sub: 'The Substance · Queer · L\'Inconnu' },
-    { img: 'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false', cat: 'Sensibilité', title: 'Mode', sub: 'Balenciaga · Gucci · Hermès' },
+    { img: 'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg', cat: 'Passion', title: 'Ballet', sub: 'Onéguine · Lac des Cygnes · Paquita' },
+    { img: 'https://cinedweller.com/wp-content/uploads/2025/03/queer-affiche.jpg.webp', cat: 'Passion', title: 'Cinéma', sub: 'The Substance · Queer · L\'Inconnu de la Grande Arche' },
+    { img: 'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false', cat: 'Passion', title: 'Mode', sub: 'Balenciaga · Gucci · Maison Margiela' },
   ];
   return (
     <section id="about" style={{ paddingBottom: 0 }}>
@@ -544,7 +576,7 @@ function Hermes() {
           <FU>
             <div className="hm-tag">
               <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--g)', boxShadow: '0 0 8px var(--g)', display: 'inline-block' }}/>
-              Alternance en cours · Sept. 2025 — Présent
+              Alternance en cours · Sept. 2025 · Présent
             </div>
           </FU>
 
@@ -566,7 +598,7 @@ function Hermes() {
             <FU delay={.13}>
               <ul className="hm-missions">
                 {[
-                  'Pilotage de la refonte intégrale du SharePoint — optimisation UX et de l\'accès à l\'information, générant plus de 2 000 visites hebdomadaires.',
+                  'Pilotage de la refonte intégrale du SharePoint : optimisation UX et de l\'accès à l\'information, générant plus de 2 000 visites hebdomadaires.',
                   'Conception et déploiement de newsletters dédiées à l\'adoption des procédures IT et à l\'identification des interlocuteurs clés.',
                   'Audit complet des processus existants : création et déploiement de nouveaux workflows pour structurer et fluidifier les méthodes de travail.',
                   'Coordination du séminaire de direction : recherches de lieux, négociations fournisseurs, gestion des devis et suivi logistique.',
@@ -605,7 +637,7 @@ function Experience() {
   const [open, setOpen] = useState(null);
   const xps = [
     {
-      id: 'unppd', type: 'Alternance', ts: 'alt', date: 'Sept. 2024 — Août 2025',
+      id: 'unppd', type: 'Alternance', ts: 'alt', date: 'Sept. 2024 · Août 2025',
       logo: 'https://dentalforum2026.com/data/files/logo_unppd_2014hd.jpg',
       company: 'UNPPD', role: 'Chargée de Communication',
       bullets: [
@@ -616,7 +648,7 @@ function Experience() {
       chips: ['InDesign', 'Photoshop', 'WordPress', 'LinkedIn', 'Rédaction BtoB'],
     },
     {
-      id: 'cf', type: 'Stage', ts: 'stg', date: 'Mai — Juin 2024',
+      id: 'cf', type: 'Stage', ts: 'stg', date: 'Mai · Juin 2024',
       logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCvoRKzi_I8YdIbjbPHJIMOjQs60obvHenHg&s',
       company: 'CORPORATE FICTION', role: 'Communication Commerciale · Agence',
       bullets: [
@@ -669,7 +701,7 @@ function Experience() {
 /* ══ PROJECTS — links directly to Drive ══ */
 function Projects() {
   const pjs = [
-    { id: 'trempez', num: '01', aw: true,  title: 'TREMPEZ',            desc: 'Concept fort et storytelling soigné — primé meilleur projet de la promotion.',        link: 'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
+    { id: 'trempez', num: '01', aw: true,  title: 'TREMPEZ',            desc: 'Concept fort et storytelling soigné, primé meilleur projet de la promotion.',        link: 'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
     { id: 'tui',     num: '02', aw: true,  title: "DÉCONNEC'TUI",        desc: 'Offre digital detox pour TUI ciblant les 25-35 ans en quête de sens.',                link: 'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
     { id: 'rose',    num: '03', aw: false, title: 'ROSE FESTIVAL',       desc: 'Stratégie événementielle, identité visuelle et plan de diffusion multicanal.',        link: 'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
     { id: 'edu',     num: '04', aw: false, title: 'ÉDUCATION NATIONALE', desc: 'Stratégie de communication institutionnelle et analyse des publics pour le Ministère.', link: 'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
@@ -711,7 +743,7 @@ function Skills() {
   const cards = [
     { ico: '📐', t: 'Stratégie de communication', d: 'Positionnement de marque, plan de communication multi-canal, analyse des publics cibles et définition des messages clés.' },
     { ico: '✍️', t: 'Création de contenu', d: 'Rédaction éditoriale, newsletters, posts, storytelling de marque et direction artistique de visuels print et digitaux.' },
-    { ico: '📱', t: 'Social Media & Community', d: 'Ligne éditoriale, carousels, calendrier éditorial, croissance organique prouvée — multiplication par 5 des abonnés LinkedIn.' },
+    { ico: '📱', t: 'Social Media & Community', d: 'Ligne éditoriale, carousels, calendrier éditorial, croissance organique prouvée : multiplication par 5 des abonnés LinkedIn.' },
     { ico: '🗂️', t: 'Gestion de projet', d: 'Coordination d\'équipes, planification des livrables, suivi JIRA et SharePoint. Habitué aux environnements exigeants et aux délais serrés.' },
     { ico: '📊', t: 'Analyse & Reporting', d: 'Google Analytics, tableaux de bord, reporting des performances et traduction des datas en insights actionnables pour les équipes.' },
     { ico: '🎨', t: 'Design & Production', d: 'Suite Adobe complète (InDesign, Photoshop, Illustrator), Canva, Figma. Production print, identité visuelle, maquettes et motion pour social.' },
@@ -752,8 +784,8 @@ function Skills() {
           <div className="label">Formations</div>
           <div className="edu-grid">
             {[
-              { s: 'ISCOM Paris', d: 'MBA Marketing, Stratégies de Marque et Publicité', dt: '2026 — 2028', p: 'Rythme 4j entreprise / 1j école. Recherche alternance à partir de sept. 2026.' },
-              { s: 'IUT Paris Rives de Seine', d: 'BUT Information et Communication', dt: '2023 — 2026', p: 'Spécialisation Communication des Organisations. Trésorier de l\'Agence Hélice (2024-2025).' },
+              { s: 'ISCOM Paris', d: 'MBA Marketing, Stratégies de Marque et Publicité', dt: '2026 · 2028', p: 'Rythme 4j entreprise / 1j école. Recherche alternance à partir de sept. 2026.' },
+              { s: 'IUT Paris Rives de Seine', d: 'BUT Information et Communication', dt: '2023 · 2026', p: 'Spécialisation Communication des Organisations. Trésorier de l\'Agence Hélice (2024-2025).' },
             ].map((e, i) => (
               <div key={i} className="edu-c">
                 <div className="edu-s">{e.s}</div>
