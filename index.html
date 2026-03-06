@@ -389,7 +389,7 @@ function Ticker() {
 function About() {
   const pp = [
     { img:'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg', cat:'Passion', title:'Ballet', sub:'Onéguine · Lac des Cygnes · Paquita' },
-    { img:'https://cinedweller.com/wp-content/uploads/2025/03/queer-affiche.jpg.webp', cat:'Passion', title:'Cinéma', sub:"The Substance · Queer · L'Inconnu de la Grande Arche" },
+    { img:'https://fr.web.img6.acsta.net/r_1920_1080/img/7f/27/7f2716df39b33e8a74e2aa710663ef91.jpg', cat:'Passion', title:'Cinéma', sub:"The Substance · Queer · L'Inconnu de la Grande Arche" },
     { img:'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false', cat:'Passion', title:'Mode', sub:'Balenciaga · Gucci · Maison Margiela' },
   ];
   return (
@@ -430,7 +430,7 @@ function Hermes() {
           <FU><div className="hm-tag"><span className="dot"/>Alternance en cours · Sept. 2025 · Présent</div></FU>
           <FU delay={.05}>
             <div className="hm-logo">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Hermes_logo.svg/1200px-Hermes_logo.svg.png" alt="Hermès" onError={e=>e.target.style.display='none'}/>
+              <img src="https://upload.wikimedia.org/wikipedia/fr/4/43/Logo_Herm%C3%A8s.svg" alt="Hermès" onError={e=>e.target.style.display='none'}/>
             </div>
           </FU>
           <CR delay={.08}>
@@ -483,7 +483,7 @@ function Experience() {
     <section id="experience">
       <div className="inner">
         <CR><div className="sec-label sl-lt">Autres expériences</div></CR>
-        <CR delay={.05}><h2 className="sec-h sec-h-lt">EXPÉ<span className="sec-h-o">RIENCES</span></h2></CR>
+        <CR delay={.05}><h2 className="sec-h sec-h-lt">EXPÉRIENCES<span className="sec-h-o">RIENCES</span></h2></CR>
         <div>
           {xps.map((x,i) => {
             const isO = open===x.id;
