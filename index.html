@@ -3,693 +3,1135 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Hugo Descouts · Alternance MBA ISCOM 2026 · Communication & Marketing</title>
-<meta name="author" content="Hugo Descouts"/>
-<meta name="description" content="Futur étudiant en MBA ISCOM Paris, disponible en alternance dès septembre 2026. Spécialiste communication, stratégie de marque et marketing digital. Expérience chez Hermès."/>
-<meta property="og:type" content="website"/>
-<meta property="og:title" content="Hugo Descouts · Alternance MBA ISCOM 2026"/>
-<meta property="og:description" content="Stratège et créatif. Futur MBA ISCOM Paris. Expériences chez Hermès, UNPPD et Corporate Fiction. Disponible en alternance dès septembre 2026."/>
-<meta property="og:image" content="https://media.licdn.com/dms/image/v2/D4E03AQEJY8yuOnA8QQ/profile-displayphoto-scale_400_400/B4EZv.5jbGJUAg-/0/1769508060323?e=1774483200&v=beta&t=rf_Y_We2upB4BnxgHxf9d8De7ELblGq8f2PZxT8djtA"/>
-<meta name="twitter:card" content="summary_large_image"/>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0a0a'/><text y='.9em' font-size='72' font-family='serif' font-weight='900' fill='%23FF3D00'>H</text></svg>"/>
+<title>Hugo Descouts — Alternant MBA ISCOM 2026</title>
+<meta name="description" content="Portfolio de Hugo Descouts, futur étudiant MBA ISCOM Paris, disponible en alternance dès septembre 2026."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet"/>
 <style>
-:root{--ink:#0a0a0a;--paper:#F2EDE6;--paper2:#E8E2D9;--red:#FF3D00;--red2:#CC3100;--white:#FAFAF8;--muted:rgba(10,10,10,.48);--mutedp:rgba(242,237,230,.48);--bi:rgba(10,10,10,.1);--bw:rgba(255,255,255,.08)}
+/* ══════════════════════════════════
+   TOKENS
+══════════════════════════════════ */
+:root {
+  --bg:      #F7F4EF;
+  --ink:     #0E0E0E;
+  --ink2:    #3A3A3A;
+  --muted:   #9A9488;
+  --border:  rgba(14,14,14,.1);
+
+  /* Section accents */
+  --y:  #F5E642;   /* jaune — hero */
+  --g:  #1BF0A0;   /* vert — expériences */
+  --c:  #FF5C3A;   /* corail — projets */
+  --v:  #B14EFF;   /* violet — pourquoi moi */
+  --b:  #3A8EFF;   /* bleu — passions */
+
+  --sidebar-w: 72px;
+  --sidebar-w-open: 220px;
+}
+
+/* ══ RESET ══ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;background:var(--ink);cursor:none}
-body{background:var(--ink);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html{background:var(--bg);scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
-button{cursor:none;border:none;background:none;color:inherit;font-family:inherit}
-a{color:inherit;text-decoration:none;cursor:none}
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--red)}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit;color:inherit}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--ink);border-radius:2px}
 
-/* CURSOR */
-#cur{position:fixed;z-index:9999;pointer-events:none;mix-blend-mode:difference;top:0;left:0}
-#cur-dot{width:8px;height:8px;background:var(--white);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .2s,height .2s}
-#cur-ring{width:38px;height:38px;border:1.5px solid rgba(255,255,255,.7);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;opacity:.5}
-body.hov #cur-dot{width:5px;height:5px}
-body.hov #cur-ring{width:56px;height:56px;border-color:var(--red);opacity:1}
-body.clk #cur-ring{width:22px;height:22px}
+/* ══════════════════════════════════
+   SIDEBAR
+══════════════════════════════════ */
+#sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--ink);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.8rem 0;
+  transition: width .35s cubic-bezier(.16,1,.3,1);
+  overflow: hidden;
+}
+#sidebar:hover { width: var(--sidebar-w-open); }
 
-/* GRAIN */
-body::before{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* Logo initiales */
+.sb-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem; font-weight: 900;
+  color: var(--y);
+  writing-mode: horizontal-tb;
+  letter-spacing: -.02em;
+  margin-bottom: 2.5rem;
+  white-space: nowrap;
+  width: 100%;
+  padding: 0 1.4rem;
+  line-height: 1;
+}
+.sb-logo span { color: rgba(245,230,66,.35); }
 
-/* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.2rem clamp(1.5rem,4vw,3.5rem);display:flex;align-items:center;justify-content:space-between;transition:background .4s,border .4s}
-#nav.sc{background:rgba(10,10,10,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,61,0,.12)}
-.n-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);letter-spacing:.08em;line-height:1}
-.n-logo span{color:var(--red)}
-.n-links{display:flex;gap:2.5rem;align-items:center}
-.n-links a{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:rgba(250,250,248,.45);transition:color .2s;position:relative}
-.n-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--red);transition:width .3s}
-.n-links a:hover{color:var(--white)}
-.n-links a:hover::after{width:100%}
-.hbg{display:none;font-size:1.6rem;color:var(--white)}
-.n-cta{font-size:.65rem!important;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(255,61,0,.4);color:var(--red)!important;padding:.42rem 1.1rem;border-radius:2px;transition:all .25s}
-.n-cta:hover{background:var(--red)!important;color:var(--white)!important}
-.n-cta::after{display:none!important}
+/* Nav links */
+.sb-nav {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  flex: 1;
+  width: 100%;
+  padding: 0 .8rem;
+}
+.sb-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .7rem .6rem;
+  border-radius: 8px;
+  transition: background .2s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.sb-link:hover { background: rgba(255,255,255,.07); }
+.sb-link.active { background: rgba(255,255,255,.1); }
+.sb-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.sb-link:hover .sb-dot, .sb-link.active .sb-dot { transform: scale(1.4); }
+.sb-label {
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  opacity: 0;
+  transition: opacity .2s .05s;
+}
+#sidebar:hover .sb-label { opacity: 1; }
+.sb-link.active .sb-label { color: rgba(255,255,255,.9); }
 
-/* MOB */
-.mob{display:none;position:fixed;inset:0;background:var(--ink);z-index:600;flex-direction:column;justify-content:flex-end;padding:clamp(3rem,7vw,5rem);gap:1rem}
-.mob.open{display:flex}
-.mob a{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,7rem);color:var(--white);line-height:1.05;border-bottom:1px solid var(--bw);padding-bottom:.3rem;transition:color .25s,padding-left .25s;letter-spacing:.04em}
-.mob a:hover{color:var(--red);padding-left:.8rem}
-.mob-x{position:absolute;top:1.8rem;right:2rem;font-size:1.6rem;color:rgba(250,250,248,.35)}
+/* Bottom: contact pill */
+.sb-bottom {
+  width: 100%; padding: 0 .8rem;
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.sb-avail {
+  display: flex; align-items: center; gap: .7rem;
+  padding: .6rem .6rem;
+  background: rgba(27,240,160,.12);
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.sb-avail-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--g); flex-shrink: 0;
+  box-shadow: 0 0 8px var(--g);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.sb-avail-txt {
+  font-size: .6rem; font-weight: 600; letter-spacing: .08em;
+  color: var(--g); text-transform: uppercase;
+  opacity: 0; transition: opacity .2s .05s;
+}
+#sidebar:hover .sb-avail-txt { opacity: 1; }
 
-/* LAYOUT */
-.page{position:relative;z-index:1}
-section{padding:clamp(3rem,4.5vw,5rem) clamp(1.5rem,5vw,4rem)}
-.inner{max-width:1440px;margin:0 auto}
+/* ══════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════ */
+#main {
+  margin-left: var(--sidebar-w);
+  transition: margin-left .35s cubic-bezier(.16,1,.3,1);
+}
 
-/* REVEAL */
-.fade-up{opacity:0;transform:translateY(38px);transition:opacity .85s ease,transform .85s cubic-bezier(.16,1,.3,1)}
-.fade-up.in{opacity:1;transform:none}
-.clip-r{clip-path:inset(0 0 100% 0);transform:translateY(16px);transition:clip-path .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-.clip-r.in{clip-path:inset(0 0 0% 0);transform:none}
+/* ══════════════════════════════════
+   SECTIONS — base
+══════════════════════════════════ */
+.section {
+  min-height: 100vh;
+  padding: clamp(4rem,8vw,7rem) clamp(2rem,5vw,5rem);
+  position: relative;
+  overflow: hidden;
+}
+.section-inner { max-width: 1100px; }
 
-/* TYPOGRAPHY */
-.display{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,15vw,18rem);line-height:.85;letter-spacing:.02em;text-transform:uppercase;overflow:visible}
-.sec-label{font-size:.6rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
-.sec-label::before{content:'';width:2.5rem;height:1px;background:var(--red);flex-shrink:0}
-.sec-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5.5vw,6rem);line-height:.95;letter-spacing:.03em;text-transform:uppercase;margin-bottom:clamp(2rem,3.5vw,3rem);overflow:visible;color:var(--white)}
-.sec-h-o{opacity:.35}
-.sec-h-lt{color:var(--ink)}
-.sl-lt{color:var(--red2)}
-.sl-lt::before{background:var(--red2)}
+/* Section tag */
+.s-tag {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .62rem; font-weight: 700; letter-spacing: .22em;
+  text-transform: uppercase; margin-bottom: 2rem;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+}
 
-/* BADGE */
-.badge{display:inline-flex;align-items:center;gap:.7rem;background:rgba(255,61,0,.07);border:1px solid rgba(255,61,0,.28);border-radius:2px;padding:.48rem 1.1rem;font-size:.63rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
-.dot{width:7px;height:7px;background:var(--red);border-radius:50%;box-shadow:0 0 10px var(--red);animation:blink 1.8s infinite;flex-shrink:0}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+/* Section title */
+.s-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3rem,7vw,7rem);
+  font-weight: 900; line-height: .92;
+  letter-spacing: -.03em;
+  margin-bottom: 1rem;
+}
+.s-title-sm {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem,4.5vw,4.5rem);
+  font-weight: 700; line-height: .95;
+  letter-spacing: -.02em;
+}
+.s-intro {
+  font-size: clamp(1rem,1.5vw,1.15rem);
+  line-height: 1.8; color: var(--ink2);
+  max-width: 600px; font-weight: 400;
+  margin-bottom: 3rem;
+}
 
-/* TICKER */
-.ticker{overflow:hidden;background:var(--red);padding:1rem 0;transform:rotate(-1.2deg) scale(1.04);margin:4rem 0;box-shadow:0 15px 50px rgba(255,61,0,.3);position:relative;z-index:2}
-.tk-track{display:flex;width:max-content;animation:tk 20s linear infinite}
-@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.tk-item{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--white);white-space:nowrap;padding:0 2rem;letter-spacing:.04em}
-.tk-sep{color:rgba(255,255,255,.35);margin:0 1rem}
+/* Reveal */
+.rv { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1); }
+.rv.in { opacity: 1; transform: none; }
+.rv2 { opacity: 0; transform: translateX(-20px); transition: opacity .6s ease, transform .6s cubic-bezier(.16,1,.3,1); }
+.rv2.in { opacity: 1; transform: none; }
 
-/* HERO */
-.hero-layout{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end}
-.hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:7rem clamp(1.5rem,4vw,3.5rem) clamp(2.5rem,4vw,4rem);position:relative;z-index:1;width:100%}
-.hero-right{position:absolute;top:50%;right:clamp(3rem,7vw,8rem);transform:translateY(-55%);z-index:2;pointer-events:none}
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero {
+  background: var(--ink);
+  color: var(--bg);
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.hero-bg-text {
+  position: absolute; top: 0; right: -2rem;
+  font-family: 'Fraunces', serif; font-weight: 900;
+  font-size: clamp(12rem,22vw,28rem);
+  line-height: .8; letter-spacing: -.04em;
+  color: rgba(255,255,255,.028);
+  pointer-events: none; user-select: none;
+  white-space: nowrap;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .7rem;
+  background: var(--y); color: var(--ink);
+  font-size: .65rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; padding: .5rem 1.1rem;
+  border-radius: 999px; margin-bottom: 2.5rem;
+  width: fit-content;
+}
+.hero-name {
+  font-family: 'Fraunces', serif; font-weight: 900;
+  font-size: clamp(4rem,11vw,11rem);
+  line-height: .85; letter-spacing: -.04em;
+  margin-bottom: 2rem;
+}
+.hero-name em {
+  font-style: italic; font-weight: 300;
+  color: rgba(247,244,239,.25);
+}
+.hero-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+  margin-top: 1rem;
+}
+.hero-desc {
+  font-size: clamp(.95rem,1.3vw,1.05rem);
+  line-height: 1.8; color: rgba(247,244,239,.6);
+  max-width: 500px;
+}
+.hero-desc strong { color: var(--bg); }
+.hero-desc .acc { color: var(--y); font-weight: 600; }
+.hero-photo-wrap {
+  position: relative; flex-shrink: 0;
+}
+.hero-photo {
+  width: clamp(100px,13vw,170px);
+  height: clamp(100px,13vw,170px);
+  border-radius: 50%;
+  object-fit: cover; object-position: center top;
+  border: 3px solid var(--y);
+  filter: grayscale(20%);
+}
+.hero-stats {
+  display: flex; gap: clamp(2rem,4vw,4rem);
+  flex-wrap: wrap;
+}
+.stat-n {
+  font-family: 'Fraunces', serif; font-weight: 900;
+  font-size: clamp(2.5rem,5vw,4.5rem);
+  color: var(--y); line-height: 1;
+  letter-spacing: -.02em;
+}
+.stat-l {
+  font-size: .6rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: rgba(247,244,239,.35); margin-top: .2rem;
+}
+.hero-ctas {
+  display: flex; gap: .8rem; flex-wrap: wrap;
+  margin-top: 2rem;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; padding: .8rem 1.8rem;
+  border-radius: 6px; transition: all .22s; cursor: pointer;
+}
+.btn-y { background: var(--y); color: var(--ink); }
+.btn-y:hover { background: #fff; transform: translateY(-2px); }
+.btn-outline { border: 1.5px solid rgba(255,255,255,.2); color: rgba(247,244,239,.7); }
+.btn-outline:hover { border-color: rgba(255,255,255,.6); color: var(--bg); transform: translateY(-2px); }
 
-.hero-right-img{width:clamp(140px,16vw,220px);height:clamp(140px,16vw,220px);object-fit:cover;object-position:50% 15%;border-radius:50%;display:block;border:3px solid var(--red);box-shadow:0 0 0 8px rgba(255,61,0,.08),0 20px 60px rgba(0,0,0,.5);filter:grayscale(15%);transition:filter .6s}
-.hero-right-img:hover{filter:grayscale(0%)}.hero-right::after{display:none}
-.hero-right-label{position:absolute;bottom:2rem;right:1.5rem;z-index:2;font-size:.56rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.28);writing-mode:vertical-rl}
+/* ══════════════════════════════════
+   POURQUOI MOI
+══════════════════════════════════ */
+#why { background: var(--y); color: var(--ink); }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.why-card {
+  background: var(--ink); color: var(--bg);
+  border-radius: 16px; padding: 2rem 1.8rem;
+  position: relative; overflow: hidden;
+  transition: transform .3s cubic-bezier(.16,1,.3,1);
+}
+.why-card:hover { transform: translateY(-6px); }
+.why-card-n {
+  font-family: 'Fraunces', serif; font-weight: 900;
+  font-size: 4rem; line-height: 1;
+  color: rgba(245,230,66,.15);
+  position: absolute; top: 1rem; right: 1.2rem;
+  letter-spacing: -.03em;
+}
+.why-card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+.why-card-title {
+  font-family: 'Fraunces', serif; font-weight: 700;
+  font-size: 1.2rem; line-height: 1.2;
+  margin-bottom: .6rem; letter-spacing: -.01em;
+}
+.why-card-body { font-size: .8rem; line-height: 1.7; color: rgba(247,244,239,.6); }
 
-#hero{position:relative;overflow:hidden;border-bottom:1px solid var(--bw)}
-#hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,61,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,61,0,.025) 1px,transparent 1px);background-size:80px 80px}
-.hero-yr{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,4rem);color:rgba(255,255,255,.04);position:absolute;right:clamp(1.5rem,5vw,4rem);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;user-select:none;letter-spacing:.08em}
-.hero-bottom{display:grid;grid-template-columns:1fr auto;align-items:flex-end;gap:2rem;margin-top:clamp(4rem,7vw,7rem);padding-bottom:clamp(3rem,5vw,5rem);position:relative;z-index:1}
-.hero-desc{font-size:clamp(.95rem,1.4vw,1.1rem);color:rgba(250,250,248,.5);line-height:1.85;max-width:520px;font-weight:500}
-.hero-photo{width:clamp(64px,8vw,100px);height:clamp(64px,8vw,100px);border-radius:50%;object-fit:cover;border:2px solid rgba(255,61,0,.5);box-shadow:0 0 0 5px rgba(255,61,0,.08);flex-shrink:0}
-.hero-stats{display:flex;gap:clamp(2rem,4vw,4rem);flex-wrap:wrap;justify-content:flex-end}
-.s-n{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,7vw,6rem);color:var(--red);line-height:1}
-.s-l{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(250,250,248,.35);margin-top:.3rem}
-.btn-cta{display:inline-flex;align-items:center;gap:.8rem;background:var(--red);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;padding:.9rem 2.2rem;border-radius:2px;transition:background .2s,transform .2s,color .2s;position:relative;overflow:hidden}
-.btn-cta::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .3s cubic-bezier(.16,1,.3,1)}
-.btn-cta:hover::before{transform:none}
-.btn-cta:hover{color:var(--ink);transform:translateY(-2px)}
-.btn-cta span{position:relative;z-index:1}
-.btn-ghost{background:transparent;color:rgba(250,250,248,.55);border:1px solid rgba(255,255,255,.15)}
-.btn-ghost::before{display:none}
-.btn-ghost:hover{color:var(--white);background:rgba(255,255,255,.06);transform:translateY(-2px)}
+/* ══════════════════════════════════
+   EXPÉRIENCES
+══════════════════════════════════ */
+#xp { background: var(--bg); }
+.xp-list { display: flex; flex-direction: column; margin-top: 2rem; }
+.xp-item {
+  border-top: 1.5px solid var(--border);
+  padding: 2.2rem 0;
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 2rem; align-items: start;
+  cursor: pointer;
+  transition: padding-left .3s;
+}
+.xp-item:last-child { border-bottom: 1.5px solid var(--border); }
+.xp-item:hover { padding-left: .8rem; }
+.xp-logo-box {
+  width: 64px; height: 64px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px; overflow: hidden;
+  flex-shrink: 0;
+}
+.xp-logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.xp-tag-pill {
+  display: inline-flex; font-size: .52rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  padding: .22rem .65rem; border-radius: 999px;
+  border: 1px solid; margin-bottom: .5rem;
+}
+.tag-alt { color: #15803d; border-color: rgba(21,128,61,.3); background: rgba(21,128,61,.06); }
+.tag-stg { color: #92400e; border-color: rgba(146,64,14,.25); background: rgba(146,64,14,.06); }
+.xp-co {
+  font-family: 'Fraunces', serif; font-weight: 900;
+  font-size: clamp(1.6rem,3.5vw,2.8rem);
+  line-height: 1; letter-spacing: -.02em;
+  color: var(--ink); margin-bottom: .3rem;
+}
+.xp-role { font-size: .82rem; color: var(--muted); font-weight: 400; }
+.xp-date {
+  font-size: .6rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted);
+  white-space: nowrap; padding-top: .5rem;
+}
+.xp-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .6s cubic-bezier(.16,1,.3,1), padding .4s;
+  padding-left: calc(80px + 2rem);
+}
+.xp-body.open { max-height: 400px; }
+.xp-body-inner {
+  padding: 1.2rem 0 .8rem;
+  border-top: 1px solid var(--border);
+  margin-top: .5rem;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 2rem;
+}
+.xp-bullets { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+.xp-bullets li {
+  font-size: .83rem; color: var(--ink2);
+  line-height: 1.65; display: flex; gap: .8rem;
+}
+.xp-bullets li::before { content: '→'; color: var(--g); flex-shrink: 0; font-weight: 700; }
+.xp-chips { display: flex; flex-wrap: wrap; gap: .35rem; align-content: flex-start; }
+.chip {
+  font-size: .58rem; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; padding: .28rem .75rem;
+  border-radius: 999px; background: rgba(14,14,14,.06);
+  color: var(--ink2); border: 1px solid var(--border);
+}
+.xp-toggle {
+  font-size: 1.4rem; color: var(--border);
+  transition: transform .4s, color .25s;
+  line-height: 1; padding-top: .4rem;
+}
+.xp-item:hover .xp-toggle { color: var(--ink); }
+.xp-item.open .xp-toggle { transform: rotate(45deg); color: var(--g); }
 
-/* ABOUT — PAPER */
-#about{background:var(--paper);color:var(--ink);position:relative}
-#about::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--red)}
-.about-intro{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,4.5rem);line-height:1;color:var(--ink);margin-bottom:2rem;letter-spacing:.02em}
-.about-body{font-size:clamp(.88rem,1.2vw,1rem);color:var(--muted);line-height:1.9;max-width:640px;font-weight:500}
-.pp-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(10,10,10,.1)}
-.pp{position:relative;overflow:hidden;aspect-ratio:3/4}
-.pp img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:transform .8s cubic-bezier(.16,1,.3,1),filter .6s;display:block}
-.pp:hover img{transform:scale(1.08);filter:grayscale(0%)}
-.pp-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.95) 0%,rgba(10,10,10,.2) 55%,transparent 100%);opacity:0;transition:opacity .4s}
-.pp:hover .pp-ov{opacity:1}
-.pp-lbl{position:absolute;bottom:0;left:0;right:0;padding:2rem;transform:translateY(12px);opacity:0;transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .4s}
-.pp:hover .pp-lbl{transform:none;opacity:1}
-.pp-cat{font-size:.56rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--red);margin-bottom:.4rem}
-.pp-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3.5rem);color:var(--white);letter-spacing:.04em}
-.pp-sub{font-size:.62rem;color:rgba(255,255,255,.45);margin-top:.3rem;font-weight:500}
-.pp:not(:last-child){border-right:1px solid rgba(10,10,10,.1)}
+/* ══════════════════════════════════
+   PROJETS
+══════════════════════════════════ */
+#projects { background: var(--ink); color: var(--bg); }
+.pj-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.pj-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  cursor: pointer;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), border-color .25s;
+  position: relative;
+}
+.pj-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,.2); }
+.pj-card-top {
+  height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-weight: 900;
+  font-size: 4rem; letter-spacing: -.03em;
+  position: relative; overflow: hidden;
+}
+.pj-card-top::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(14,14,14,.8));
+}
+.pj-card-body { padding: 1.5rem; background: #1A1A1A; }
+.pj-card-num { font-size: .56rem; font-weight: 700; letter-spacing: .22em; color: var(--muted); margin-bottom: .4rem; }
+.pj-card-title {
+  font-family: 'Fraunces', serif; font-weight: 700;
+  font-size: 1.3rem; letter-spacing: -.01em;
+  margin-bottom: .5rem; color: var(--bg);
+}
+.pj-card-desc { font-size: .78rem; color: rgba(247,244,239,.5); line-height: 1.6; margin-bottom: 1rem; }
+.pj-card-link {
+  font-size: .62rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; display: inline-flex;
+  align-items: center; gap: .4rem;
+  transition: gap .2s, color .2s;
+}
+.pj-card-link:hover { gap: .7rem; }
+.pj-award {
+  position: absolute; top: 1rem; right: 1rem; z-index: 2;
+  background: var(--y); color: var(--ink);
+  font-size: .52rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; padding: .22rem .65rem;
+  border-radius: 999px;
+}
 
-/* HERMÈS */
-#hermes{padding:0;position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--ink)}
-.hm-vline{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.04),transparent);animation:vfade 5s ease-in-out infinite}
-@keyframes vfade{0%,100%{opacity:.2}50%{opacity:.9}}
-.hm-stripe{position:absolute;top:0;bottom:0;right:0;width:50%;background:linear-gradient(to right,transparent,rgba(255,61,0,.02))}
-.hm-content{position:relative;z-index:2;width:100%;max-width:1440px;margin:0 auto;padding:clamp(3.5rem,5vw,6rem) clamp(1.5rem,5vw,4rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,5vw,6rem);align-items:center}
-.hm-tag{display:inline-flex;align-items:center;gap:.6rem;background:rgba(255,61,0,.07);border:1px solid rgba(255,61,0,.22);border-radius:2px;padding:.35rem 1rem;font-size:.6rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:2.5rem}
-.hm-logo{width:78px;height:78px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;padding:10px;margin-bottom:2rem;border:1px solid var(--bw)}
-.hm-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.hm-co{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,12vw,13rem);line-height:.88;letter-spacing:.02em;color:var(--white);margin-bottom:1rem;overflow:visible}
-.hm-co-o{-webkit-text-stroke:1px rgba(255,255,255,.18);color:transparent}
-.hm-role{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:2.5rem}
-.hm-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bw);border:1px solid var(--bw)}
-.hm-kpi{background:var(--ink);padding:1.8rem 1.2rem;text-align:center;transition:background .3s}
-.hm-kpi:hover{background:rgba(255,61,0,.06)}
-.hm-kn{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4.5vw,3.8rem);color:var(--red);line-height:1}
-.hm-kl{font-size:.56rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:.4rem}
-.hm-missions{list-style:none;display:flex;flex-direction:column}
-.hm-mi{padding:1.4rem 0;border-bottom:1px solid var(--bw);display:flex;gap:1.2rem;align-items:flex-start;transition:padding-left .3s,background .3s}
-.hm-mi:hover{padding-left:.6rem}
-.hm-mi-n{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:rgba(255,61,0,.18);line-height:1;flex-shrink:0;transition:color .3s;min-width:3rem}
-.hm-mi:hover .hm-mi-n{color:var(--red)}
-.hm-mi-t{font-weight:500;font-size:clamp(.83rem,1.1vw,.95rem);color:rgba(255,255,255,.5);line-height:1.75}
+/* ══════════════════════════════════
+   COMPÉTENCES
+══════════════════════════════════ */
+#skills { background: var(--bg); }
+.sk-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.sk-card {
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  padding: 1.6rem 1.4rem;
+  transition: border-color .25s, transform .3s cubic-bezier(.16,1,.3,1), background .25s;
+  cursor: default; position: relative; overflow: hidden;
+}
+.sk-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .35s cubic-bezier(.16,1,.3,1);
+}
+.sk-card:hover::before { transform: scaleX(1); }
+.sk-card:hover { transform: translateY(-4px); border-color: transparent; }
+.sk-ico { font-size: 1.5rem; margin-bottom: .8rem; }
+.sk-title {
+  font-family: 'Fraunces', serif; font-weight: 700;
+  font-size: 1rem; letter-spacing: -.01em;
+  color: var(--ink); margin-bottom: .4rem; line-height: 1.2;
+}
+.sk-body { font-size: .74rem; color: var(--muted); line-height: 1.65; }
 
-/* EXPERIENCE — PAPER2 */
-#experience{background:var(--paper2);color:var(--ink);position:relative;overflow:hidden}
-#experience::after{content:'XP';position:absolute;right:-1rem;bottom:-4rem;font-family:'Bebas Neue',sans-serif;font-size:22vw;color:rgba(10,10,10,.035);pointer-events:none;line-height:1;letter-spacing:.02em}
-.xp-i{border-bottom:1px solid var(--bi);padding:clamp(1.8rem,3.5vw,3rem) 0;transition:padding-left .3s;position:relative}
-.xp-i:first-child{border-top:1px solid var(--bi)}
-.xp-i:hover{padding-left:.8rem}
-.xp-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(1.5rem,3vw,3rem)}
-.xp-logo{width:clamp(50px,5.5vw,65px);height:clamp(50px,5.5vw,65px);background:var(--paper);border-radius:6px;display:flex;align-items:center;justify-content:center;padding:8px;flex-shrink:0;overflow:hidden;border:1px solid var(--bi)}
-.xp-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.xp-co{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4.5rem);line-height:1;color:var(--ink);transition:color .25s;letter-spacing:.03em}
-.xp-i:hover .xp-co,.xp-i.open .xp-co{color:var(--red)}
-.xp-role{font-size:clamp(.75rem,1vw,.88rem);color:var(--muted);margin-top:.25rem;font-weight:500}
-.xp-bdg{font-size:.52rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.16rem .5rem;border-radius:2px;border:1px solid;display:inline-block;margin-bottom:.35rem}
-.alt{color:#15803d;border-color:rgba(21,128,61,.3)}.stg{color:#92400e;border-color:rgba(146,64,14,.3)}
-.xp-date{font-size:.6rem;font-weight:600;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
-.xp-plus{font-size:1.8rem;color:rgba(10,10,10,.18);transition:transform .4s,color .25s;line-height:1}
-.xp-i:hover .xp-plus,.xp-i.open .xp-plus{color:var(--red)}
-.xp-i.open .xp-plus{transform:rotate(45deg)}
-.xp-body{max-height:0;overflow:hidden;transition:max-height .7s cubic-bezier(.16,1,.3,1)}
-.xp-body.open{max-height:500px}
-.xp-inn{padding:1.8rem 0 .5rem calc(clamp(50px,5.5vw,65px) + clamp(1.5rem,3vw,3rem));border-top:1px solid var(--bi);margin-top:1rem}
-.xp-ul{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.4rem}
-.xp-ul li{font-size:clamp(.83rem,1vw,.92rem);color:var(--muted);line-height:1.72;display:flex;gap:.9rem;font-weight:500}
-.xp-ul li::before{content:'→';color:var(--red2);flex-shrink:0}
-.chips{display:flex;flex-wrap:wrap;gap:.4rem}
-.chip{font-size:.56rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.26rem .72rem;border-radius:2px;border:1px solid var(--bi);color:var(--muted)}
+/* Colors per card via nth-child */
+.sk-card:nth-child(1)::before,.sk-card:nth-child(1):hover{border-color:var(--y);background:rgba(245,230,66,.04)}
+.sk-card:nth-child(1)::before{background:var(--y)}
+.sk-card:nth-child(2)::before,.sk-card:nth-child(2):hover{border-color:var(--g);background:rgba(27,240,160,.04)}
+.sk-card:nth-child(2)::before{background:var(--g)}
+.sk-card:nth-child(3)::before,.sk-card:nth-child(3):hover{border-color:var(--c);background:rgba(255,92,58,.04)}
+.sk-card:nth-child(3)::before{background:var(--c)}
+.sk-card:nth-child(4)::before,.sk-card:nth-child(4):hover{border-color:var(--v);background:rgba(177,78,255,.04)}
+.sk-card:nth-child(4)::before{background:var(--v)}
+.sk-card:nth-child(5)::before,.sk-card:nth-child(5):hover{border-color:var(--b);background:rgba(58,142,255,.04)}
+.sk-card:nth-child(5)::before{background:var(--b)}
+.sk-card:nth-child(6)::before,.sk-card:nth-child(6):hover{border-color:var(--y);background:rgba(245,230,66,.04)}
+.sk-card:nth-child(6)::before{background:var(--y)}
+.sk-card:nth-child(7)::before,.sk-card:nth-child(7):hover{border-color:var(--g);background:rgba(27,240,160,.04)}
+.sk-card:nth-child(7)::before{background:var(--g)}
+.sk-card:nth-child(8)::before,.sk-card:nth-child(8):hover{border-color:var(--c);background:rgba(255,92,58,.04)}
+.sk-card:nth-child(8)::before{background:var(--c)}
 
-/* PROJECTS — INK */
-#projects{background:var(--ink);position:relative;overflow:hidden}
-.pj-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--bw);border-left:1px solid var(--bw);margin-top:clamp(2.5rem,4vw,4rem)}
-.pj{padding:clamp(2rem,4vw,3.5rem);border-right:1px solid var(--bw);border-bottom:1px solid var(--bw);position:relative;overflow:hidden;min-height:clamp(300px,26vw,400px);display:flex;flex-direction:column;justify-content:space-between;transition:border-color .3s}
-.pj:nth-child(2n){border-right:none}
-.pj:nth-child(3),.pj:nth-child(4){border-bottom:none}
-/* fill from bottom on hover */
-.pj::before{content:'';position:absolute;inset:0;background:var(--red);transform:translateY(102%);transition:transform .5s cubic-bezier(.16,1,.3,1);z-index:0}
-.pj:hover::before{transform:none}
-.pj>*{position:relative;z-index:1}
-.pj-num{font-size:.6rem;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.28);margin-bottom:.8rem;display:flex;align-items:center;gap:.7rem;transition:color .3s}
-.pj:hover .pj-num{color:rgba(255,255,255,.6)}
-.pj-aw{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.28);padding:.14rem .5rem;border-radius:2px;transition:border-color .3s}
-.pj:hover .pj-aw{border-color:rgba(255,255,255,.7)}
-.pj-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5.5vw,5.5rem);line-height:.9;color:var(--white);margin-bottom:.8rem;letter-spacing:.02em;transition:letter-spacing .4s}
-.pj:hover .pj-title{letter-spacing:.04em}
-.pj-desc{font-size:clamp(.8rem,1vw,.9rem);color:rgba(255,255,255,.42);line-height:1.65;flex:1;margin-bottom:2rem;transition:color .3s;font-weight:500}
-.pj:hover .pj-desc{color:rgba(255,255,255,.82)}
-.pj-cta{display:flex;align-items:center;justify-content:space-between}
-.pj-link{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:.14rem;transition:color .3s,border-color .3s}
-.pj:hover .pj-link{color:var(--white);border-color:var(--white)}
-.pj-arr{font-size:1.5rem;color:rgba(255,255,255,.28);transition:transform .3s,color .3s}
-.pj:hover .pj-arr{transform:translate(6px,-6px);color:var(--white)}
+/* Tools */
+.tools-wrap { margin-top: 2.5rem; }
+.tools-label { font-size: .6rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: .8rem; }
+.tools-list { display: flex; flex-wrap: wrap; gap: .4rem; }
+.tool {
+  font-size: .62rem; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; padding: .3rem .85rem;
+  border-radius: 999px; border: 1px solid var(--border);
+  color: var(--ink2); transition: all .2s;
+}
+.tool:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-/* SKILLS — PAPER */
-#skills{background:var(--paper);color:var(--ink);position:relative}
-#skills::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--red)}
-.sk-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--bi);border-left:1px solid var(--bi);align-items:stretch}
-.sk-c{padding:2rem 2.2rem;border-right:1px solid var(--bi);border-bottom:1px solid var(--bi);position:relative;overflow:hidden;min-height:160px;display:flex;flex-direction:column}
-.sk-c::before{content:'';position:absolute;inset:0;background:var(--ink);transform:translateY(102%);transition:transform .5s cubic-bezier(.16,1,.3,1);z-index:0}
-.sk-c:hover::before{transform:none}
-.sk-c>*{position:relative;z-index:1}
-.sk-ico{font-size:1.4rem;margin-bottom:.8rem;display:block;transition:transform .3s}
-.sk-c:hover .sk-ico{transform:scale(1.2)}
-.sk-t{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--ink);margin-bottom:.35rem;letter-spacing:.03em;transition:color .3s;line-height:1.1}
-.sk-c:hover .sk-t{color:var(--red)}
-.sk-d{font-size:.76rem;color:var(--muted);line-height:1.68;transition:color .3s;font-weight:500}
-.sk-c:hover .sk-d{color:rgba(255,255,255,.45)}
-.tools{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:3rem}
-.tool{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2px;background:transparent;color:var(--muted);border:1px solid var(--bi);transition:all .22s}
-.tool:hover{background:var(--ink);color:var(--red);border-color:var(--ink)}
-.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));border:1px solid var(--bi);margin-top:3rem}
-.edu-c{padding:2.5rem 3rem;border-right:1px solid var(--bi);position:relative;overflow:hidden}
-.edu-c:last-child{border-right:none}
-.edu-c::after{content:'';position:absolute;bottom:0;left:0;width:0;height:3px;background:var(--red);transition:width .4s cubic-bezier(.16,1,.3,1)}
-.edu-c:hover::after{width:100%}
-.edu-s{font-size:.6rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--red2);margin-bottom:.55rem}
-.edu-d{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.2rem,2vw,1.9rem);color:var(--ink);line-height:1.1;margin-bottom:.5rem;letter-spacing:.02em}
-.edu-dt{font-size:.6rem;font-weight:600;color:var(--muted);margin-bottom:.85rem;letter-spacing:.1em}
-.edu-p{font-size:.8rem;color:var(--muted);line-height:1.65;font-weight:500}
+/* ══════════════════════════════════
+   PASSIONS
+══════════════════════════════════ */
+#passions { background: var(--b); color: #fff; }
+.pp-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.pp-card {
+  border-radius: 16px; overflow: hidden;
+  position: relative; aspect-ratio: 3/4;
+  cursor: pointer;
+}
+.pp-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(60%) brightness(.85);
+  transition: filter .6s, transform .8s cubic-bezier(.16,1,.3,1);
+  display: block;
+}
+.pp-card:hover img { filter: grayscale(0%) brightness(.9); transform: scale(1.05); }
+.pp-ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(14,14,14,.9) 0%, transparent 60%);
+}
+.pp-lbl { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; }
+.pp-cat { font-size: .56rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--y); margin-bottom: .35rem; }
+.pp-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(1.8rem,3.5vw,2.8rem); color: #fff; line-height: .95; letter-spacing: -.02em; }
+.pp-sub { font-size: .64rem; color: rgba(255,255,255,.5); margin-top: .35rem; font-weight: 400; }
 
-/* CONTACT — INK */
-#contact{background:var(--ink);position:relative;text-align:center;padding-bottom:6vh;overflow:hidden}
-#contact::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--red)}
-#contact::after{content:'BONJOUR';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,20vw,22rem);color:rgba(255,255,255,.022);pointer-events:none;white-space:nowrap;letter-spacing:.04em;user-select:none}
-.ct-inner{position:relative;z-index:1}
-.ct-sub{font-size:clamp(.83rem,1.1vw,.93rem);color:rgba(255,255,255,.38);line-height:1.8;max-width:480px;margin:1.5rem auto 3rem;font-weight:500}
-.ct-email{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3.5rem);color:var(--white);letter-spacing:.04em;position:relative;overflow:hidden;transition:color .3s}
-.ct-email::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.ct-email:hover{color:var(--red)}
-.ct-email:hover::after{transform:scaleX(1);transform-origin:left}
-.ct-info{display:flex;justify-content:center;gap:clamp(2rem,5vw,5rem);margin-top:2.5rem;flex-wrap:wrap}
-.ct-field .l{font-size:.56rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.35rem}
-.ct-field .v{font-weight:600;color:var(--white);font-size:.92rem;transition:color .25s}
-.ct-field a.v:hover{color:var(--red)}
-footer{border-top:1px solid var(--bw);padding:1.5rem clamp(1.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-footer p{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+/* ══════════════════════════════════
+   CONTACT
+══════════════════════════════════ */
+#contact { background: var(--c); color: var(--ink); min-height: auto; padding-bottom: 5rem; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+.contact-email-link {
+  font-family: 'Fraunces', serif; font-weight: 900;
+  font-size: clamp(1.5rem,3vw,2.5rem);
+  letter-spacing: -.02em; color: var(--ink);
+  border-bottom: 3px solid var(--ink);
+  display: inline-block; padding-bottom: .2rem;
+  transition: opacity .2s;
+}
+.contact-email-link:hover { opacity: .6; }
+.contact-body { font-size: .9rem; line-height: 1.75; color: rgba(14,14,14,.7); margin: 1.2rem 0 1.8rem; max-width: 480px; }
+.contact-info { display: flex; flex-direction: column; gap: .7rem; }
+.ci-row { font-size: .7rem; }
+.ci-label { text-transform: uppercase; letter-spacing: .14em; color: rgba(14,14,14,.5); font-size: .58rem; font-weight: 600; }
+.ci-val { font-weight: 600; color: var(--ink); }
+.edu-block { background: rgba(14,14,14,.07); border-radius: 14px; padding: 1.8rem; }
+.edu-item { padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(14,14,14,.12); }
+.edu-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.edu-school { font-size: .58rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(14,14,14,.5); margin-bottom: .3rem; }
+.edu-degree { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.05rem; letter-spacing: -.01em; line-height: 1.2; margin-bottom: .3rem; }
+.edu-date { font-size: .65rem; color: rgba(14,14,14,.5); }
 
-/* RESPONSIVE */
-@media(max-width:1200px){.sk-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:1000px){.hm-content{grid-template-columns:1fr}.hm-kpis{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:900px){.pp-grid{grid-template-columns:1fr}.pp{aspect-ratio:16/9}.pj-grid{grid-template-columns:1fr}.pj:nth-child(n){border-right:1px solid var(--bw)}.pj:nth-child(3){border-bottom:1px solid var(--bw)}.hero-bottom{grid-template-columns:1fr}.hero-stats{justify-content:flex-start}.hero-right{display:none}}
-@media(max-width:768px){.n-links{display:none}.hbg{display:block}.xp-row{grid-template-columns:auto 1fr}.xp-date{display:none}.xp-inn{padding-left:0}.edu-c{border-right:none;border-bottom:1px solid var(--bi)}.edu-c:last-child{border-bottom:none}.hero-photo{width:56px;height:56px}.hm-kpis{grid-template-columns:1fr}.sk-grid{grid-template-columns:repeat(2,1fr)}}
-@media(hover:none){html{cursor:auto}body{cursor:auto}button,a{cursor:pointer}#cur{display:none}}
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer {
+  background: var(--ink); color: rgba(247,244,239,.4);
+  padding: 1.2rem clamp(2rem,5vw,5rem);
+  margin-left: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: .58rem; font-weight: 500; letter-spacing: .12em;
+  text-transform: uppercase;
+}
+footer a { color: var(--y); }
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.mob-open{transform:none;width:220px}
+  #main{margin-left:0}
+  .why-grid,.pj-grid,.sk-grid,.pp-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:1fr}
+  .hero-bottom{grid-template-columns:1fr}
+  .xp-item{grid-template-columns:auto 1fr}
+  .xp-date{display:none}
+  .xp-body-inner{grid-template-columns:1fr}
+  /* mobile nav button */
+  #mob-btn{display:flex}
+}
+@media(max-width:600px){
+  .why-grid,.pj-grid,.sk-grid,.pp-grid{grid-template-columns:1fr}
+}
+#mob-btn{
+  display:none;position:fixed;top:1rem;left:1rem;z-index:200;
+  width:44px;height:44px;background:var(--ink);border-radius:10px;
+  align-items:center;justify-content:center;flex-direction:column;gap:5px;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+}
+#mob-btn span{width:20px;height:2px;background:var(--bg);border-radius:1px;transition:all .3s}
 </style>
 </head>
 <body>
 
-<div id="cur"><div id="cur-dot"></div><div id="cur-ring"></div></div>
+<!-- MOB BUTTON -->
+<button id="mob-btn" onclick="toggleMob()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
 
-<div class="mob" id="mob">
-  <button class="mob-x" onclick="cMob()">✕</button>
-  <a href="#about" onclick="cMob()">Profil</a>
-  <a href="#hermes" onclick="cMob()">Hermès</a>
-  <a href="#experience" onclick="cMob()">XP</a>
-  <a href="#projects" onclick="cMob()">Projets</a>
-  <a href="#skills" onclick="cMob()">Skills</a>
-  <a href="#contact" onclick="cMob()">Contact</a>
-</div>
+<!-- ══ SIDEBAR ══ -->
+<aside id="sidebar">
+  <div class="sb-logo">HD<span>.</span></div>
 
-<nav id="nav">
-  <span class="n-logo">H<span>.</span>D</span>
-  <div class="n-links">
-    <a href="#about">Profil</a>
-    <a href="#hermes">Hermès</a>
-    <a href="#experience">Expériences</a>
-    <a href="#projects">Projets</a>
-    <a href="#skills">Compétences</a>
-    <a href="#contact" class="n-cta">Me contacter</a>
+  <nav class="sb-nav">
+    <a class="sb-link active" href="#hero" onclick="navClick(this)">
+      <span class="sb-dot" style="background:var(--y)"></span>
+      <span class="sb-label">Accueil</span>
+    </a>
+    <a class="sb-link" href="#why" onclick="navClick(this)">
+      <span class="sb-dot" style="background:var(--y)"></span>
+      <span class="sb-label">Pourquoi moi</span>
+    </a>
+    <a class="sb-link" href="#xp" onclick="navClick(this)">
+      <span class="sb-dot" style="background:var(--g)"></span>
+      <span class="sb-label">Expériences</span>
+    </a>
+    <a class="sb-link" href="#projects" onclick="navClick(this)">
+      <span class="sb-dot" style="background:var(--c)"></span>
+      <span class="sb-label">Projets</span>
+    </a>
+    <a class="sb-link" href="#skills" onclick="navClick(this)">
+      <span class="sb-dot" style="background:var(--v)"></span>
+      <span class="sb-label">Compétences</span>
+    </a>
+    <a class="sb-link" href="#passions" onclick="navClick(this)">
+      <span class="sb-dot" style="background:var(--b)"></span>
+      <span class="sb-label">Passions</span>
+    </a>
+    <a class="sb-link" href="#contact" onclick="navClick(this)">
+      <span class="sb-dot" style="background:var(--c)"></span>
+      <span class="sb-label">Contact</span>
+    </a>
+  </nav>
+
+  <div class="sb-bottom">
+    <div class="sb-avail">
+      <span class="sb-avail-dot"></span>
+      <span class="sb-avail-txt">Sept. 2026</span>
+    </div>
   </div>
-  <button class="hbg" onclick="oMob()">☰</button>
-</nav>
+</aside>
 
-<div id="root"></div>
+<!-- ══ MAIN ══ -->
+<main id="main">
 
-<script type="text/babel">
-const { useState, useEffect, useRef } = React;
-
-function useReveal(t = 0.08) {
-  const ref = useRef(null);
-  const [v, setV] = useState(false);
-  useEffect(() => {
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold: t });
-    if (ref.current) o.observe(ref.current);
-    return () => o.disconnect();
-  }, []);
-  return [ref, v];
-}
-
-function FU({ children, delay = 0, style = {}, className = '' }) {
-  const [ref, v] = useReveal();
-  return <div ref={ref} className={`fade-up${v?' in':''} ${className}`} style={{ transitionDelay:`${delay}s`, ...style }}>{children}</div>;
-}
-
-function CR({ children, delay = 0, style = {}, className = '', tag = 'div' }) {
-  const [ref, v] = useReveal();
-  const Tag = tag;
-  return <Tag ref={ref} className={`clip-r${v?' in':''} ${className}`} style={{ transitionDelay:`${delay}s`, ...style }}>{children}</Tag>;
-}
-
-function Hero() {
-  const [rdy, setRdy] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setRdy(true), 100); return () => clearTimeout(t); }, []);
-  const a = d => ({ opacity: rdy?1:0, transform: rdy?'none':'translateY(30px)', transition:`opacity 1s ${d}s ease,transform 1s ${d}s cubic-bezier(.16,1,.3,1)` });
-  return (
-    <section id="hero">
-      <div className="hero-layout">
-        {/* LEFT — all content */}
-        <div className="hero-left">
-          <div className="hero-yr">2026</div>
-          <div style={a(.05)}>
-            <div style={{ display:'flex', alignItems:'center', gap:'1rem', flexWrap:'wrap' }}>
-              <div className="badge"><span className="dot"/>&nbsp;Disponible Septembre 2026 · MBA ISCOM Paris</div>
-            </div>
-          </div>
-          <div style={a(.12)}>
-            <p style={{ fontSize:'clamp(.6rem,.8vw,.7rem)', fontWeight:700, letterSpacing:'.32em', textTransform:'uppercase', color:'rgba(255,255,255,.18)', margin:'2rem 0 .6rem' }}>
-              Et si j'étais votre prochain alternant ?
-            </p>
-          </div>
-          <div style={a(.18)}>
-            <div className="display" style={{ lineHeight:'.88' }}>HUGO</div>
-            <div className="display" style={{ WebkitTextStroke:'1.5px rgba(255,255,255,.2)', color:'transparent', lineHeight:'.88', marginBottom:'clamp(2.5rem,4vw,4rem)' }}>DESCOUTS</div>
-          </div>
-          <div style={a(.30)}>
-            <p className="hero-desc" style={{ marginBottom:'2rem' }}>
-              <strong style={{ color:'var(--white)', fontWeight:700 }}>Stratège et créatif.</strong> Futur étudiant en MBA ISCOM Paris. Trois expériences solides dont{' '}
-              <strong style={{ color:'var(--red)', fontWeight:700 }}>Hermès</strong>, une maîtrise complète des outils du marketing digital et une capacité prouvée à produire des contenus qui génèrent des résultats.
-            </p>
-            <div style={{ display:'flex', gap:'1rem', flexWrap:'wrap', marginBottom:'clamp(2rem,4vw,3.5rem)' }}>
-              <a href="#projects" className="btn-cta"><span>Voir mes projets ↓</span></a>
-              <a href="#contact" className="btn-cta btn-ghost"><span>Me contacter</span></a>
-            </div>
-            <div style={{ display:'flex', gap:'clamp(2rem,4vw,4rem)', flexWrap:'wrap' }}>
-              {[['3','Expériences'],['4','Projets'],['2','Alternances']].map(([n,l]) => (
-                <div key={l}><div className="s-n">{n}</div><div className="s-l">{l}</div></div>
-              ))}
-            </div>
+  <!-- HERO -->
+  <section class="section" id="hero">
+    <div class="hero-bg-text">HUGO</div>
+    <div class="section-inner">
+      <div class="rv" style="transition-delay:.05s">
+        <div class="hero-badge">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--ink);flex-shrink:0"></span>
+          Disponible · Septembre 2026 · MBA ISCOM Paris
+        </div>
+      </div>
+      <div class="rv" style="transition-delay:.12s">
+        <div class="hero-name">
+          Hugo<br/><em>Descouts</em>
+        </div>
+      </div>
+      <div class="hero-bottom rv" style="transition-delay:.22s">
+        <div>
+          <p class="hero-desc">
+            <strong>Stratège et créatif.</strong> Futur MBA ISCOM Paris, trois expériences dont
+            <span class="acc">Hermès</span> — je conçois, je produis, je mesure.
+            Un profil complet disponible en alternance dès septembre 2026.
+          </p>
+          <div class="hero-ctas">
+            <a href="#why" class="btn btn-y">Pourquoi me recruter →</a>
+            <a href="#contact" class="btn btn-outline">Me contacter</a>
           </div>
         </div>
-        {/* RIGHT — big photo rectangle */}
-        <div className="hero-right" style={a(.08)}>
-          <img className="hero-right-img"
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2rem">
+          <img class="hero-photo"
             src="https://media.licdn.com/dms/image/v2/D4E03AQEJY8yuOnA8QQ/profile-displayphoto-scale_400_400/B4EZv.5jbGJUAg-/0/1769508060323?e=1774483200&v=beta&t=rf_Y_We2upB4BnxgHxf9d8De7ELblGq8f2PZxT8djtA"
-            alt="Hugo Descouts"
-            onError={e=>e.target.style.display='none'}
-          />
-          <div className="hero-right-label">Hugo Descouts</div>
+            alt="Hugo Descouts" onerror="this.style.display='none'"/>
+          <div class="hero-stats">
+            <div><div class="stat-n">3</div><div class="stat-l">Expériences</div></div>
+            <div><div class="stat-n">2K+</div><div class="stat-l">Visites/sem</div></div>
+            <div><div class="stat-n">×5</div><div class="stat-l">LinkedIn</div></div>
+          </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function Ticker() {
-  const it = ['Communication','Stratégie de marque','Direction Artistique','Social Media','Création de contenu','MBA ISCOM Paris','Marketing Digital','Gestion de projet'];
-  const d = [...it,...it,...it];
-  return (
-    <div className="ticker">
-      <div className="tk-track">
-        {d.map((x,i) => <span key={i} className="tk-item">{x}<span className="tk-sep">✦</span></span>)}
       </div>
     </div>
-  );
-}
+  </section>
 
-function About() {
-  const pp = [
-    { img:'https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg', cat:'Passion', title:'Ballet', sub:'Onéguine · Lac des Cygnes · Paquita' },
-    { img:'https://fr.web.img6.acsta.net/r_1920_1080/img/7f/27/7f2716df39b33e8a74e2aa710663ef91.jpg', cat:'Passion', title:'Cinéma', sub:"The Substance · Queer · L'Inconnu de la Grande Arche" },
-    { img:'https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false', cat:'Passion', title:'Mode', sub:'Balenciaga · Gucci · Maison Margiela' },
-  ];
-  return (
-    <section id="about">
-      <div className="inner">
-        <CR><div className="sec-label sl-lt">À propos</div></CR>
-        <FU delay={.05}><h2 className="sec-h sec-h-lt">MON PROFIL</h2></FU>
-        <CR delay={.08}><div className="about-intro">Stratégique &amp; opérationnel.</div></CR>
-        <FU delay={.1}><p className="about-body"><strong>Hugo Descouts</strong> — futur étudiant en MBA Marketing, Stratégies de Marque et Publicité à l'ISCOM Paris. Profil à la fois <strong>stratégique et opérationnel</strong> : je conçois des lignes éditoriales, je les produis et j'en mesure les résultats. Trois expériences dans des univers radicalement différents m'ont appris à m'adapter, à produire avec rigueur et à penser avec ambition.</p></FU>
+  <!-- POURQUOI MOI -->
+  <section class="section" id="why">
+    <div class="section-inner">
+      <div class="rv"><span class="s-tag" style="color:var(--ink);border-color:rgba(14,14,14,.3)">Argument de recrutement</span></div>
+      <div class="rv" style="transition-delay:.06s">
+        <h2 class="s-title" style="color:var(--ink)">Pourquoi<br/>moi.</h2>
       </div>
-      <div className="inner" style={{ paddingTop:'clamp(2.5rem,4vw,3.5rem)', paddingBottom:'1rem' }}>
-        <CR><div className="sec-label sl-lt">Culture &amp; intérêts</div></CR>
-        <FU delay={.05}><h2 className="sec-h sec-h-lt">MES PASSIONS</h2></FU>
-      </div>
-      <div className="pp-grid" style={{ marginTop:'0' }}>
-        {pp.map((p,i) => (
-          <FU key={i} delay={i*.08}>
-            <div className="pp">
-              <img src={p.img} alt={p.title} loading="lazy"/>
-              <div className="pp-ov"/>
-              <div className="pp-lbl">
-                <div className="pp-cat">{p.cat}</div>
-                <div className="pp-title">{p.title}</div>
-                <div className="pp-sub">{p.sub}</div>
-              </div>
-            </div>
-          </FU>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Hermes() {
-  return (
-    <section id="hermes">
-      {[15,30,50,70,85].map((x,i) => (
-        <div key={i} className="hm-vline" style={{ left:`${x}%`, animationDelay:`${i*1.1}s`, animationDuration:`${5+i*1.4}s` }}/>
-      ))}
-      <div className="hm-stripe"/>
-      <div className="hm-content">
-        <div>
-          <FU><div className="hm-tag"><span className="dot"/>Alternance en cours · Sept. 2025 · Présent</div></FU>
-          <FU delay={.05}>
-            <div style={{ display:'flex', alignItems:'center', gap:'1.5rem', marginBottom:'1rem' }}>
-              <div className="hm-logo" style={{ marginBottom:0, flexShrink:0 }}>
-                <img src="https://upload.wikimedia.org/wikipedia/fr/4/43/Logo_Herm%C3%A8s.svg" alt="Hermès" onError={e=>e.target.style.display='none'}/>
-              </div>
-              <div className="hm-co" style={{ marginBottom:0 }}>HERMÈS</div>
-            </div>
-          </FU>
-          <FU delay={.12}><div className="hm-role">Assistant Adoption et Communication Processus IT</div></FU>
-          <FU delay={.15}>
-            <div className="hm-kpis">
-              {[['2 000+','Visites / semaine'],['100%','Intranet refondu'],['4','Axes de mission']].map(([n,l]) => (
-                <div key={l} className="hm-kpi"><div className="hm-kn">{n}</div><div className="hm-kl">{l}</div></div>
-              ))}
-            </div>
-          </FU>
+      <div class="why-grid">
+        <div class="why-card rv" style="transition-delay:.08s">
+          <div class="why-card-n">01</div>
+          <div class="why-card-icon">🏛️</div>
+          <div class="why-card-title">Déjà prouvé chez Hermès</div>
+          <div class="why-card-body">Refonte d'intranet seul, newsletters déployées à 2 000 collaborateurs, séminaire de direction coordonné. Dans un groupe du CAC 40.</div>
         </div>
-        <FU delay={.1}>
-          <ul className="hm-missions">
-            {[
-              ['01',"Pilotage de la refonte intégrale du SharePoint : optimisation UX et accès à l'information, générant plus de 2 000 visites hebdomadaires."],
-              ['02',"Conception et déploiement de newsletters dédiées à l'adoption des procédures IT et à l'identification des interlocuteurs clés."],
-              ['03',"Audit complet des processus existants : création et déploiement de nouveaux workflows pour structurer les méthodes de travail."],
-              ['04',"Coordination du séminaire de direction : recherches, négociations fournisseurs, gestion des devis et suivi logistique."],
-            ].map(([n,t]) => (
-              <li key={n} className="hm-mi">
-                <span className="hm-mi-n">{n}</span>
-                <span className="hm-mi-t">{t}</span>
-              </li>
-            ))}
-          </ul>
-        </FU>
-      </div>
-    </section>
-  );
-}
-
-function Experience() {
-  const [open, setOpen] = useState(null);
-  const xps = [
-    { id:'unppd', type:'Alternance', ts:'alt', date:'Sept. 2024 · Août 2025',
-      logo:'https://dentalforum2026.com/data/files/logo_unppd_2014hd.jpg',
-      company:'UNPPD', role:'Chargé de Communication',
-      bullets:["Création d'une ligne éditoriale social media : carousels partenaires, multiplication par 5 de la communauté LinkedIn.","Gestion bout-en-bout du journal mensuel distribué à plus de 3 500 laboratoires professionnels.","Animation du site WordPress et optimisation de l'expérience de lecture."],
-      chips:['InDesign','Photoshop','WordPress','LinkedIn','Rédaction BtoB'] },
-    { id:'cf', type:'Stage', ts:'stg', date:'Mai · Juin 2024',
-      logo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCvoRKzi_I8YdIbjbPHJIMOjQs60obvHenHg&s',
-      company:'CORPORATE FICTION', role:'Communication Commerciale · Agence',
-      bullets:["Immersion opérationnelle dans le fonctionnement d'une agence de communication.","Construction d'une base de données prospects et campagnes de prospection ciblées.","Analyse des besoins partenaires et formulation de recommandations stratégiques."],
-      chips:['Prospection','Stratégie','Excel','Relation client'] },
-  ];
-  return (
-    <section id="experience">
-      <div className="inner">
-        <CR><div className="sec-label sl-lt">Autres expériences</div></CR>
-        <FU delay={.05}><h2 className="sec-h sec-h-lt">EXPÉRIENCES</h2></FU>
-        <div>
-          {xps.map((x,i) => {
-            const isO = open===x.id;
-            return (
-              <FU key={x.id} delay={i*.07}>
-                <div className={`xp-i${isO?' open':''}`} onClick={()=>setOpen(isO?null:x.id)}>
-                  <div className="xp-row">
-                    <div className="xp-logo"><img src={x.logo} alt={x.company} onError={e=>e.target.style.display='none'}/></div>
-                    <div>
-                      <span className={`xp-bdg ${x.ts}`}>{x.type}</span>
-                      <div className="xp-co">{x.company}</div>
-                      <div className="xp-role">{x.role}</div>
-                    </div>
-                    <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:'.8rem' }}>
-                      <span className="xp-date">{x.date}</span>
-                      <span className="xp-plus">+</span>
-                    </div>
-                  </div>
-                  <div className={`xp-body${isO?' open':''}`}>
-                    <div className="xp-inn">
-                      <ul className="xp-ul">{x.bullets.map((b,j)=><li key={j}>{b}</li>)}</ul>
-                      <div className="chips">{x.chips.map(c=><span key={c} className="chip">{c}</span>)}</div>
-                    </div>
-                  </div>
-                </div>
-              </FU>
-            );
-          })}
+        <div class="why-card rv" style="transition-delay:.12s">
+          <div class="why-card-n">02</div>
+          <div class="why-card-icon">⚡</div>
+          <div class="why-card-title">Stratégie + exécution</div>
+          <div class="why-card-body">Pas un profil qui délègue la production. Brief, ligne éditoriale, création, mesure des résultats — il tient toute la chaîne.</div>
+        </div>
+        <div class="why-card rv" style="transition-delay:.16s">
+          <div class="why-card-n">03</div>
+          <div class="why-card-icon">🎯</div>
+          <div class="why-card-title">Culture des résultats</div>
+          <div class="why-card-body">×5 sur LinkedIn en 12 mois. 2 000+ visites/semaine sur un SharePoint refondu. Des chiffres réels, pas des estimations.</div>
+        </div>
+        <div class="why-card rv" style="transition-delay:.2s">
+          <div class="why-card-n">04</div>
+          <div class="why-card-icon">🛠️</div>
+          <div class="why-card-title">Polyvalence outillée</div>
+          <div class="why-card-body">InDesign, Photoshop, Figma, WordPress, JIRA, SharePoint, HTML/CSS. Il ne demande pas à externaliser — il fait.</div>
+        </div>
+        <div class="why-card rv" style="transition-delay:.24s">
+          <div class="why-card-n">05</div>
+          <div class="why-card-icon">🎓</div>
+          <div class="why-card-title">MBA ISCOM · 4j/1j</div>
+          <div class="why-card-body">4 jours en entreprise, 1 jour école. Vous récupérez un profil opérationnel, pas un étudiant à mi-temps.</div>
+        </div>
+        <div class="why-card rv" style="transition-delay:.28s">
+          <div class="why-card-n">06</div>
+          <div class="why-card-icon">✨</div>
+          <div class="why-card-title">Sensibilité marque</div>
+          <div class="why-card-body">Ballet, cinéma d'auteur, mode haut de gamme. Un regard formé à l'exigence esthétique — indispensable en communication de marque.</div>
         </div>
       </div>
-    </section>
-  );
-}
-
-function Projects() {
-  const pjs = [
-    { id:'trempez', num:'01', aw:true,  title:'TREMPEZ',          desc:'Concept fort et storytelling soigné, primé meilleur projet de la promotion. Stratégie 360, identité, plan média.', link:'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
-    { id:'tui',     num:'02', aw:true,  title:"DÉCONNEC'TUI",     desc:'Offre digital detox pour TUI ciblant les 25-35 ans en quête de sens. Positionnement, branding, campagne.', link:'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
-    { id:'rose',    num:'03', aw:false, title:'ROSE FESTIVAL',    desc:'Stratégie événementielle, identité visuelle complète et plan de diffusion multicanal.', link:'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
-    { id:'edu',     num:'04', aw:false, title:'ÉDUCATION NAT.',   desc:"Stratégie de communication institutionnelle et analyse des publics pour le Ministère de l'Éducation Nationale.", link:'https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv' },
-  ];
-  return (
-    <section id="projects">
-      <div className="inner">
-        <CR><div className="sec-label">Réalisations</div></CR>
-        <FU delay={.05}><h2 className="sec-h">MES PROJETS</h2></FU>
-      </div>
-      <div className="pj-grid" style={{ margin:'0 clamp(1.5rem,5vw,4rem)' }}>
-        {pjs.map((p,i) => (
-          <FU key={p.id} delay={i*.06}>
-            <div className="pj" onClick={()=>window.open(p.link,'_blank','noopener,noreferrer')}>
-              <div>
-                <div className="pj-num">{p.num}{p.aw&&<span className="pj-aw">🏆 Primé</span>}</div>
-                <h3 className="pj-title">{p.title}</h3>
-                <p className="pj-desc">{p.desc}</p>
-              </div>
-              <div className="pj-cta">
-                <span className="pj-link">Ouvrir sur Drive</span>
-                <span className="pj-arr">↗</span>
-              </div>
-            </div>
-          </FU>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Skills() {
-  const cards = [
-    { ico:'📐', t:'Stratégie', d:'Positionnement de marque, plan de communication multi-canal, analyse des publics cibles.' },
-    { ico:'✍️', t:'Création de contenu', d:'Rédaction éditoriale, newsletters, posts, storytelling de marque et DA print/digital.' },
-    { ico:'📱', t:'Social Media', d:'Ligne éditoriale, carousels, calendrier éditorial. Croissance organique prouvée : ×5 abonnés LinkedIn.' },
-    { ico:'🗂️', t:'Gestion de projet', d:"Coordination d'équipes, livrables, JIRA et SharePoint. Environnements exigeants." },
-    { ico:'📊', t:'Analyse & Reporting', d:'Google Analytics, tableaux de bord, insights actionnables pour les équipes.' },
-    { ico:'🎨', t:'Design & Production', d:'Suite Adobe (InDesign, Photoshop, Illustrator), Canva, Figma. Print et motion.' },
-    { ico:'🌐', t:'Web & Digital', d:'WordPress, WIX, HTML/CSS, SEO éditorial, Mailchimp.' },
-    { ico:'🎪', t:'Événementiel', d:'Événements corporate, prestataires, négociation, devis, coordination logistique.' },
-  ];
-  return (
-    <section id="skills">
-      <div className="inner">
-        <CR><div className="sec-label sl-lt">Ce que j'apporte</div></CR>
-        <FU delay={.05}><h2 className="sec-h sec-h-lt">COMPÉTENCES</h2></FU>
-      </div>
-      <div className="sk-grid" style={{ margin:'0 clamp(1.5rem,5vw,4rem)' }}>
-        {cards.map((c,i) => (
-          <FU key={i} delay={i*.04}>
-            <div className="sk-c">
-              <span className="sk-ico">{c.ico}</span>
-              <div className="sk-t">{c.t}</div>
-              <div className="sk-d">{c.d}</div>
-            </div>
-          </FU>
-        ))}
-      </div>
-      <div className="inner">
-        <FU style={{ marginTop:'3rem' }}>
-          <div className="sec-label sl-lt" style={{ marginBottom:'1.2rem' }}>Outils maîtrisés</div>
-          <div className="tools">
-            {['SharePoint','JIRA','InDesign','Photoshop','Illustrator','Canva','Figma','WordPress','WIX','Mailchimp','Pack Office','Google Analytics','ChatGPT','Midjourney','HTML/CSS'].map(t=>(
-              <span key={t} className="tool">{t}</span>
-            ))}
-          </div>
-        </FU>
-        <FU style={{ marginTop:'4rem' }}>
-          <div className="sec-label sl-lt" style={{ marginBottom:'1.2rem' }}>Formations</div>
-          <div className="edu-grid">
-            {[
-              { s:'ISCOM Paris', d:'MBA Marketing, Stratégies de Marque et Publicité', dt:'2026 · 2028', p:'Rythme 4j entreprise / 1j école. Recherche alternance à partir de sept. 2026.' },
-              { s:'IUT Paris Rives de Seine', d:'BUT Information et Communication', dt:'2023 · 2026', p:"Spécialisation Communication des Organisations. Trésorier de l'Agence Hélice (2024-2025)." },
-            ].map((e,i) => (
-              <div key={i} className="edu-c">
-                <div className="edu-s">{e.s}</div>
-                <div className="edu-d">{e.d}</div>
-                <div className="edu-dt">{e.dt}</div>
-                <div className="edu-p">{e.p}</div>
-              </div>
-            ))}
-          </div>
-        </FU>
-      </div>
-    </section>
-  );
-}
-
-function Contact() {
-  return (
-    <section id="contact">
-      <div className="inner ct-inner">
-        <FU>
-          <div className="sec-label" style={{ justifyContent:'center', marginBottom:'3rem' }}>Travaillons ensemble</div>
-          <div className="display">DISONS</div>
-          <div className="display" style={{ WebkitTextStroke:'1.5px rgba(255,255,255,.14)', color:'transparent', marginBottom:'.5rem' }}>BONJOUR.</div>
-        </FU>
-        <FU delay={.12}>
-          <p className="ct-sub">Alternance 2 ans · Septembre 2026 · MBA ISCOM Paris · Marketing · Stratégie de marque · Publicité</p>
-          <a href="mailto:hugo.descouts@outlook.fr" className="ct-email">hugo.descouts@outlook.fr</a>
-          <div className="ct-info">
-            {[['Téléphone','07 62 03 45 63','tel:+33762034563'],['Localisation','Paris 75019 🇫🇷',null],['Disponibilité','Septembre 2026',null]].map(([l,v,h])=>(
-              <div key={l} className="ct-field">
-                <div className="l">{l}</div>
-                {h?<a href={h} className="v">{v}</a>:<div className="v">{v}</div>}
-              </div>
-            ))}
-          </div>
-        </FU>
-      </div>
-    </section>
-  );
-}
-
-function App() {
-  useEffect(() => {
-    const fn = () => document.getElementById('nav')?.classList.toggle('sc', window.scrollY > 50);
-    window.addEventListener('scroll', fn);
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
-  return (
-    <div className="page">
-      <Hero/><Ticker/><About/><Hermes/><Experience/><Projects/><Skills/><Contact/>
-      <footer>
-        <p>© 2026 Hugo Descouts · MBA ISCOM Paris</p>
-        <p>Fait avec intention</p>
-      </footer>
     </div>
-  );
-}
+  </section>
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-</script>
+  <!-- EXPÉRIENCES -->
+  <section class="section" id="xp">
+    <div class="section-inner">
+      <div class="rv"><span class="s-tag" style="color:var(--g);border-color:var(--g)">Parcours professionnel</span></div>
+      <div class="rv" style="transition-delay:.06s">
+        <h2 class="s-title">Mes<br/>expériences.</h2>
+      </div>
+      <div class="xp-list rv" style="transition-delay:.1s">
+
+        <!-- HERMÈS -->
+        <div class="xp-item" onclick="toggleXp(this)" id="xp-hermes">
+          <div style="display:flex;flex-direction:column;gap:.6rem;padding-top:.3rem">
+            <div class="xp-logo-box">
+              <img src="https://upload.wikimedia.org/wikipedia/fr/4/43/Logo_Herm%C3%A8s.svg" alt="Hermès" onerror="this.parentElement.innerHTML='H'"/>
+            </div>
+          </div>
+          <div>
+            <span class="xp-tag-pill tag-alt">Alternance en cours</span>
+            <div class="xp-co">Hermès</div>
+            <div class="xp-role">Assistant Adoption &amp; Communication Processus IT · DSIT/HDTI · Pantin</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem">
+            <div class="xp-date">Sept. 2025 — présent</div>
+            <span class="xp-toggle">+</span>
+          </div>
+        </div>
+        <div class="xp-body" id="body-hermes">
+          <div class="xp-body-inner">
+            <ul class="xp-bullets">
+              <li>Pilotage de la refonte intégrale du SharePoint : optimisation UX et accès à l'information, générant <strong>2 000+ visites hebdomadaires</strong>.</li>
+              <li>Conception et déploiement de newsletters dédiées à l'adoption des procédures IT auprès de 2 000 collaborateurs.</li>
+              <li>Audit des processus existants et déploiement de nouveaux workflows pour structurer les méthodes de travail.</li>
+              <li>Coordination du séminaire de direction : recherche de lieux, négociations fournisseurs, suivi logistique.</li>
+            </ul>
+            <div class="xp-chips">
+              <span class="chip">SharePoint</span><span class="chip">Newsletter</span><span class="chip">JIRA</span>
+              <span class="chip">Comm. interne</span><span class="chip">Événementiel</span><span class="chip">Luxe</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- UNPPD -->
+        <div class="xp-item" onclick="toggleXp(this)" id="xp-unppd">
+          <div style="display:flex;flex-direction:column;gap:.6rem;padding-top:.3rem">
+            <div class="xp-logo-box">
+              <img src="https://dentalforum2026.com/data/files/logo_unppd_2014hd.jpg" alt="UNPPD" onerror="this.parentElement.innerHTML='U'"/>
+            </div>
+          </div>
+          <div>
+            <span class="xp-tag-pill tag-alt">Alternance</span>
+            <div class="xp-co">UNPPD</div>
+            <div class="xp-role">Chargé de Communication</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem">
+            <div class="xp-date">Sept. 2024 — Août 2025</div>
+            <span class="xp-toggle">+</span>
+          </div>
+        </div>
+        <div class="xp-body" id="body-unppd">
+          <div class="xp-body-inner">
+            <ul class="xp-bullets">
+              <li>Ligne éditoriale social media complète : carousels partenaires, <strong>×5 abonnés LinkedIn</strong> en 12 mois.</li>
+              <li>Gestion bout-en-bout du journal mensuel distribué à <strong>3 500+ laboratoires</strong> professionnels.</li>
+              <li>Animation du site WordPress et optimisation de l'expérience de lecture.</li>
+            </ul>
+            <div class="xp-chips">
+              <span class="chip">InDesign</span><span class="chip">Photoshop</span>
+              <span class="chip">WordPress</span><span class="chip">LinkedIn</span><span class="chip">BtoB</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CORPORATE FICTION -->
+        <div class="xp-item" onclick="toggleXp(this)" id="xp-cf">
+          <div style="display:flex;flex-direction:column;gap:.6rem;padding-top:.3rem">
+            <div class="xp-logo-box" style="font-size:1.1rem;font-weight:700;font-family:'Fraunces',serif;color:var(--ink2)">CF</div>
+          </div>
+          <div>
+            <span class="xp-tag-pill tag-stg">Stage</span>
+            <div class="xp-co">Corporate Fiction</div>
+            <div class="xp-role">Communication Commerciale · Agence</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem">
+            <div class="xp-date">Mai — Juin 2024</div>
+            <span class="xp-toggle">+</span>
+          </div>
+        </div>
+        <div class="xp-body" id="body-cf">
+          <div class="xp-body-inner">
+            <ul class="xp-bullets">
+              <li>Immersion opérationnelle dans le fonctionnement d'une agence de communication.</li>
+              <li>Construction d'une base de données prospects et campagnes de prospection ciblées.</li>
+              <li>Analyse des besoins partenaires et recommandations stratégiques.</li>
+            </ul>
+            <div class="xp-chips">
+              <span class="chip">Prospection</span><span class="chip">Stratégie</span>
+              <span class="chip">Excel</span><span class="chip">Relation client</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETS -->
+  <section class="section" id="projects">
+    <div class="section-inner">
+      <div class="rv"><span class="s-tag" style="color:var(--c);border-color:var(--c)">Réalisations étudiantes</span></div>
+      <div class="rv" style="transition-delay:.06s">
+        <h2 class="s-title">Mes<br/>projets.</h2>
+      </div>
+      <div class="pj-grid">
+
+        <div class="pj-card rv" style="transition-delay:.08s" onclick="window.open('https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv','_blank')">
+          <div class="pj-award">🏆 Primé</div>
+          <div class="pj-card-top" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+            <span style="color:rgba(245,230,66,.9);position:relative;z-index:1">TREMPEZ</span>
+          </div>
+          <div class="pj-card-body">
+            <div class="pj-card-num">01 · Stratégie 360</div>
+            <div class="pj-card-title">Trempez</div>
+            <div class="pj-card-desc">Concept fort et storytelling soigné, primé meilleur projet de promotion. Identité, plan média, campagne complète.</div>
+            <div class="pj-card-link" style="color:var(--y)">Voir sur Drive <span>→</span></div>
+          </div>
+        </div>
+
+        <div class="pj-card rv" style="transition-delay:.12s" onclick="window.open('https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv','_blank')">
+          <div class="pj-award">🏆 Primé</div>
+          <div class="pj-card-top" style="background:linear-gradient(135deg,#0d2137,#1a4a6e)">
+            <span style="color:rgba(27,240,160,.9);position:relative;z-index:1;font-size:2.5rem">DÉCONNEC'TUI</span>
+          </div>
+          <div class="pj-card-body">
+            <div class="pj-card-num">02 · Branding & Campagne</div>
+            <div class="pj-card-title">Déconnec'TUI</div>
+            <div class="pj-card-desc">Offre digital detox pour TUI, ciblant les 25-35 ans en quête de sens. Positionnement, branding, plan de comm.</div>
+            <div class="pj-card-link" style="color:var(--g)">Voir sur Drive <span>→</span></div>
+          </div>
+        </div>
+
+        <div class="pj-card rv" style="transition-delay:.16s" onclick="window.open('https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv','_blank')">
+          <div class="pj-card-top" style="background:linear-gradient(135deg,#2d0a3e,#6b1fa8)">
+            <span style="color:rgba(177,78,255,.9);position:relative;z-index:1">ROSE</span>
+          </div>
+          <div class="pj-card-body">
+            <div class="pj-card-num">03 · Événementiel</div>
+            <div class="pj-card-title">Rose Festival</div>
+            <div class="pj-card-desc">Stratégie événementielle, identité visuelle et plan de diffusion multicanal pour un festival.</div>
+            <div class="pj-card-link" style="color:var(--v)">Voir sur Drive <span>→</span></div>
+          </div>
+        </div>
+
+        <div class="pj-card rv" style="transition-delay:.2s" onclick="window.open('https://drive.google.com/drive/folders/14JfJ-85COCAXzQRh1tiwKy4cql7MT1qv','_blank')">
+          <div class="pj-card-top" style="background:linear-gradient(135deg,#0a1628,#1e3a6e)">
+            <span style="color:rgba(58,142,255,.9);position:relative;z-index:1;font-size:2rem;text-align:center;padding:0 1rem">ÉDUCATION<br/>NATIONALE</span>
+          </div>
+          <div class="pj-card-body">
+            <div class="pj-card-num">04 · Communication institutionnelle</div>
+            <div class="pj-card-title">Éducation Nationale</div>
+            <div class="pj-card-desc">Stratégie de communication institutionnelle et analyse des publics pour le Ministère.</div>
+            <div class="pj-card-link" style="color:var(--b)">Voir sur Drive <span>→</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPÉTENCES -->
+  <section class="section" id="skills">
+    <div class="section-inner">
+      <div class="rv"><span class="s-tag" style="color:var(--v);border-color:var(--v)">Savoir-faire</span></div>
+      <div class="rv" style="transition-delay:.06s">
+        <h2 class="s-title">Mes<br/>compétences.</h2>
+      </div>
+      <div class="sk-grid">
+        <div class="sk-card rv" style="transition-delay:.06s">
+          <div class="sk-ico">📐</div>
+          <div class="sk-title">Stratégie de communication</div>
+          <div class="sk-body">Positionnement de marque, plan multi-canal, analyse des publics et définition des messages clés.</div>
+        </div>
+        <div class="sk-card rv" style="transition-delay:.09s">
+          <div class="sk-ico">✍️</div>
+          <div class="sk-title">Création de contenu</div>
+          <div class="sk-body">Rédaction éditoriale, newsletters, posts, storytelling et direction artistique print/digital.</div>
+        </div>
+        <div class="sk-card rv" style="transition-delay:.12s">
+          <div class="sk-ico">📱</div>
+          <div class="sk-title">Social Media</div>
+          <div class="sk-body">Ligne éditoriale, carousels, calendrier. Croissance organique prouvée : ×5 abonnés LinkedIn.</div>
+        </div>
+        <div class="sk-card rv" style="transition-delay:.15s">
+          <div class="sk-ico">🗂️</div>
+          <div class="sk-title">Gestion de projet</div>
+          <div class="sk-body">Coordination d'équipes, livrables, JIRA et SharePoint. À l'aise dans des environnements exigeants.</div>
+        </div>
+        <div class="sk-card rv" style="transition-delay:.18s">
+          <div class="sk-ico">📊</div>
+          <div class="sk-title">Analyse & Reporting</div>
+          <div class="sk-body">Google Analytics, tableaux de bord, insights actionnables pour les équipes.</div>
+        </div>
+        <div class="sk-card rv" style="transition-delay:.21s">
+          <div class="sk-ico">🎨</div>
+          <div class="sk-title">Design & Production</div>
+          <div class="sk-body">Suite Adobe complète, Canva, Figma. Production print, identité visuelle et motion pour social.</div>
+        </div>
+        <div class="sk-card rv" style="transition-delay:.24s">
+          <div class="sk-ico">🌐</div>
+          <div class="sk-title">Web & Digital</div>
+          <div class="sk-body">WordPress, WIX, HTML/CSS, SEO éditorial, Mailchimp et outils d'automatisation marketing.</div>
+        </div>
+        <div class="sk-card rv" style="transition-delay:.27s">
+          <div class="sk-ico">🎪</div>
+          <div class="sk-title">Événementiel</div>
+          <div class="sk-body">Organisation corporate, recherche de prestataires, négociation, devis et coordination logistique.</div>
+        </div>
+      </div>
+      <div class="tools-wrap rv" style="transition-delay:.3s">
+        <div class="tools-label">Outils maîtrisés</div>
+        <div class="tools-list">
+          <span class="tool">SharePoint</span><span class="tool">JIRA</span><span class="tool">InDesign</span>
+          <span class="tool">Photoshop</span><span class="tool">Illustrator</span><span class="tool">Canva</span>
+          <span class="tool">Figma</span><span class="tool">WordPress</span><span class="tool">Mailchimp</span>
+          <span class="tool">Pack Office</span><span class="tool">Google Analytics</span><span class="tool">HTML/CSS</span>
+          <span class="tool">ChatGPT</span><span class="tool">Midjourney</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASSIONS -->
+  <section class="section" id="passions">
+    <div class="section-inner">
+      <div class="rv"><span class="s-tag" style="color:rgba(255,255,255,.9);border-color:rgba(255,255,255,.4)">Qui je suis</span></div>
+      <div class="rv" style="transition-delay:.06s">
+        <h2 class="s-title" style="color:#fff">Mes<br/>passions.</h2>
+      </div>
+      <div class="rv" style="transition-delay:.1s">
+        <p class="s-intro" style="color:rgba(255,255,255,.7)">
+          Un profil de communication se nourrit de ce qu'il regarde, ressent et absorbe.
+          Voilà ce qui informe mon regard.
+        </p>
+      </div>
+      <div class="pp-grid">
+        <div class="pp-card rv" style="transition-delay:.1s">
+          <img src="https://media.lesechos.com/api/v1/images/view/67adf5173d2c9b436a35c07e/1280x720/0140809604526-web-tete.jpg" alt="Ballet" loading="lazy"/>
+          <div class="pp-ov"></div>
+          <div class="pp-lbl">
+            <div class="pp-cat">Passion</div>
+            <div class="pp-title">Ballet</div>
+            <div class="pp-sub">Onéguine · Lac des Cygnes · Paquita</div>
+          </div>
+        </div>
+        <div class="pp-card rv" style="transition-delay:.14s">
+          <img src="https://fr.web.img6.acsta.net/r_1920_1080/img/7f/27/7f2716df39b33e8a74e2aa710663ef91.jpg" alt="Cinéma" loading="lazy"/>
+          <div class="pp-ov"></div>
+          <div class="pp-lbl">
+            <div class="pp-cat">Passion</div>
+            <div class="pp-title">Cinéma</div>
+            <div class="pp-sub">The Substance · Queer · L'Inconnu de la Grande Arche</div>
+          </div>
+        </div>
+        <div class="pp-card rv" style="transition-delay:.18s">
+          <img src="https://www.radiofrance.fr/pikapi/images/bc7bbc48-c4b2-45e8-a3d3-c7aa8156b4b0/1200x680?webp=false" alt="Mode" loading="lazy"/>
+          <div class="pp-ov"></div>
+          <div class="pp-lbl">
+            <div class="pp-cat">Passion</div>
+            <div class="pp-title">Mode</div>
+            <div class="pp-sub">Balenciaga · Gucci · Maison Margiela</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <div class="rv"><span class="s-tag" style="color:var(--ink);border-color:rgba(14,14,14,.35)">Travaillons ensemble</span></div>
+      <div class="rv" style="transition-delay:.06s">
+        <h2 class="s-title" style="color:var(--ink)">On en<br/>parle ?</h2>
+      </div>
+      <div class="contact-grid rv" style="transition-delay:.12s">
+        <div>
+          <a href="mailto:hugo.descouts@outlook.fr" class="contact-email-link">hugo.descouts@outlook.fr</a>
+          <p class="contact-body">
+            Hugo est disponible pour un entretien, un échange rapide ou un café.
+            Il répond vite — c'est aussi une compétence.
+          </p>
+          <div class="contact-info">
+            <div class="ci-row"><span class="ci-label">Téléphone · </span><span class="ci-val">07 62 03 45 63</span></div>
+            <div class="ci-row"><span class="ci-label">Localisation · </span><span class="ci-val">Paris 75019</span></div>
+            <div class="ci-row"><span class="ci-label">Disponibilité · </span><span class="ci-val">Septembre 2026 · Alternance 2 ans</span></div>
+          </div>
+        </div>
+        <div class="edu-block">
+          <div class="edu-item">
+            <div class="edu-school">ISCOM Paris</div>
+            <div class="edu-degree">MBA Marketing, Stratégies de Marque &amp; Publicité</div>
+            <div class="edu-date">2026 → 2028 · Rythme 4j/1j · Recherche alternance dès sept. 2026</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-school">IUT Paris Rives de Seine</div>
+            <div class="edu-degree">BUT Information &amp; Communication</div>
+            <div class="edu-date">2023 → 2026 · Parcours Communication des organisations · Trésorier Agence Hélice</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Hugo Descouts</span>
+    <span>MBA ISCOM Paris · <a href="mailto:hugo.descouts@outlook.fr">hugo.descouts@outlook.fr</a></span>
+    <span>Paris 75019</span>
+  </footer>
+
+</main>
 
 <script>
-/* CURSOR */
-(function(){
-  const dot = document.getElementById('cur-dot');
-  const ring = document.getElementById('cur-ring');
-  if (!dot || !ring) return;
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX; my=e.clientY;
-    dot.style.left=mx+'px'; dot.style.top=my+'px';
-  });
-  (function loop(){
-    rx+=(mx-rx)*.11; ry+=(my-ry)*.11;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(loop);
-  })();
-  function bind(){
-    document.querySelectorAll('a,button,.pj,.pp,.sk-c,.edu-c,.xp-i,.hm-mi,.hm-kpi,.tool').forEach(el=>{
-      el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-      el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-    });
-  }
-  bind();
-  setTimeout(bind, 1600);
-  document.addEventListener('mousedown',()=>document.body.classList.add('clk'));
-  document.addEventListener('mouseup',()=>document.body.classList.remove('clk'));
-})();
+// ── Reveal on scroll ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.rv, .rv2').forEach(el => obs.observe(el));
 
-function oMob(){ document.getElementById('mob').classList.add('open'); document.body.style.overflow='hidden'; }
-function cMob(){ document.getElementById('mob').classList.remove('open'); document.body.style.overflow=''; }
+// ── XP accordion ──
+function toggleXp(item) {
+  const id = item.id.replace('xp-', 'body-');
+  const body = document.getElementById(id);
+  const isOpen = item.classList.contains('open');
+  // close all
+  document.querySelectorAll('.xp-item').forEach(i => i.classList.remove('open'));
+  document.querySelectorAll('.xp-body').forEach(b => b.classList.remove('open'));
+  if (!isOpen) {
+    item.classList.add('open');
+    body.classList.add('open');
+  }
+}
+
+// ── Sidebar active on scroll ──
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sb-link');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => observer.observe(s));
+
+// ── Smooth scroll ──
+function navClick(el) {
+  document.getElementById('sidebar').classList.remove('mob-open');
+}
+
+// ── Mobile sidebar ──
+function toggleMob() {
+  document.getElementById('sidebar').classList.toggle('mob-open');
+}
+
+// ── Sidebar hover → push content on large screens ──
+const sidebar = document.getElementById('sidebar');
+const mainEl  = document.getElementById('main');
+sidebar.addEventListener('mouseenter', () => {
+  if (window.innerWidth > 900)
+    mainEl.style.marginLeft = 'var(--sidebar-w-open)';
+});
+sidebar.addEventListener('mouseleave', () => {
+  if (window.innerWidth > 900)
+    mainEl.style.marginLeft = 'var(--sidebar-w)';
+});
 </script>
 </body>
 </html>
